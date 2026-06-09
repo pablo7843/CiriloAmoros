@@ -1,0 +1,122 @@
+---
+import BaseLayout  from "../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+
+const allPosts = await getCollection("blog", ({ data }) => !data.draft);
+const posts    = allPosts.sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+function formatDate(d: Date) {
+  return d.toLocaleDateString("es-ES", { day: "numeric", month: "long", year: "numeric" });
+}
+---
+
+<BaseLayout
+  title="Blog · Consejos sobre espacios de trabajo en Valencia"
+  description="Artículos y guías sobre trabajo profesional en Valencia: despachos, domiciliación empresarial, salas de reuniones y tendencias del mundo laboral."
+>
+
+  <!-- Cabecera -->
+  <section class="border-b border-gray-100 bg-white py-16 sm:py-20">
+    <div class="mx-auto max-w-7xl px-6">
+      <nav aria-label="Ruta de navegación" class="mb-8">
+        <ol class="flex items-center gap-2 text-xs text-gray-400">
+          <li><a href="/" class="transition-colors hover:text-gray-600">Inicio</a></li>
+          <li aria-hidden="true">›</li>
+          <li class="font-medium text-gray-700" aria-current="page">Blog</li>
+        </ol>
+      </nav>
+      <div class="max-w-2xl">
+        <p class="hero-enter mb-3 text-[10px] font-bold uppercase tracking-[0.2em] text-accent-600" style="animation-delay: 0ms">Blog</p>
+        <h1 class="hero-enter text-[2.5rem] font-bold leading-[1.08] tracking-tight text-gray-900 sm:text-5xl" style="animation-delay: 100ms">
+          Recursos para<br />profesionales en Valencia.
+        </h1>
+        <p class="hero-enter mt-4 text-base leading-relaxed text-gray-500" style="animation-delay: 240ms">
+          Guías prácticas sobre espacios de trabajo, domiciliación empresarial
+          y todo lo que un profesional independiente necesita saber.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Listado de posts -->
+  <section class="bg-gray-50 py-16 sm:py-20">
+    <div class="mx-auto max-w-7xl px-6">
+
+      {posts.length === 0 ? (
+        <p class="text-sm text-gray-500">Próximamente — contenido en preparación.</p>
+      ) : (
+        <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+          {posts.map((post, i) => (
+            <article
+              class="group relative flex flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition-shadow duration-300 hover:shadow-md"
+              data-reveal
+              style={`transition-delay: ${i * 100}ms`}
+            >
+              <!-- Imagen del post -->
+              <div class="aspect-[16/9] overflow-hidden bg-gray-100">
+                {post.data.image ? (
+                  <img
+                    src={post.data.image}
+                    alt={post.data.imageAlt ?? post.data.title}
+                    class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                ) : (
+                  <div class="flex h-full items-center justify-center bg-gradient-to-br from-accent-50 to-accent-100">
+                    <svg class="h-10 w-10 text-accent-300" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+                    </svg>
+                  </div>
+                )}
+              </div>
+
+              <!-- Contenido de la tarjeta -->
+              <div class="flex flex-1 flex-col p-6">
+
+                <!-- Meta: fecha + tags -->
+                <div class="mb-3 flex flex-wrap items-center gap-2">
+                  <time
+                    datetime={post.data.pubDate.toISOString()}
+                    class="text-xs text-gray-400"
+                  >
+                    {formatDate(post.data.pubDate)}
+                  </time>
+                  {post.data.tags.slice(0, 2).map((tag) => (
+                    <span class="inline-flex items-center rounded-full bg-accent-50 px-2.5 py-0.5 text-xs font-medium text-accent-700">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+
+                <!-- Título -->
+                <h2 class="mb-2 text-lg font-semibold leading-snug tracking-tight text-gray-900 transition-colors group-hover:text-accent-600">
+                  <a href={`/blog/${post.slug}/`} class="after:absolute after:inset-0">
+                    {post.data.title}
+                  </a>
+                </h2>
+
+                <!-- Descripción -->
+                <p class="text-sm leading-relaxed text-gray-500 line-clamp-3 flex-1">
+                  {post.data.description}
+                </p>
+
+                <!-- Leer más -->
+                <div class="mt-5 flex items-center gap-1 text-sm font-semibold text-accent-600 transition-colors group-hover:text-accent-700">
+                  Leer artículo
+                  <svg class="h-4 w-4 transition-transform group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m9 18 6-6-6-6"/>
+                  </svg>
+                </div>
+
+              </div>
+            </article>
+          ))}
+        </div>
+      )}
+    </div>
+  </section>
+
+</BaseLayout>

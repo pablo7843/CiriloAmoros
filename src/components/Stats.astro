@@ -1,0 +1,67 @@
+---
+import { site } from "../data/site";
+
+const years  = new Date().getFullYear() - site.founded;
+const rating = site.google.rating;
+
+const stats = [
+  {
+    display:  `${years}`,
+    unit:     "años",
+    desc:     "en el centro de Valencia",
+    countTo:  years,
+    decimals: 0,
+  },
+  {
+    display:  rating.toFixed(1).replace(".", ","),
+    unit:     "★",
+    desc:     "valoración en Google",
+    countTo:  rating,
+    decimals: 1,
+  },
+  {
+    display:  `${site.google.reviewCount}`,
+    unit:     "res.",
+    desc:     "reseñas verificadas",
+    countTo:  site.google.reviewCount,
+    decimals: 0,
+  },
+  {
+    display:  "24/7",
+    unit:     "",
+    desc:     "acceso para clientes",
+    countTo:  null,   // no animable
+    decimals: 0,
+  },
+];
+---
+
+<section
+  id="stats-section"
+  aria-label="Cifras del centro"
+  class="overflow-hidden border-y border-gray-100 bg-white"
+>
+  <div class="mx-auto max-w-7xl">
+    <dl class="grid grid-cols-2 divide-x divide-y divide-gray-100 lg:grid-cols-4 lg:divide-y-0">
+      {stats.map((s) => (
+        <div class="flex flex-col items-start gap-1 px-8 py-10 sm:px-10 sm:py-12">
+          <dt class="order-last text-xs font-semibold uppercase tracking-[0.15em] text-gray-400">
+            {s.desc}
+          </dt>
+          <dd class="flex items-baseline gap-1 leading-none">
+            <span
+              class="text-[3.25rem] font-bold tracking-tight text-gray-900 sm:text-[3.75rem] lg:text-[4.25rem]"
+              data-count-to={s.countTo !== null ? s.countTo : undefined}
+              data-decimals={s.decimals}
+            >
+              {s.display}
+            </span>
+            {s.unit && (
+              <span class="text-2xl font-bold text-accent-500 sm:text-3xl">{s.unit}</span>
+            )}
+          </dd>
+        </div>
+      ))}
+    </dl>
+  </div>
+</section>

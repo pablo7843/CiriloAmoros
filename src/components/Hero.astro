@@ -1,0 +1,163 @@
+---
+import { site } from "../data/site";
+
+const fullStars = Math.floor(site.google.rating);
+const stars     = "★".repeat(fullStars) + "☆".repeat(5 - fullStars);
+const rating    = site.google.rating.toFixed(1).replace(".", ",");
+---
+
+<section class="relative flex flex-col overflow-hidden lg:flex-row lg:min-h-[calc(100svh-4rem)]">
+
+  <!-- ── Imagen ────────────────────────────────────────────────
+       Móvil : arriba (h-64 / h-80)
+       Desktop: derecha, altura total (flex-1)
+  ──────────────────────────────────────────────────────────── -->
+  <div class="relative order-first h-64 overflow-hidden sm:h-80 lg:order-last lg:h-auto lg:flex-1">
+
+    <!-- Panel de marca — visible hasta que exista /public/images/hero.jpg -->
+    <div class="absolute inset-0 flex flex-col items-center justify-center bg-gray-950 overflow-hidden" aria-hidden="true">
+      <!-- Icono del logo como marca de agua -->
+      <svg
+        class="absolute opacity-[0.06] text-white"
+        style="width: min(340px, 80%); height: auto;"
+        viewBox="0 0 52 52"
+        fill="none"
+      >
+        <path d="M17 5 L5 5 L5 47 L17 47" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M35 5 L47 5 L47 47 L35 47" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <line x1="26" y1="10" x2="26" y2="42" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/>
+      </svg>
+      <!-- Dirección editorial -->
+      <div class="relative z-10 text-center px-8">
+        <p class="text-[10px] font-bold uppercase tracking-[0.3em] text-gray-500 mb-3">
+          Valencia · Desde {site.founded}
+        </p>
+        <p class="text-2xl font-bold tracking-tight text-white/20 sm:text-3xl">
+          C/ Cirilo Amorós 6
+        </p>
+      </div>
+    </div>
+
+    <!-- Imagen real — colocar en /public/images/hero.jpg
+         Reemplaza el placeholder automáticamente al existir.
+         Usar foto del espacio en alta calidad, paisaje, mínimo 1400px ancho.  -->
+    <img
+      src="/images/hero.jpg"
+      alt="Interior de las oficinas en Cirilo Amorós Centro Empresarial, Valencia"
+      class="absolute inset-0 h-full w-full object-cover"
+      loading="eager"
+      decoding="async"
+      onerror="this.style.display='none'"
+    />
+
+    <!-- Degradado lateral izquierdo: descomentar cuando exista la foto real,
+         para que la imagen se funda suavemente con el panel de texto.
+    <div
+      class="absolute inset-y-0 left-0 hidden w-24 bg-gradient-to-r from-white to-transparent lg:block"
+      aria-hidden="true"
+    ></div> -->
+  </div>
+
+  <!-- ── Texto ──────────────────────────────────────────────── -->
+  <div
+    class="flex flex-col justify-center px-6 py-14
+           lg:order-first lg:w-[58%] lg:py-24 lg:pl-16 lg:pr-8
+           xl:pl-24"
+  >
+    <!-- Badge de ubicación -->
+    <div
+      class="hero-enter mb-7 inline-flex w-fit items-center gap-2 rounded-full border border-accent-200
+             bg-accent-50 px-3.5 py-1.5 text-xs font-medium text-accent-700"
+      style="animation-delay: 0ms"
+    >
+      <svg
+        class="h-3.5 w-3.5 shrink-0"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        aria-hidden="true"
+      >
+        <path
+          fill-rule="evenodd"
+          d="M11.54 22.351l.07.04.028.016a.76.76 0 0 0 .723 0l.028-.015.071-.041a16.975 16.975 0 0 0 1.144-.742 19.58 19.58 0 0 0 2.683-2.282c1.944-2.079 3.953-5.159 3.953-8.827a8.25 8.25 0 0 0-16.5 0c0 3.668 2.009 6.748 3.953 8.827a19.58 19.58 0 0 0 2.682 2.282 16.975 16.975 0 0 0 1.145.742ZM12 13.5a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"
+          clip-rule="evenodd"
+        ></path>
+      </svg>
+      Junto a Calle Colón · Valencia centro
+    </div>
+
+    <!-- Headline principal (H1) -->
+    <h1
+      class="hero-enter text-[2.5rem] font-bold leading-[1.1] tracking-tight text-gray-900
+             sm:text-5xl lg:text-[3.5rem] xl:text-[4rem]"
+      style="animation-delay: 120ms"
+    >
+      Tu despacho<br />
+      en el corazón<br />
+      <span class="text-accent-600">de Valencia.</span>
+    </h1>
+
+    <!-- Subheadline -->
+    <p
+      class="hero-enter mt-5 max-w-lg text-base leading-relaxed text-gray-500 sm:text-lg"
+      style="animation-delay: 260ms"
+    >
+      Despachos privados, salas de reuniones y domiciliación empresarial
+      en el centro de negocios de referencia de Valencia.
+      Todo incluido, sin inversión inicial.
+    </p>
+
+    <!-- CTAs -->
+    <div
+      class="hero-enter mt-8 flex flex-wrap gap-3"
+      style="animation-delay: 380ms"
+    >
+      <a
+        href="/contacto?motivo=visita"
+        class="inline-flex items-center rounded-xl bg-accent-600 px-6 py-3.5 text-sm font-semibold
+               text-white shadow-sm transition-colors hover:bg-accent-700
+               focus:outline-none focus:ring-2 focus:ring-accent-500 focus:ring-offset-2"
+      >
+        Reservar visita
+      </a>
+      <a
+        href="/tarifas"
+        class="inline-flex items-center gap-1.5 rounded-xl border border-gray-200 bg-white px-6 py-3.5
+               text-sm font-semibold text-gray-700 shadow-sm transition-colors
+               hover:border-gray-300 hover:bg-gray-50
+               focus:outline-none focus:ring-2 focus:ring-gray-200 focus:ring-offset-2"
+      >
+        Ver tarifas
+        <svg
+          class="h-4 w-4"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          aria-hidden="true"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" d="m9 18 6-6-6-6"></path>
+        </svg>
+      </a>
+    </div>
+
+    <!-- Trust strip: Google rating -->
+    <div
+      class="hero-enter mt-10 flex items-center gap-3 border-t border-gray-100 pt-8"
+      style="animation-delay: 500ms"
+    >
+      <span
+        class="text-xl leading-none tracking-tight text-yellow-400"
+        aria-hidden="true"
+      >
+        {stars}
+      </span>
+      <p class="text-sm text-gray-500">
+        <strong class="font-semibold text-gray-800">{rating}</strong>
+        {" "}en Google
+        <span class="mx-1.5 text-gray-300" aria-hidden="true">·</span>
+        {site.google.reviewCount} reseñas verificadas
+      </p>
+    </div>
+  </div>
+
+</section>

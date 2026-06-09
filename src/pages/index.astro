@@ -1,0 +1,31 @@
+---
+import BaseLayout   from "../layouts/BaseLayout.astro";
+import Hero         from "../components/Hero.astro";
+import TrustStrip   from "../components/TrustStrip.astro";
+import Stats        from "../components/Stats.astro";
+import Services     from "../components/Services.astro";
+import Location     from "../components/Location.astro";
+import HowItWorks   from "../components/HowItWorks.astro";
+import Gallery      from "../components/Gallery.astro";
+import Reviews      from "../components/Reviews.astro";
+import Faq          from "../components/Faq.astro";
+import CtaFinal     from "../components/CtaFinal.astro";
+---
+
+<BaseLayout
+  title="Cirilo Amorós Centro Empresarial · Despachos y oficinas en Valencia centro"
+  description="Alquiler de despachos privados, salas de reuniones y domiciliación empresarial en el corazón de Valencia. Todo incluido, sin inversión inicial. Desde 320 €/mes."
+>
+  <main>
+    <Hero />
+    <TrustStrip />
+    <Stats />
+    <Services />
+    <Location />
+    <HowItWorks />
+    <Gallery />
+    <Reviews />
+    <Faq />
+    <CtaFinal />
+  </main>
+</BaseLayout>

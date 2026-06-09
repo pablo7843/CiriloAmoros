@@ -1,0 +1,140 @@
+---
+import BaseLayout        from "../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog", ({ data }) => !data.draft);
+  return posts.map((post) => ({ params: { slug: post.slug }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+
+function formatDate(d: Date) {
+  return d.toLocaleDateString("es-ES", { day: "numeric", month: "long", year: "numeric" });
+}
+---
+
+<BaseLayout
+  title={`${post.data.title} · Blog`}
+  description={post.data.description}
+>
+
+  <!-- Cabecera del post -->
+  <section class="border-b border-gray-100 bg-white py-14 sm:py-20">
+    <div class="mx-auto max-w-3xl px-6">
+
+      <nav aria-label="Ruta de navegación" class="mb-8">
+        <ol class="flex items-center gap-2 text-xs text-gray-400">
+          <li><a href="/" class="transition-colors hover:text-gray-600">Inicio</a></li>
+          <li aria-hidden="true">›</li>
+          <li><a href="/blog" class="transition-colors hover:text-gray-600">Blog</a></li>
+          <li aria-hidden="true">›</li>
+          <li class="truncate max-w-[200px] font-medium text-gray-700">{post.data.title}</li>
+        </ol>
+      </nav>
+
+      <!-- Tags -->
+      <div class="hero-enter mb-5 flex flex-wrap gap-2" style="animation-delay: 0ms">
+        {post.data.tags.map((tag) => (
+          <span class="inline-flex items-center rounded-full bg-accent-50 px-3 py-1 text-xs font-semibold text-accent-700">
+            {tag}
+          </span>
+        ))}
+      </div>
+
+      <!-- Título -->
+      <h1 class="hero-enter text-3xl font-bold leading-[1.15] tracking-tight text-gray-900 sm:text-4xl lg:text-[2.75rem]" style="animation-delay: 80ms">
+        {post.data.title}
+      </h1>
+
+      <!-- Descripción breve -->
+      <p class="hero-enter mt-4 text-base leading-relaxed text-gray-500 sm:text-lg" style="animation-delay: 160ms">
+        {post.data.description}
+      </p>
+
+      <!-- Meta: autor + fechas -->
+      <div class="hero-enter mt-6 flex flex-wrap items-center gap-x-5 gap-y-1 border-t border-gray-100 pt-6 text-sm text-gray-400" style="animation-delay: 220ms">
+        <span class="font-medium text-gray-600">{post.data.author}</span>
+        <span aria-hidden="true">·</span>
+        <time datetime={post.data.pubDate.toISOString()}>
+          {formatDate(post.data.pubDate)}
+        </time>
+        {post.data.updatedDate && (
+          <>
+            <span aria-hidden="true">·</span>
+            <span>Actualizado el {formatDate(post.data.updatedDate)}</span>
+          </>
+        )}
+      </div>
+    </div>
+  </section>
+
+  <!-- Imagen de cabecera -->
+  {post.data.image && (
+    <div class="bg-white px-6 pt-10">
+      <div class="mx-auto max-w-3xl">
+        <div class="aspect-[16/9] overflow-hidden rounded-2xl bg-gray-100" data-reveal>
+          <img
+            src={post.data.image}
+            alt={post.data.imageAlt ?? post.data.title}
+            class="h-full w-full object-cover"
+            loading="eager"
+            decoding="async"
+          />
+        </div>
+      </div>
+    </div>
+  )}
+
+  <!-- Contenido del post -->
+  <article class="bg-white py-12 sm:py-16">
+    <div class="mx-auto max-w-3xl px-6">
+
+      <!-- Prose — tipografía para contenido largo -->
+      <div class="prose prose-gray prose-lg max-w-none
+                  prose-headings:font-bold prose-headings:tracking-tight prose-headings:text-gray-900
+                  prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-4
+                  prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3
+                  prose-p:leading-relaxed prose-p:text-gray-600
+                  prose-a:text-accent-600 prose-a:no-underline prose-a:font-medium hover:prose-a:text-accent-700 hover:prose-a:underline prose-a:underline-offset-4
+                  prose-strong:text-gray-900 prose-strong:font-semibold
+                  prose-ul:my-5 prose-li:my-1.5
+                  prose-hr:border-gray-200 prose-hr:my-10
+                  prose-blockquote:border-l-accent-300 prose-blockquote:text-gray-500 prose-blockquote:italic">
+        <Content />
+      </div>
+
+      <!-- CTA al final del post -->
+      <div class="mt-16 rounded-2xl border border-gray-100 bg-gray-50 p-8 sm:p-10" data-reveal>
+        <p class="mb-2 text-[10px] font-bold uppercase tracking-[0.2em] text-accent-600">¿Te ha resultado útil?</p>
+        <h2 class="text-xl font-bold tracking-tight text-gray-900 sm:text-2xl">
+          Visita nuestras instalaciones en Valencia centro.
+        </h2>
+        <p class="mt-2 text-sm leading-relaxed text-gray-500">
+          En Cirilo Amorós Centro Empresarial encontrarás despachos privados, salas de reuniones
+          y planes de domiciliación. Sin compromiso, con toda la información que necesitas.
+        </p>
+        <div class="mt-6 flex flex-wrap gap-3">
+          <a
+            href="/contacto?motivo=visita"
+            class="inline-flex items-center rounded-xl bg-accent-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-accent-700 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:ring-offset-2"
+          >
+            Solicitar visita
+          </a>
+          <a
+            href="/blog"
+            class="inline-flex items-center gap-1.5 text-sm font-medium text-gray-500 transition-colors hover:text-gray-800"
+          >
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m15 18-6-6 6-6"/>
+            </svg>
+            Volver al blog
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </article>
+
+</BaseLayout>

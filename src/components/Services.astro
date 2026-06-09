@@ -1,0 +1,133 @@
+---
+import { services } from "../data/services";
+
+// Icono por servicio
+const icons = {
+  despachos:        `<path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" />`,
+  salas:            `<path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z" />`,
+  "oficina-virtual":`<path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />`,
+};
+---
+
+<section aria-labelledby="servicios-titulo" class="bg-white py-20 sm:py-28">
+  <div class="mx-auto max-w-7xl px-6">
+
+    <!-- Cabecera de sección -->
+    <div class="mx-auto max-w-2xl text-center" data-reveal>
+      <p class="mb-3 text-sm font-semibold uppercase tracking-widest text-accent-600">
+        Nuestros servicios
+      </p>
+      <h2
+        id="servicios-titulo"
+        class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl"
+      >
+        Todo lo que necesita para trabajar desde Valencia centro
+      </h2>
+      <p class="mt-4 text-base leading-relaxed text-gray-500 sm:text-lg">
+        Elige el formato que mejor se adapta a ti. Sin permanencia larga,
+        sin costes ocultos, sin inversión inicial.
+      </p>
+    </div>
+
+    <!-- Tarjetas de servicios -->
+    <div class="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {services.map((service, i) => (
+        <article data-reveal style={`transition-delay: ${i * 100}ms`}
+          class={[
+            "group relative flex flex-col overflow-hidden rounded-2xl border transition-shadow",
+            "hover:shadow-lg",
+            // La tarjeta central (salas) con tratamiento ligeramente más visible
+            i === 1
+              ? "border-accent-200 bg-accent-50/40"
+              : "border-gray-200 bg-white",
+          ].join(" ")}
+        >
+          <!-- Cabecera de tarjeta -->
+          <div class="px-7 pt-8 pb-6">
+            <!-- Icono del servicio -->
+            <div class={[
+              "mb-5 inline-flex h-12 w-12 items-center justify-center rounded-xl",
+              i === 1 ? "bg-accent-100 text-accent-600" : "bg-gray-100 text-gray-600",
+            ].join(" ")}>
+              <svg
+                class="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                aria-hidden="true"
+                set:html={icons[service.id as keyof typeof icons]}
+              />
+            </div>
+
+            <!-- Nombre + precio -->
+            <h3 class="text-lg font-semibold text-gray-900">{service.name}</h3>
+            <p class="mt-1 text-sm text-gray-500">{service.headline}</p>
+
+            <div class="mt-4 flex items-baseline gap-1">
+              <span class="text-3xl font-bold tracking-tight text-gray-900">
+                {service.priceFrom} €
+              </span>
+              <span class="text-sm text-gray-500">/{service.priceUnit}</span>
+              <span class="ml-2 text-xs text-gray-400">{service.priceNote}</span>
+            </div>
+          </div>
+
+          <!-- Features -->
+          <div class="flex-1 border-t border-gray-100 px-7 py-6">
+            <ul class="space-y-2.5">
+              {service.features
+                .filter((f) => !f.startsWith("[PENDIENTE"))
+                .map((feature) => (
+                  <li class="flex items-start gap-2.5 text-sm text-gray-600">
+                    <svg
+                      class="mt-0.5 h-4 w-4 shrink-0 text-accent-500"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      aria-hidden="true"
+                    >
+                      <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+                    </svg>
+                    {feature}
+                  </li>
+                ))}
+            </ul>
+          </div>
+
+          <!-- CTA -->
+          <div class="px-7 pb-7">
+            <a
+              href={service.cta.href}
+              class={[
+                "flex w-full items-center justify-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold transition-colors",
+                "focus:outline-none focus:ring-2 focus:ring-offset-2",
+                i === 1
+                  ? "bg-accent-600 text-white hover:bg-accent-700 focus:ring-accent-500"
+                  : "border border-gray-200 bg-white text-gray-700 hover:border-gray-300 hover:bg-gray-50 focus:ring-gray-300",
+              ].join(" ")}
+            >
+              {service.cta.label}
+              <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m9 18 6-6-6-6" />
+              </svg>
+            </a>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <!-- Enlace a tarifas completas -->
+    <p class="mt-10 text-center text-sm text-gray-500">
+      ¿Quiere comparar todos los planes y ver qué incluye cada uno?{" "}
+      <a
+        href="/tarifas"
+        class="font-medium text-accent-600 underline-offset-4 hover:underline"
+      >
+        Ver tabla completa de tarifas →
+      </a>
+    </p>
+
+  </div>
+</section>

@@ -1,0 +1,136 @@
+---
+import { site } from "../data/site";
+import { footerNav, legalNav } from "../data/navigation";
+
+const servicesHrefs  = ["/despachos", "/salas", "/oficina-virtual", "/tarifas"];
+const mainHrefs      = ["/", "/blog", "/contacto"];
+
+const serviceLinks = servicesHrefs.map((h) => footerNav.find((l) => l.href === h)).filter(Boolean);
+const mainLinks    = mainHrefs.map((h) => footerNav.find((l) => l.href === h)).filter(Boolean);
+
+const fullStars  = Math.floor(site.google.rating);
+const emptyStars = 5 - fullStars;
+const stars      = "★".repeat(fullStars) + "☆".repeat(emptyStars);
+const ratingDisplay = site.google.rating.toFixed(1).replace(".", ",");
+---
+
+<footer class="bg-gray-950 text-gray-400">
+
+  <!-- Cuerpo del footer -->
+  <div class="mx-auto max-w-7xl px-6 py-14">
+    <div class="grid grid-cols-2 gap-10 md:grid-cols-4">
+
+      <!-- Columna 1: Identidad + contacto -->
+      <div class="col-span-2 md:col-span-1">
+        <a href="/" class="mb-5 inline-block" aria-label="Inicio">
+          <span class="block text-sm font-semibold text-white">Cirilo Amorós</span>
+          <span class="block text-xs text-gray-500">Centro Empresarial</span>
+        </a>
+        <address class="not-italic space-y-1.5 text-sm leading-relaxed">
+          <p>{site.address.street}</p>
+          <p class="text-gray-500">{site.address.access}</p>
+          <p>{site.address.postalCode} {site.address.city}</p>
+          <a
+            href={site.contact.phoneHref}
+            class="block font-medium text-white transition-colors hover:text-accent-400"
+          >
+            {site.contact.phone}
+          </a>
+          <a
+            href={site.contact.emailHref}
+            class="block text-xs transition-colors hover:text-gray-200"
+          >
+            {site.contact.email}
+          </a>
+        </address>
+      </div>
+
+      <!-- Columna 2: Servicios -->
+      <div>
+        <h3 class="mb-4 text-[11px] font-semibold uppercase tracking-wider text-gray-300">
+          Servicios
+        </h3>
+        <ul class="space-y-2.5">
+          {serviceLinks.map((link) => link && (
+            <li>
+              <a
+                href={link.href}
+                class="text-sm transition-colors hover:text-gray-200"
+              >
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Columna 3: Navegación -->
+      <div>
+        <h3 class="mb-4 text-[11px] font-semibold uppercase tracking-wider text-gray-300">
+          Navegación
+        </h3>
+        <ul class="space-y-2.5">
+          {mainLinks.map((link) => link && (
+            <li>
+              <a
+                href={link.href}
+                class="text-sm transition-colors hover:text-gray-200"
+              >
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Columna 4: Legal -->
+      <div>
+        <h3 class="mb-4 text-[11px] font-semibold uppercase tracking-wider text-gray-300">
+          Legal
+        </h3>
+        <ul class="space-y-2.5">
+          {legalNav.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                class="text-sm transition-colors hover:text-gray-200"
+              >
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Barra inferior -->
+  <div class="border-t border-gray-800">
+    <div class="mx-auto flex max-w-7xl flex-col gap-3 px-6 py-5 sm:flex-row sm:items-center sm:justify-between">
+
+      <!-- Badge Google -->
+      <a
+        href={site.google.businessUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-2 text-xs text-gray-500 transition-colors hover:text-gray-300"
+        aria-label={`${ratingDisplay} estrellas en Google · ${site.google.reviewCount} reseñas`}
+      >
+        <span class="tracking-tight text-yellow-400" aria-hidden="true">{stars}</span>
+        <span><strong class="text-gray-300">{ratingDisplay}</strong> en Google</span>
+        <span class="text-gray-700" aria-hidden="true">·</span>
+        <span>{site.google.reviewCount} reseñas</span>
+        <!-- external link icon -->
+        <svg class="h-3 w-3 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+        </svg>
+      </a>
+
+      <!-- Copyright -->
+      <p class="text-xs text-gray-600">
+        © {new Date().getFullYear()} {site.name}
+      </p>
+    </div>
+  </div>
+
+</footer>

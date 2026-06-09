@@ -1,0 +1,181 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Faq        from "../components/Faq.astro";
+import CtaFinal   from "../components/CtaFinal.astro";
+import { services } from "../data/services";
+import { site } from "../data/site";
+
+const service = services.find((s) => s.id === "oficina-virtual")!;
+const features = service.features.filter((f) => !f.startsWith("[PENDIENTE"));
+
+const benefits = [
+  {
+    title: "Dirección de prestigio",
+    desc:  "Dirección comercial y fiscal en el corazón de Valencia. Primera impresión perfecta para cualquier cliente.",
+  },
+  {
+    title: "Gestión de correspondencia",
+    desc:  "Recibimos y gestionamos tu correo. Te avisamos cuando llega algo importante.",
+  },
+  {
+    title: "Acceso a salas",
+    desc:  "Uso de salas de reuniones a precio preferencial cuando necesites reunirte presencialmente.",
+  },
+  {
+    title: "Cero gastos fijos",
+    desc:  "Sin coste de despacho, sin mantenimiento, sin suministros. Solo pagas por la domiciliación.",
+  },
+];
+
+const idealFor = [
+  "Autónomos y freelancers",
+  "Empresas recién constituidas",
+  "Negocios digitales",
+  "Consultores externos",
+  "Empresas extranjeras con sede en Valencia",
+  "Profesionales en movilidad",
+];
+---
+
+<BaseLayout
+  title="Oficina virtual y domiciliación empresarial en Valencia · Desde 40 €/mes"
+  description="Domicilia tu empresa en Calle Cirilo Amorós 6, Valencia. Dirección comercial y fiscal, recepción de correo y acceso a salas de reuniones. Desde 40 €/mes sin IVA."
+>
+
+  <!-- ── Hero ── -->
+  <section class="bg-gray-950 py-16 sm:py-24">
+    <div class="mx-auto max-w-7xl px-6">
+
+      <nav aria-label="Ruta de navegación" class="mb-10">
+        <ol class="flex items-center gap-2 text-xs text-gray-500">
+          <li><a href="/" class="transition-colors hover:text-gray-300">Inicio</a></li>
+          <li aria-hidden="true">›</li>
+          <li class="font-medium text-gray-400" aria-current="page">Oficina virtual</li>
+        </ol>
+      </nav>
+
+      <div class="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:items-center">
+
+        <div>
+          <div class="hero-enter mb-5 inline-flex items-center gap-2 rounded-full border border-gray-700 bg-gray-800 px-3.5 py-1.5 text-xs font-semibold text-gray-300" style="animation-delay: 0ms">
+            Oficina virtual · Domiciliación
+          </div>
+          <h1 class="hero-enter text-[2.5rem] font-bold leading-[1.08] tracking-tight text-white sm:text-5xl lg:text-[3.25rem]" style="animation-delay: 120ms">
+            Imagen profesional.<br />
+            <span class="text-accent-400">Sin coste de despacho.</span>
+          </h1>
+          <p class="hero-enter mt-5 max-w-lg text-base leading-relaxed text-gray-400 sm:text-lg" style="animation-delay: 260ms">
+            Domicilia tu empresa en una dirección de prestigio en Valencia centro.
+            Trabaja desde donde quieras con la imagen de un profesional instalado en el mejor barrio de negocios.
+          </p>
+
+          <div class="hero-enter mt-8 flex items-baseline gap-1.5" style="animation-delay: 380ms">
+            <span class="text-4xl font-bold tracking-tight text-white">{service.priceFrom} €</span>
+            <span class="text-base text-gray-400">/{service.priceUnit}</span>
+            <span class="text-sm text-gray-500">· {service.priceNote}</span>
+          </div>
+
+          <div class="hero-enter mt-7 flex flex-wrap gap-3" style="animation-delay: 460ms">
+            <a
+              href="/contacto?servicio=oficina-virtual"
+              class="inline-flex items-center rounded-xl bg-accent-600 px-6 py-3.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-accent-700 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:ring-offset-2 focus:ring-offset-gray-950"
+            >
+              Contratar ahora
+            </a>
+            <a
+              href="/tarifas"
+              class="inline-flex items-center gap-1.5 rounded-xl border border-gray-700 bg-gray-800 px-6 py-3.5 text-sm font-semibold text-gray-300 shadow-sm transition-colors hover:border-gray-600 hover:text-white focus:outline-none"
+            >
+              Ver planes y precios
+              <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m9 18 6-6-6-6"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Tarjeta de dirección -->
+        <div class="hero-enter rounded-2xl border border-gray-800 bg-gray-900 p-8" style="animation-delay: 200ms">
+          <p class="mb-5 text-[10px] font-bold uppercase tracking-[0.2em] text-gray-500">Tu nueva dirección de negocio</p>
+          <address class="not-italic space-y-2">
+            <p class="text-2xl font-bold text-white">{site.name}</p>
+            <p class="text-base text-gray-300">{site.address.street}</p>
+            <p class="text-sm text-gray-500">{site.address.access}</p>
+            <p class="text-sm text-gray-400">{site.address.postalCode} {site.address.city}, {site.address.countryName}</p>
+          </address>
+          <div class="mt-6 border-t border-gray-800 pt-6">
+            <div class="flex items-center gap-2 text-sm text-gray-400">
+              <svg class="h-4 w-4 shrink-0 text-accent-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
+              </svg>
+              Dirección comercial y fiscal disponible
+            </div>
+            <div class="mt-2 flex items-center gap-2 text-sm text-gray-400">
+              <svg class="h-4 w-4 shrink-0 text-accent-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
+              </svg>
+              Alta disponible en <span class="text-gray-300 font-medium">menos de 48 horas</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Qué incluye ── -->
+  <section aria-labelledby="beneficios-titulo" class="bg-white py-20 sm:py-24">
+    <div class="mx-auto max-w-7xl px-6">
+
+      <div class="mb-14 max-w-xl" data-reveal>
+        <p class="mb-3 text-[10px] font-bold uppercase tracking-[0.2em] text-accent-600">Todo lo que obtienes</p>
+        <h2 id="beneficios-titulo" class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+          Mucho más que una dirección.
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 gap-8 sm:grid-cols-2">
+        {benefits.map((b, i) => (
+          <div class="flex gap-6 border-b border-gray-100 pb-8 last:border-0" data-reveal style={`transition-delay: ${i * 100}ms`}>
+            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent-50 mt-0.5">
+              <svg class="h-5 w-5 text-accent-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
+              </svg>
+            </div>
+            <div>
+              <h3 class="text-base font-semibold text-gray-900">{b.title}</h3>
+              <p class="mt-1.5 text-sm leading-relaxed text-gray-500">{b.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Ideal para ── -->
+  <section aria-labelledby="ideal-titulo" class="bg-gray-50 py-20 sm:py-24">
+    <div class="mx-auto max-w-7xl px-6">
+      <div class="flex flex-col gap-10 lg:flex-row lg:items-center lg:gap-20" data-reveal>
+        <div class="lg:w-72 shrink-0">
+          <p class="mb-3 text-[10px] font-bold uppercase tracking-[0.2em] text-accent-600">¿Para quién?</p>
+          <h2 id="ideal-titulo" class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+            Trabaja desde donde quieras con imagen de Valencia.
+          </h2>
+        </div>
+        <div class="flex flex-wrap gap-2.5">
+          {idealFor.map((p) => (
+            <span class="inline-flex items-center rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700">
+              {p}
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FAQ ── -->
+  <Faq category="oficina-virtual" />
+
+  <!-- ── CTA final ── -->
+  <CtaFinal />
+
+</BaseLayout>

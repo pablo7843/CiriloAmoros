@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Cambiar al dominio definitivo cuando se decida .es vs .com
+Sitemap: https://ciriloamoros.es/sitemap-index.xml
