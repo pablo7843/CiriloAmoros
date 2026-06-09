@@ -2,7 +2,7 @@
 import { faq } from "../data/faq";
 
 interface Props {
-  
+
   category?: string;
   /** Máximo de preguntas a mostrar. Por defecto todas. */
   limit?: number;
@@ -14,7 +14,24 @@ const items = faq
   .filter((f) => !category || f.category === category)
   .filter((f) => !f.answer.startsWith("[PENDIENTE"))
   .slice(0, limit);
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": items.map((item) => ({
+    "@type": "Question",
+    "name":  item.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text":  item.answer,
+    },
+  })),
+};
 ---
+
+{items.length > 0 && (
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+)}
 
 <section aria-labelledby="faq-titulo" class="bg-white py-20 sm:py-28">
   <div class="mx-auto max-w-4xl px-6">

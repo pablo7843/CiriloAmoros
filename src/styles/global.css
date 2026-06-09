@@ -98,3 +98,23 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+/* ────────────────────────────────────────────
+   Fondo animado global (BackgroundFX)
+   Las SECCIONES a pantalla completa se vuelven
+   translúcidas para dejar ver el gradiente de fondo
+   de forma sutil. Las tarjetas (div/article con
+   esquinas) siguen sólidas: el selector apunta solo
+   a section/main/article a nivel de bloque.
+   Selector con elemento → gana a la utilidad .bg-* de Tailwind.
+───────────────────────────────────────────── */
+section.bg-white,
+main.bg-white,
+article.bg-white {
+  background-color: rgb(255 255 255 / 0.58);
+}
+
+section.bg-gray-50,
+main.bg-gray-50 {
+  background-color: rgb(249 250 251 / 0.50);
+}

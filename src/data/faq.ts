@@ -12,6 +12,17 @@ export const faq: FaqItem[] = [
     category: "precios",
   },
   {
+    question: "¿Qué gastos incluye la cuota mensual del despacho?",
+    answer:
+      "La cuota es todo incluido: internet de alta velocidad, climatización, limpieza, recepción y atención de visitas, y dirección comercial y postal. Sin costes de comunidad ni suministros aparte.",
+    category: "precios",
+  },
+  {
+    question: "¿Hay que pagar fianza o cuota de alta?",
+    answer:   "[PENDIENTE: confirmar con el centro si hay fianza, depósito o cuota de alta]",
+    category: "precios",
+  },
+  {
     question: "¿Cuál es la permanencia mínima para un despacho?",
     answer:   "[PENDIENTE: confirmar con el centro — ¿mensual? ¿trimestral?]",
     category: "despachos",

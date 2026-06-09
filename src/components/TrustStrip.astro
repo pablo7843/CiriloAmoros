@@ -19,7 +19,7 @@ const yearsOpen  = new Date().getFullYear() - site.founded;
       target="_blank"
       rel="noopener noreferrer"
       class="group flex items-center gap-2.5 text-sm"
-      aria-label={`${rating} estrellas en Google — ver las ${site.google.reviewCount} reseñas`}
+      aria-label={`${rating} estrellas en Google — ver el perfil`}
     >
       <span class="text-base leading-none tracking-tight text-yellow-400" aria-hidden="true">
         {stars}
@@ -27,7 +27,6 @@ const yearsOpen  = new Date().getFullYear() - site.founded;
       <span class="text-gray-700">
         <strong class="font-semibold">{rating}</strong>
         {" "}en Google
-        <span class="ml-1 text-gray-400">· {site.google.reviewCount} reseñas</span>
       </span>
       <svg
         class="h-3.5 w-3.5 text-gray-300 transition-colors group-hover:text-gray-500"

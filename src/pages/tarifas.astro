@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import CtaFinal   from "../components/CtaFinal.astro";
+import Faq        from "../components/Faq.astro";
 import { services } from "../data/services";
 import { site } from "../data/site";
 
@@ -194,6 +195,9 @@ const rows = [
       </div>
     </div>
   </section>
+
+  <!-- ── FAQ de precios ── -->
+  <Faq category="precios" />
 
   <!-- ── CTA final ── -->
   <CtaFinal />

@@ -1,8 +1,11 @@
 ---
 import "../styles/global.css";
 import { site } from "../data/site";
+import { services } from "../data/services";
+import { reviews } from "../data/reviews";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
+import BackgroundFX from "../components/BackgroundFX.astro";
 
 interface Props {
   title:       string;
@@ -23,17 +26,22 @@ const fullTitle    = title.includes(site.shortName)
   ? title
   : `${title} ${site.meta.titleSuffix}`;
 
+const hasBusinessUrl = !site.google.businessUrl.startsWith("[PENDIENTE");
+
 const structuredData = {
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
-  "name":      site.name,
-  "url":       Astro.site,
-  "telephone": site.contact.phone,
-  "email":     site.contact.email,
+  "name":       site.name,
+  "url":        Astro.site,
+  "telephone":  site.contact.phone,
+  "email":      site.contact.email,
+  "priceRange": site.pricing.priceRange,
+  "image":      new URL(site.meta.ogImage, Astro.site).href,
   "address": {
     "@type":           "PostalAddress",
     "streetAddress":   site.address.street,
     "addressLocality": site.address.city,
+    "addressRegion":   site.address.region,
     "postalCode":      site.address.postalCode,
     "addressCountry":  site.address.country,
   },
@@ -42,11 +50,43 @@ const structuredData = {
     "latitude":  site.address.lat,
     "longitude": site.address.lng,
   },
+  "areaServed": {
+    "@type": "City",
+    "name":  "Valencia",
+  },
+  "openingHoursSpecification": site.schedule.structured.map((s) => ({
+    "@type":     "OpeningHoursSpecification",
+    "dayOfWeek": s.days,
+    "opens":     s.opens,
+    "closes":    s.closes,
+  })),
+  ...(hasBusinessUrl ? { "sameAs": [site.google.businessUrl] } : {}),
+  "makesOffer": services.map((svc) => ({
+    "@type": "Offer",
+    "name":  svc.name,
+    "price": svc.priceFrom,
+    "priceCurrency": svc.priceCurrency,
+    "url":   new URL(svc.slug, Astro.site).href,
+  })),
   "aggregateRating": {
     "@type":       "AggregateRating",
     "ratingValue": site.google.rating,
     "reviewCount": site.google.reviewCount,
+    "bestRating":  5,
+    "worstRating": 1,
   },
+  "review": reviews.map((r) => ({
+    "@type": "Review",
+    "author":        { "@type": "Person", "name": r.author },
+    "datePublished": r.date,
+    "reviewBody":    r.text,
+    "reviewRating":  {
+      "@type":       "Rating",
+      "ratingValue": r.rating,
+      "bestRating":  5,
+      "worstRating": 1,
+    },
+  })),
 };
 ---
 
@@ -89,6 +129,7 @@ const structuredData = {
     />
   </head>
   <body class="bg-white text-gray-900 antialiased">
+    <BackgroundFX />
     <Header />
     <slot />
     <Footer />

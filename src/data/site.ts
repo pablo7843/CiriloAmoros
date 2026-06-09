@@ -28,15 +28,29 @@ export const site = {
     country:      "ES",
     countryName:  "España",
     full:         "C/ Cirilo Amorós 6, entresuelo 1ª, 46004 Valencia, España",
-    /** Coordenadas para datos estructurados — PENDIENTE */
-    lat:          "[PENDIENTE]",
-    lng:          "[PENDIENTE]",
+    region:       "Valencia",
+    /** Coordenadas reales del perfil de Google Business */
+    lat:          39.4662458,
+    lng:          -0.3737332,
   },
 
   schedule: {
     weekdays:     "L–J: 8:30–14:00 y 16:00–19:00 · V: 8:30–15:00",
     saturday:     "Cerrado",
     clientAccess: "Acceso 24/7 para clientes con contrato",
+    /** Horario estructurado para schema LocalBusiness (openingHoursSpecification) */
+    structured: [
+      { days: ["Monday", "Tuesday", "Wednesday", "Thursday"], opens: "08:30", closes: "14:00" },
+      { days: ["Monday", "Tuesday", "Wednesday", "Thursday"], opens: "16:00", closes: "19:00" },
+      { days: ["Friday"], opens: "08:30", closes: "15:00" },
+    ],
+  },
+
+  /** Rango de precios para schema (símbolo) y precio mínimo "desde" */
+  pricing: {
+    priceRange: "€€",
+    fromAmount: 320,
+    currency:   "EUR",
   },
 
   google: {
