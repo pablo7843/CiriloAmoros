@@ -2,6 +2,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Faq        from "../components/Faq.astro";
 import CtaFinal   from "../components/CtaFinal.astro";
+import Aurora     from "../components/Aurora.astro";
 import { services } from "../data/services";
 import { site } from "../data/site";
 
@@ -43,8 +44,9 @@ const idealFor = [
 >
 
   <!-- ── Hero ── -->
-  <section class="bg-gray-950 py-16 sm:py-24">
-    <div class="mx-auto max-w-7xl px-6">
+  <section class="relative overflow-hidden bg-gray-950 py-16 sm:py-24">
+    <Aurora tone="dark" />
+    <div class="relative z-10 mx-auto max-w-7xl px-6">
 
       <nav aria-label="Ruta de navegación" class="mb-10">
         <ol class="flex items-center gap-2 text-xs text-gray-500">
@@ -60,7 +62,7 @@ const idealFor = [
           <div class="hero-enter mb-5 inline-flex items-center gap-2 rounded-full border border-gray-700 bg-gray-800 px-3.5 py-1.5 text-xs font-semibold text-gray-300" style="animation-delay: 0ms">
             Oficina virtual · Domiciliación
           </div>
-          <h1 class="hero-enter text-[2.5rem] font-bold leading-[1.08] tracking-tight text-white sm:text-5xl lg:text-[3.25rem]" style="animation-delay: 120ms">
+          <h1 class="hero-enter headline text-[2.5rem] leading-[1.08] text-white sm:text-5xl lg:text-[3.25rem]" style="animation-delay: 120ms">
             Imagen profesional.<br />
             <span class="text-accent-400">Sin coste de despacho.</span>
           </h1>
@@ -78,13 +80,13 @@ const idealFor = [
           <div class="hero-enter mt-7 flex flex-wrap gap-3" style="animation-delay: 460ms">
             <a
               href="/contacto?servicio=oficina-virtual"
-              class="inline-flex items-center rounded-xl bg-accent-600 px-6 py-3.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-accent-700 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:ring-offset-2 focus:ring-offset-gray-950"
+              class="inline-flex items-center rounded-full bg-accent-600 px-7 py-3.5 text-sm font-medium text-white shadow-sm transition-colors hover:bg-accent-700 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:ring-offset-2 focus:ring-offset-gray-950"
             >
               Contratar ahora
             </a>
             <a
               href="/tarifas"
-              class="inline-flex items-center gap-1.5 rounded-xl border border-gray-700 bg-gray-800 px-6 py-3.5 text-sm font-semibold text-gray-300 shadow-sm transition-colors hover:border-gray-600 hover:text-white focus:outline-none"
+              class="inline-flex items-center gap-1.5 rounded-full border border-gray-700 bg-gray-800 px-7 py-3.5 text-sm font-medium text-gray-300 shadow-sm transition-colors hover:border-gray-600 hover:text-white focus:outline-none"
             >
               Ver planes y precios
               <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
@@ -123,12 +125,12 @@ const idealFor = [
   </section>
 
   <!-- ── Qué incluye ── -->
-  <section aria-labelledby="beneficios-titulo" class="bg-white py-20 sm:py-24">
+  <section aria-labelledby="beneficios-titulo" class="bg-white py-24 sm:py-32">
     <div class="mx-auto max-w-7xl px-6">
 
       <div class="mb-14 max-w-xl" data-reveal>
         <p class="mb-3 text-[10px] font-bold uppercase tracking-[0.2em] text-accent-600">Todo lo que obtienes</p>
-        <h2 id="beneficios-titulo" class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+        <h2 id="beneficios-titulo" class="headline text-3xl text-gray-900 sm:text-4xl">
           Mucho más que una dirección.
         </h2>
       </div>
@@ -142,7 +144,7 @@ const idealFor = [
               </svg>
             </div>
             <div>
-              <h3 class="text-base font-semibold text-gray-900">{b.title}</h3>
+              <h3 class="text-base font-medium text-gray-900">{b.title}</h3>
               <p class="mt-1.5 text-sm leading-relaxed text-gray-500">{b.desc}</p>
             </div>
           </div>
@@ -152,12 +154,12 @@ const idealFor = [
   </section>
 
   <!-- ── Ideal para ── -->
-  <section aria-labelledby="ideal-titulo" class="bg-gray-50 py-20 sm:py-24">
+  <section aria-labelledby="ideal-titulo" class="bg-gray-50 py-24 sm:py-32">
     <div class="mx-auto max-w-7xl px-6">
       <div class="flex flex-col gap-10 lg:flex-row lg:items-center lg:gap-20" data-reveal>
         <div class="lg:w-72 shrink-0">
           <p class="mb-3 text-[10px] font-bold uppercase tracking-[0.2em] text-accent-600">¿Para quién?</p>
-          <h2 id="ideal-titulo" class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+          <h2 id="ideal-titulo" class="headline text-3xl text-gray-900 sm:text-4xl">
             Trabaja desde donde quieras con imagen de Valencia.
           </h2>
         </div>

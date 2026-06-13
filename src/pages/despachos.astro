@@ -73,7 +73,7 @@ const included = [
         Despachos privados
       </div>
 
-      <h1 class="hero-enter text-[2.5rem] font-bold leading-[1.1] tracking-tight text-gray-900 sm:text-5xl lg:text-[3.25rem]" style="animation-delay: 120ms">
+      <h1 class="hero-enter headline text-[2.5rem] leading-[1.1] text-gray-900 sm:text-5xl lg:text-[3.25rem]" style="animation-delay: 120ms">
         Su despacho.<br />
         <span class="text-accent-600">Listo desde el primer día.</span>
       </h1>
@@ -92,13 +92,13 @@ const included = [
       <div class="hero-enter mt-7 flex flex-wrap gap-3" style="animation-delay: 460ms">
         <a
           href="/contacto?servicio=despachos&motivo=visita"
-          class="inline-flex items-center rounded-xl bg-accent-600 px-6 py-3.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-accent-700 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:ring-offset-2"
+          class="btn-primary shadow-sm"
         >
           Solicitar visita
         </a>
         <a
           href="/tarifas"
-          class="inline-flex items-center gap-1.5 rounded-xl border border-gray-200 bg-white px-6 py-3.5 text-sm font-semibold text-gray-700 shadow-sm transition-colors hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-200 focus:ring-offset-2"
+          class="btn-secondary shadow-sm"
         >
           Ver todos los precios
           <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
@@ -110,12 +110,12 @@ const included = [
   </section>
 
   <!-- ── Qué incluye ── -->
-  <section aria-labelledby="incluye-titulo" class="bg-gray-50 py-20 sm:py-24">
+  <section aria-labelledby="incluye-titulo" class="bg-gray-50 py-24 sm:py-32">
     <div class="mx-auto max-w-7xl px-6">
 
       <div class="mb-12 max-w-xl" data-reveal>
         <p class="mb-3 text-[10px] font-bold uppercase tracking-[0.2em] text-accent-600">Todo incluido</p>
-        <h2 id="incluye-titulo" class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+        <h2 id="incluye-titulo" class="headline text-3xl text-gray-900 sm:text-4xl">
           Sin sorpresas al final de mes.
         </h2>
         <p class="mt-3 text-base leading-relaxed text-gray-500">
@@ -126,7 +126,7 @@ const included = [
 
       <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {features.map((feat, i) => (
-          <div class="flex items-start gap-3 rounded-xl bg-white p-5 shadow-sm ring-1 ring-gray-100" data-reveal style={`transition-delay: ${i * 80}ms`}>
+          <div class="flex items-start gap-3 rounded-xl bg-white p-5 shadow-sm ring-1 ring-gray-100" data-reveal data-tilt style={`transition-delay: ${i * 80}ms`}>
             <svg class="mt-0.5 h-5 w-5 shrink-0 text-accent-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
               <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
             </svg>
@@ -138,13 +138,13 @@ const included = [
   </section>
 
   <!-- ── ¿Para quién es? ── -->
-  <section aria-labelledby="perfiles-titulo" class="bg-white py-20 sm:py-24">
+  <section aria-labelledby="perfiles-titulo" class="bg-white py-24 sm:py-32">
     <div class="mx-auto max-w-7xl px-6">
       <div class="flex flex-col gap-10 lg:flex-row lg:items-center lg:gap-20">
 
         <div class="lg:w-80 shrink-0" data-reveal>
           <p class="mb-3 text-[10px] font-bold uppercase tracking-[0.2em] text-accent-600">¿Para quién?</p>
-          <h2 id="perfiles-titulo" class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+          <h2 id="perfiles-titulo" class="headline text-3xl text-gray-900 sm:text-4xl">
             Ideal para profesionales que valoran la imagen.
           </h2>
         </div>

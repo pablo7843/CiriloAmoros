@@ -1,8 +1,7 @@
 ---
 import { site } from "../data/site";
+import Stars from "./Stars.astro";
 
-const fullStars  = Math.floor(site.google.rating);
-const stars      = "★".repeat(fullStars) + "☆".repeat(5 - fullStars);
 const rating     = site.google.rating.toFixed(1).replace(".", ",");
 const yearsOpen  = new Date().getFullYear() - site.founded;
 ---
@@ -21,9 +20,7 @@ const yearsOpen  = new Date().getFullYear() - site.founded;
       class="group flex items-center gap-2.5 text-sm"
       aria-label={`${rating} estrellas en Google — ver el perfil`}
     >
-      <span class="text-base leading-none tracking-tight text-yellow-400" aria-hidden="true">
-        {stars}
-      </span>
+      <Stars rating={site.google.rating} class="h-4 w-4" />
       <span class="text-gray-700">
         <strong class="font-semibold">{rating}</strong>
         {" "}en Google

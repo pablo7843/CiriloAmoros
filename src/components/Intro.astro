@@ -1,0 +1,153 @@
+---
+/**
+ * Portada de entrada — "primer folio".
+ * A pantalla completa, solo el logo. Se desliza hacia arriba al hacer scroll
+ * (la lógica de scroll vive en BaseLayout: traslada #intro y desvanece
+ * .intro-stage según el progreso). Animación 100% CSS; estática y apartada
+ * bajo prefers-reduced-motion.
+ */
+---
+
+<div
+  id="intro"
+  class="fixed inset-0 -z-[1] overflow-hidden bg-gradient-to-br from-slate-50 via-white to-accent-50"
+  aria-hidden="true"
+>
+  <!-- Aurora de fondo -->
+  <span class="aurora aurora--a"></span>
+  <span class="aurora aurora--b"></span>
+  <span class="aurora aurora--c"></span>
+
+  <!-- Retícula con desvanecido radial -->
+  <div class="intro-grid absolute inset-0"></div>
+
+  <!-- Destello que recorre -->
+  <span class="intro-sheen"></span>
+
+  <!-- Partículas -->
+  <span class="particle" style="left: 14%; animation-delay: 0s"></span>
+  <span class="particle" style="left: 28%; animation-delay: 2.6s"></span>
+  <span class="particle" style="left: 44%; animation-delay: 1.2s"></span>
+  <span class="particle" style="left: 58%; animation-delay: 3.4s"></span>
+  <span class="particle" style="left: 72%; animation-delay: 0.7s"></span>
+  <span class="particle" style="left: 86%; animation-delay: 1.9s"></span>
+
+  <!-- Logo central -->
+  <div class="intro-stage absolute inset-0 flex items-center justify-center">
+    <svg class="intro-logo" viewBox="0 0 52 52" fill="none">
+      <path class="intro-stroke s1" d="M17 5 L5 5 L5 47 L17 47" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path class="intro-stroke s2" d="M35 5 L47 5 L47 47 L35 47" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <line class="intro-stroke s3" x1="26" y1="10" x2="26" y2="42" stroke-width="3.5" stroke-linecap="round"/>
+    </svg>
+  </div>
+</div>
+
+<style>
+  /* Aurora — manchas de luz azul derivando */
+  .aurora {
+    position: absolute;
+    border-radius: 9999px;
+    filter: blur(72px);
+    opacity: 0.40;
+    pointer-events: none;
+    will-change: transform;
+  }
+  .aurora--a {
+    width: 38vw; height: 38vw; min-width: 320px; min-height: 320px;
+    left: -6vw; top: -8vw;
+    background: radial-gradient(circle, rgba(82, 102, 235, 0.55), transparent 70%);
+    animation: auroraA 15s ease-in-out infinite;
+  }
+  .aurora--b {
+    width: 34vw; height: 34vw; min-width: 300px; min-height: 300px;
+    right: -5vw; bottom: -6vw;
+    background: radial-gradient(circle, rgba(120, 140, 255, 0.45), transparent 70%);
+    animation: auroraB 19s ease-in-out infinite;
+  }
+  .aurora--c {
+    width: 28vw; height: 28vw; min-width: 260px; min-height: 260px;
+    left: 40%; top: 52%;
+    background: radial-gradient(circle, rgba(60, 80, 210, 0.40), transparent 70%);
+    animation: auroraA 23s ease-in-out infinite reverse;
+  }
+  @keyframes auroraA {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50%      { transform: translate(42px, 30px) scale(1.15); }
+  }
+  @keyframes auroraB {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50%      { transform: translate(-48px, -22px) scale(1.10); }
+  }
+
+  /* Retícula técnica con desvanecido radial */
+  .intro-grid {
+    background-image:
+      linear-gradient(rgba(15, 23, 42, 0.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(15, 23, 42, 0.045) 1px, transparent 1px);
+    background-size: 48px 48px;
+    -webkit-mask-image: radial-gradient(circle at 50% 48%, #000 0, transparent 70%);
+            mask-image: radial-gradient(circle at 50% 48%, #000 0, transparent 70%);
+  }
+
+  /* Destello diagonal */
+  .intro-sheen {
+    position: absolute;
+    top: -25%;
+    width: 32%;
+    height: 150%;
+    background: linear-gradient(90deg, transparent, rgba(82, 102, 235, 0.10), transparent);
+    transform: skewX(-18deg);
+    animation: sheen 7s ease-in-out infinite;
+    pointer-events: none;
+  }
+  @keyframes sheen {
+    0%        { left: -40%; }
+    55%, 100% { left: 132%; }
+  }
+
+  /* Logo que se dibuja y respira luz */
+  .intro-logo {
+    width: min(340px, 56vmin);
+    height: auto;
+    animation: logoGlow 4s ease-in-out infinite;
+  }
+  @keyframes logoGlow {
+    0%, 100% { filter: drop-shadow(0 0 16px rgba(82, 102, 235, 0.30)); }
+    50%      { filter: drop-shadow(0 0 34px rgba(82, 102, 235, 0.55)); }
+  }
+  .intro-stroke {
+    stroke: #5266eb;
+    fill: none;
+    stroke-dasharray: 84;
+    stroke-dashoffset: 84;
+    animation: draw 1.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  .intro-stroke.s2 { animation-delay: 0.28s; }
+  .intro-stroke.s3 {
+    stroke-dasharray: 38;
+    stroke-dashoffset: 38;
+    animation-delay: 0.58s;
+  }
+  @keyframes draw {
+    to { stroke-dashoffset: 0; }
+  }
+
+  /* Partículas ascendentes */
+  .particle {
+    position: absolute;
+    bottom: -12px;
+    width: 4px; height: 4px;
+    border-radius: 9999px;
+    background: rgba(82, 102, 235, 0.80);
+    box-shadow: 0 0 8px rgba(82, 102, 235, 0.55);
+    opacity: 0;
+    animation: floatUp 9s linear infinite;
+    pointer-events: none;
+  }
+  @keyframes floatUp {
+    0%   { transform: translateY(0) scale(1);   opacity: 0; }
+    12%  { opacity: 0.85; }
+    88%  { opacity: 0.45; }
+    100% { transform: translateY(-70vh) scale(0.5); opacity: 0; }
+  }
+</style>

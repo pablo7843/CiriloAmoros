@@ -1,5 +1,6 @@
 ---
 import BaseLayout  from "../../layouts/BaseLayout.astro";
+import Aurora      from "../../components/Aurora.astro";
 import { getCollection } from "astro:content";
 
 const allPosts = await getCollection("blog", ({ data }) => !data.draft);
@@ -18,8 +19,9 @@ function formatDate(d: Date) {
 >
 
   <!-- Cabecera -->
-  <section class="border-b border-gray-100 bg-white py-16 sm:py-20">
-    <div class="mx-auto max-w-7xl px-6">
+  <section class="relative overflow-hidden border-b border-gray-100 bg-white py-16 sm:py-20">
+    <Aurora tone="light" />
+    <div class="relative z-10 mx-auto max-w-7xl px-6">
       <nav aria-label="Ruta de navegación" class="mb-8">
         <ol class="flex items-center gap-2 text-xs text-gray-400">
           <li><a href="/" class="transition-colors hover:text-gray-600">Inicio</a></li>
@@ -29,7 +31,7 @@ function formatDate(d: Date) {
       </nav>
       <div class="max-w-2xl">
         <p class="hero-enter mb-3 text-[10px] font-bold uppercase tracking-[0.2em] text-accent-600" style="animation-delay: 0ms">Blog</p>
-        <h1 class="hero-enter text-[2.5rem] font-bold leading-[1.08] tracking-tight text-gray-900 sm:text-5xl" style="animation-delay: 100ms">
+        <h1 class="hero-enter headline text-[2.5rem] leading-[1.08] text-gray-900 sm:text-5xl" style="animation-delay: 100ms">
           Recursos para<br />profesionales en Valencia.
         </h1>
         <p class="hero-enter mt-4 text-base leading-relaxed text-gray-500" style="animation-delay: 240ms">
@@ -52,6 +54,7 @@ function formatDate(d: Date) {
             <article
               class="group relative flex flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition-shadow duration-300 hover:shadow-md"
               data-reveal
+              data-tilt
               style={`transition-delay: ${i * 100}ms`}
             >
               <!-- Imagen del post -->
@@ -92,7 +95,7 @@ function formatDate(d: Date) {
                 </div>
 
                 <!-- Título -->
-                <h2 class="mb-2 text-lg font-semibold leading-snug tracking-tight text-gray-900 transition-colors group-hover:text-accent-600">
+                <h2 class="mb-2 text-lg font-medium leading-snug text-gray-900 transition-colors group-hover:text-accent-600">
                   <a href={`/blog/${post.slug}/`} class="after:absolute after:inset-0">
                     {post.data.title}
                   </a>

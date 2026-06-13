@@ -33,7 +33,7 @@ const faqSchema = {
   <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
 )}
 
-<section aria-labelledby="faq-titulo" class="bg-white py-20 sm:py-28">
+<section aria-labelledby="faq-titulo" class="bg-white py-24 sm:py-32">
   <div class="mx-auto max-w-4xl px-6">
 
     <!-- Cabecera -->
@@ -41,7 +41,7 @@ const faqSchema = {
       <p class="mb-3 text-[10px] font-bold uppercase tracking-[0.2em] text-accent-600">Preguntas frecuentes</p>
       <h2
         id="faq-titulo"
-        class="text-4xl font-bold leading-[1.08] tracking-tight text-gray-900 sm:text-5xl"
+        class="headline text-4xl leading-[1.08] text-gray-900 sm:text-5xl"
       >
         Todo lo que<br />necesita saber.
       </h2>
@@ -51,9 +51,9 @@ const faqSchema = {
       <dl class="divide-y divide-gray-200" data-reveal style="transition-delay: 120ms">
         {items.map((item, i) => (
           <div>
-            <details class="group py-6" name="faq">
+            <details class="faq-item group py-6" name="faq">
               <summary
-                class="flex cursor-pointer list-none items-start justify-between gap-6 text-base font-semibold text-gray-900 marker:hidden"
+                class="flex cursor-pointer list-none items-start justify-between gap-6 text-base font-medium text-gray-900 marker:hidden"
                 style="list-style: none;"
               >
                 <span>{item.question}</span>
@@ -69,9 +69,11 @@ const faqSchema = {
                   <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/>
                 </svg>
               </summary>
-              <p class="mt-4 text-[15px] leading-relaxed text-gray-500 pr-10">
-                {item.answer}
-              </p>
+              <div class="faq-content overflow-hidden">
+                <p class="pt-4 text-[15px] leading-relaxed text-gray-500 pr-10">
+                  {item.answer}
+                </p>
+              </div>
             </details>
           </div>
         ))}
@@ -104,4 +106,5 @@ const faqSchema = {
   details > summary::marker {
     display: none;
   }
+
 </style>

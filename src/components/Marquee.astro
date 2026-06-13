@@ -1,0 +1,38 @@
+---
+/**
+ * Marquesina infinita — banda de palabras clave en movimiento continuo.
+ * CSS puro (animación translateX); se pausa al pasar el ratón y queda
+ * estática bajo prefers-reduced-motion (regla global). El track se duplica
+ * para un bucle sin costuras.
+ */
+const items = [
+  "Despachos privados",
+  "Salas de reuniones",
+  "Oficina virtual",
+  "Domiciliación fiscal",
+  "Valencia centro",
+  "Acceso 24/7",
+  "Todo incluido",
+  "Sin permanencia larga",
+];
+---
+
+<section
+  aria-label="Servicios destacados"
+  class="overflow-hidden border-y border-gray-100 bg-white py-7"
+>
+  <div class="marquee" aria-hidden="true">
+    {[0, 1].map(() => (
+      <ul class="marquee__track m-0 list-none p-0">
+        {items.map((item) => (
+          <li class="flex items-center gap-12">
+            <span class="text-2xl font-light tracking-[0.01em] text-gray-400 sm:text-3xl">
+              {item}
+            </span>
+            <span class="h-1.5 w-1.5 shrink-0 rounded-full bg-accent-500" aria-hidden="true"></span>
+          </li>
+        ))}
+      </ul>
+    ))}
+  </div>
+</section>

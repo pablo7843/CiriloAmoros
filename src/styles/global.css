@@ -21,9 +21,37 @@
   --color-accent-800: oklch(30% 0.14 250);
   --color-accent-900: oklch(22% 0.10 250);
 
-  /* Radios */
+  /* Radios — inspirado en Mercury: botones/inputs en "pill", tarjetas suaves */
   --radius-card:   1rem;
-  --radius-button: 0.5rem;
+  --radius-button: 9999px;
+}
+
+/* ────────────────────────────────────────────
+   Componentes reutilizables — estética Mercury
+   (tipografía ligera, formas pill, una sola fuente).
+   Centralizado aquí para que cambiar el look sea
+   tocar UN solo sitio (regla del proyecto).
+───────────────────────────────────────────── */
+@layer components {
+  /* CTA principal — pill azul de acento */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-accent-600
+           px-7 py-3.5 text-sm font-medium text-white transition-colors
+           hover:bg-accent-700 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:ring-offset-2;
+  }
+
+  /* CTA secundario — pill contorneado sobre fondo claro */
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-gray-300
+           bg-white px-7 py-3.5 text-sm font-medium text-gray-700 transition-colors
+           hover:border-gray-400 hover:bg-gray-50
+           focus:outline-none focus:ring-2 focus:ring-gray-200 focus:ring-offset-2;
+  }
+
+  /* Titulares de display — peso ligero + tracking abierto (firma Mercury) */
+  .headline {
+    @apply font-light tracking-[0.01em];
+  }
 }
 
 /* ── Base ── */
@@ -97,6 +125,75 @@ body {
   font-family: var(--font-family-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* ────────────────────────────────────────────
+   Dinamismo — barra de progreso, marquesina,
+   parallax y tilt. Todo se desactiva solo bajo
+   prefers-reduced-motion (regla global de arriba
+   pone animation/transition a 0.01ms).
+───────────────────────────────────────────── */
+
+/* Barra de progreso de lectura (fija arriba) */
+#scroll-progress {
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: 2px;
+  transform: scaleX(0);
+  transform-origin: left center;
+  background: var(--color-accent-500);
+  z-index: 70;
+  pointer-events: none;
+}
+
+/* ────────────────────────────────────────────
+   Portada de entrada — el header está oculto
+   arriba hasta que el "primer folio" termina de
+   deslizarse (clase intro-pending en <html>, que
+   retira el JS al completar el scroll).
+───────────────────────────────────────────── */
+header {
+  transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+}
+html.intro-pending header {
+  transform: translateY(-110%);
+}
+html.intro-pending #scroll-progress {
+  opacity: 0;
+}
+
+/* Marquesina infinita — se duplica el track en el markup */
+.marquee {
+  display: flex;
+  overflow: hidden;
+  user-select: none;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+          mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+}
+.marquee__track {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 3rem;
+  padding-right: 3rem;
+  white-space: nowrap;
+  animation: marquee 38s linear infinite;
+}
+.marquee:hover .marquee__track {
+  animation-play-state: paused;
+}
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-100%); }
+}
+
+/* Pistas de rendimiento para capas animadas por JS */
+[data-depth],
+[data-parallax-img] {
+  will-change: transform;
+}
+[data-tilt] {
+  transform-style: preserve-3d;
 }
 
 /* ────────────────────────────────────────────

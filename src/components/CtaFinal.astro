@@ -1,5 +1,6 @@
 ---
 import { site } from "../data/site";
+import Aurora from "./Aurora.astro";
 
 const hasWhatsApp = !site.contact.whatsapp.startsWith("[PENDIENTE");
 ---
@@ -11,15 +12,16 @@ const hasWhatsApp = !site.contact.whatsapp.startsWith("[PENDIENTE");
     <div class="h-px bg-gray-200" aria-hidden="true"></div>
   </div>
 
-  <div class="bg-gray-950 py-20 sm:py-28">
-    <div class="mx-auto max-w-7xl px-6">
+  <div class="relative overflow-hidden bg-gray-950 py-24 sm:py-32">
+    <Aurora tone="dark" />
+    <div class="relative z-10 mx-auto max-w-7xl px-6">
 
       <div class="grid grid-cols-1 gap-14 lg:grid-cols-2 lg:items-center lg:gap-20" data-reveal>
 
         <!-- Columna izquierda: titular editorial -->
         <div>
           <p class="mb-4 text-[10px] font-bold uppercase tracking-[0.2em] text-accent-400">Empiece hoy</p>
-          <h2 class="text-4xl font-bold leading-[1.06] tracking-tight text-white sm:text-5xl xl:text-6xl">
+          <h2 class="headline text-4xl leading-[1.06] text-white sm:text-5xl xl:text-6xl">
             Su despacho<br />en Valencia centro<br />le está esperando.
           </h2>
           <p class="mt-6 max-w-md text-[15px] leading-relaxed text-gray-400">
@@ -52,7 +54,7 @@ const hasWhatsApp = !site.contact.whatsapp.startsWith("[PENDIENTE");
             <p class="mb-2 text-[10px] font-bold uppercase tracking-[0.2em] text-gray-500">Llámenos ahora</p>
             <a
               href={site.contact.phoneHref}
-              class="group inline-flex items-baseline gap-2 text-3xl font-bold tracking-tight text-white transition-colors hover:text-accent-400 sm:text-4xl"
+              class="group inline-flex items-baseline gap-2 text-3xl font-light tracking-[0.01em] text-white transition-colors hover:text-accent-400 sm:text-4xl"
             >
               {site.contact.phone}
               <svg class="h-5 w-5 self-center text-gray-600 transition-colors group-hover:text-accent-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
@@ -73,7 +75,7 @@ const hasWhatsApp = !site.contact.whatsapp.startsWith("[PENDIENTE");
             <!-- Botón CTA principal -->
             <a
               href="/contacto?motivo=visita"
-              class="flex w-full items-center justify-center rounded-xl bg-accent-600 px-6 py-4 text-sm font-semibold text-white
+              class="flex w-full items-center justify-center rounded-full bg-accent-600 px-6 py-4 text-sm font-medium text-white
                      transition-colors hover:bg-accent-700 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:ring-offset-2 focus:ring-offset-gray-900"
             >
               Solicitar visita sin compromiso
@@ -85,7 +87,7 @@ const hasWhatsApp = !site.contact.whatsapp.startsWith("[PENDIENTE");
                 href={site.contact.whatsappHref}
                 target="_blank"
                 rel="noopener noreferrer"
-                class="flex w-full items-center justify-center gap-2.5 rounded-xl border border-gray-700 bg-gray-800 px-6 py-3.5
+                class="flex w-full items-center justify-center gap-2.5 rounded-full border border-gray-700 bg-gray-800 px-6 py-3.5
                        text-sm font-medium text-gray-300 transition-colors hover:border-gray-600 hover:text-white
                        focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2 focus:ring-offset-gray-900"
               >

@@ -1,6 +1,7 @@
 ---
 import { site } from "../data/site";
 import { footerNav, legalNav } from "../data/navigation";
+import Stars from "./Stars.astro";
 
 const servicesHrefs  = ["/despachos", "/salas", "/oficina-virtual", "/tarifas"];
 const mainHrefs      = ["/", "/blog", "/contacto"];
@@ -8,9 +9,6 @@ const mainHrefs      = ["/", "/blog", "/contacto"];
 const serviceLinks = servicesHrefs.map((h) => footerNav.find((l) => l.href === h)).filter(Boolean);
 const mainLinks    = mainHrefs.map((h) => footerNav.find((l) => l.href === h)).filter(Boolean);
 
-const fullStars  = Math.floor(site.google.rating);
-const emptyStars = 5 - fullStars;
-const stars      = "★".repeat(fullStars) + "☆".repeat(emptyStars);
 const ratingDisplay = site.google.rating.toFixed(1).replace(".", ",");
 ---
 
@@ -116,7 +114,7 @@ const ratingDisplay = site.google.rating.toFixed(1).replace(".", ",");
         class="inline-flex items-center gap-2 text-xs text-gray-500 transition-colors hover:text-gray-300"
         aria-label={`${ratingDisplay} estrellas en Google`}
       >
-        <span class="tracking-tight text-yellow-400" aria-hidden="true">{stars}</span>
+        <Stars rating={site.google.rating} class="h-3 w-3" />
         <span><strong class="text-gray-300">{ratingDisplay}</strong> en Google</span>
         <!-- external link icon -->
         <svg class="h-3 w-3 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">

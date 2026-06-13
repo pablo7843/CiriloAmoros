@@ -1,5 +1,6 @@
 ---
 import { site } from "../data/site";
+import Aurora from "./Aurora.astro";
 
 const steps = [
   {
@@ -20,40 +21,39 @@ const steps = [
 ];
 ---
 
-<section aria-labelledby="como-funciona-titulo" class="overflow-hidden bg-gray-950 py-20 sm:py-28">
-  <div class="mx-auto max-w-7xl px-6">
+<section aria-labelledby="como-funciona-titulo" class="relative overflow-hidden bg-gray-950 py-24 sm:py-32">
+  <Aurora tone="dark" />
+  <div class="relative z-10 mx-auto max-w-7xl px-6">
 
     <!-- Cabecera -->
     <div class="mb-16 max-w-2xl" data-reveal>
       <p class="mb-3 text-[10px] font-bold uppercase tracking-[0.2em] text-accent-400">Cómo funciona</p>
       <h2
         id="como-funciona-titulo"
-        class="text-4xl font-bold leading-[1.08] tracking-tight text-white sm:text-5xl"
+        class="headline text-4xl leading-[1.08] text-white sm:text-5xl"
       >
         De interesado<br />a instalado en días.
       </h2>
     </div>
 
-    <!-- Pasos -->
-    <div class="relative grid grid-cols-1 gap-12 sm:gap-10 lg:grid-cols-3">
+    <!-- Pasos — la línea se dibuja y los círculos se encienden con el scroll -->
+    <div class="hiw-steps relative grid grid-cols-1 gap-12 sm:gap-10 lg:grid-cols-3" data-scrub>
 
-      <!-- Línea de conexión animada, solo desktop -->
-      <div
-        class="line-draw absolute left-0 right-0 top-[1.9rem] hidden h-px bg-gradient-to-r from-transparent via-gray-700 to-transparent lg:block"
-        aria-hidden="true"
-        data-reveal
-      ></div>
+      <!-- Carril base + relleno que avanza (solo desktop) -->
+      <div class="absolute left-0 right-0 top-[1.9rem] hidden h-px bg-gray-800 lg:block" aria-hidden="true"></div>
+      <div class="hiw-fill absolute left-0 right-0 top-[1.9rem] hidden h-0.5 origin-left lg:block" aria-hidden="true"></div>
 
       {steps.map((step, i) => (
-        <div class="relative flex flex-col gap-6" data-reveal style={`transition-delay: ${i * 120}ms`}>
-          <!-- Círculo numerado -->
-          <div class="inline-flex h-[3.75rem] w-[3.75rem] shrink-0 items-center justify-center rounded-full border border-gray-700 bg-gray-900">
-            <span class="text-base font-bold tabular-nums text-white">{step.n}</span>
+        <div class="relative flex flex-col gap-6" style={`--st: ${(0.12 + i * 0.33).toFixed(2)}`}>
+          <!-- Círculo numerado que se enciende -->
+          <div class="hiw-dot relative inline-flex h-[3.75rem] w-[3.75rem] shrink-0 items-center justify-center rounded-full border border-gray-700 bg-gray-900">
+            <span class="hiw-dot-fill absolute inset-0 rounded-full bg-accent-600"></span>
+            <span class="relative text-base font-bold tabular-nums text-white">{step.n}</span>
           </div>
 
           <!-- Texto -->
           <div>
-            <h3 class="mb-2 text-xl font-semibold text-white">{step.title}</h3>
+            <h3 class="mb-2 text-xl font-medium text-white">{step.title}</h3>
             <p class="text-[15px] leading-relaxed text-gray-400">{step.desc}</p>
           </div>
         </div>
@@ -64,7 +64,7 @@ const steps = [
     <div class="mt-16 flex flex-wrap gap-4" data-reveal style="transition-delay: 360ms">
       <a
         href="/contacto?motivo=visita"
-        class="inline-flex items-center rounded-xl bg-white px-6 py-3.5 text-sm font-semibold text-gray-900
+        class="inline-flex items-center rounded-full bg-white px-7 py-3.5 text-sm font-medium text-gray-900
                shadow-sm transition-colors hover:bg-gray-100
                focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-950"
       >
@@ -72,7 +72,7 @@ const steps = [
       </a>
       <a
         href={site.contact.phoneHref}
-        class="inline-flex items-center gap-2 rounded-xl border border-gray-700 px-6 py-3.5 text-sm font-medium
+        class="inline-flex items-center gap-2 rounded-full border border-gray-700 px-7 py-3.5 text-sm font-medium
                text-gray-300 transition-colors hover:border-gray-500 hover:text-white
                focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 focus:ring-offset-gray-950"
       >
@@ -84,3 +84,27 @@ const steps = [
     </div>
   </div>
 </section>
+
+<style>
+  /* Escena ligada al scroll. --p (0→1) lo fija el motor de scrub en
+     BaseLayout conforme la sección cruza el viewport. Por defecto 1 →
+     sin JS / reduced-motion la escena se ve completa. */
+  .hiw-steps { --p: 1; }
+
+  /* Relleno de la línea que avanza con el scroll */
+  .hiw-fill {
+    background: linear-gradient(90deg, #5266eb, #8a9bff);
+    box-shadow: 0 0 12px rgba(82, 102, 235, 0.6);
+    transform: scaleX(var(--p));
+    will-change: transform;
+  }
+
+  /* Círculo que se enciende al alcanzar su umbral (--st) */
+  .hiw-dot {
+    --on: clamp(0, calc((var(--p) - var(--st)) * 8), 1);
+    transform: scale(calc(1 + var(--on) * 0.06));
+    box-shadow: 0 0 calc(var(--on) * 22px) rgba(82, 102, 235, calc(var(--on) * 0.6));
+    will-change: transform;
+  }
+  .hiw-dot-fill { opacity: var(--on); }
+</style>

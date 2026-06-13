@@ -2,6 +2,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import CtaFinal   from "../components/CtaFinal.astro";
 import Faq        from "../components/Faq.astro";
+import Aurora     from "../components/Aurora.astro";
 import { services } from "../data/services";
 import { site } from "../data/site";
 
@@ -28,8 +29,9 @@ const rows = [
 >
 
   <!-- ── Cabecera ── -->
-  <section class="border-b border-gray-100 bg-white py-16 sm:py-20">
-    <div class="mx-auto max-w-7xl px-6">
+  <section class="relative overflow-hidden border-b border-gray-100 bg-white py-16 sm:py-20">
+    <Aurora tone="light" />
+    <div class="relative z-10 mx-auto max-w-7xl px-6">
 
       <nav aria-label="Ruta de navegación" class="mb-8">
         <ol class="flex items-center gap-2 text-xs text-gray-400">
@@ -41,7 +43,7 @@ const rows = [
 
       <div class="max-w-2xl">
         <p class="hero-enter mb-3 text-[10px] font-bold uppercase tracking-[0.2em] text-accent-600" style="animation-delay: 0ms">Tarifas</p>
-        <h1 class="hero-enter text-[2.5rem] font-bold leading-[1.08] tracking-tight text-gray-900 sm:text-5xl" style="animation-delay: 100ms">
+        <h1 class="hero-enter headline text-[2.5rem] leading-[1.08] text-gray-900 sm:text-5xl" style="animation-delay: 100ms">
           Precios transparentes.<br />Sin sorpresas.
         </h1>
         <p class="hero-enter mt-5 text-base leading-relaxed text-gray-500" style="animation-delay: 240ms">
@@ -93,12 +95,12 @@ const rows = [
   </section>
 
   <!-- ── Tabla comparativa ── -->
-  <section aria-labelledby="tabla-titulo" class="bg-white py-20 sm:py-24">
+  <section aria-labelledby="tabla-titulo" class="bg-white py-24 sm:py-32">
     <div class="mx-auto max-w-5xl px-6">
 
       <div class="mb-12" data-reveal>
         <p class="mb-3 text-[10px] font-bold uppercase tracking-[0.2em] text-accent-600">Comparativa</p>
-        <h2 id="tabla-titulo" class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+        <h2 id="tabla-titulo" class="headline text-3xl text-gray-900 sm:text-4xl">
           ¿Cuál es el plan para usted?
         </h2>
       </div>
@@ -172,14 +174,14 @@ const rows = [
   <!-- ── ¿Tiene dudas? ── -->
   <section class="bg-gray-50 py-16 sm:py-20">
     <div class="mx-auto max-w-4xl px-6 text-center" data-reveal>
-      <h2 class="text-2xl font-bold text-gray-900">¿No sabe cuál es su plan ideal?</h2>
+      <h2 class="headline text-2xl text-gray-900 sm:text-3xl">¿No sabe cuál es su plan ideal?</h2>
       <p class="mt-3 text-base text-gray-500">
         Cuéntenos su situación y le asesoramos sin compromiso. Hay un plan para cada caso.
       </p>
       <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
         <a
           href="/contacto"
-          class="inline-flex items-center rounded-xl bg-accent-600 px-6 py-3.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-accent-700 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:ring-offset-2"
+          class="btn-primary shadow-sm"
         >
           Solicitar asesoramiento
         </a>

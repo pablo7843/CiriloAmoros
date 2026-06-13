@@ -65,7 +65,7 @@
 <button
   type="button"
   onclick={() => (isOpen = !isOpen)}
-  class="flex h-10 w-10 items-center justify-center rounded-lg text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900"
+  class="flex h-10 w-10 items-center justify-center rounded-full text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900"
   aria-label={isOpen ? "Cerrar menú" : "Abrir menú"}
   aria-expanded={isOpen}
   aria-controls="mobile-nav"
@@ -112,7 +112,7 @@
       <button
         type="button"
         onclick={() => (isOpen = false)}
-        class="flex h-10 w-10 items-center justify-center rounded-lg text-gray-600 transition-colors hover:bg-gray-100"
+        class="flex h-10 w-10 items-center justify-center rounded-full text-gray-600 transition-colors hover:bg-gray-100"
         aria-label="Cerrar menú"
       >
         <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
@@ -131,7 +131,7 @@
               onclick={() => (isOpen = false)}
               aria-current={isActive(link.href) ? "page" : undefined}
               class={[
-                "block rounded-xl px-4 py-3 text-base font-medium transition-colors",
+                "block rounded-full px-4 py-3 text-base font-medium transition-colors",
                 isActive(link.href)
                   ? "bg-accent-50 text-accent-700"
                   : "text-gray-700 hover:bg-gray-50 hover:text-gray-900",
@@ -148,7 +148,7 @@
         <a
           href="/contacto"
           onclick={() => (isOpen = false)}
-          class="block w-full rounded-xl bg-accent-600 px-4 py-4 text-center text-base font-semibold text-white transition-colors hover:bg-accent-700"
+          class="block w-full rounded-full bg-accent-600 px-4 py-4 text-center text-base font-medium text-white transition-colors hover:bg-accent-700"
         >
           Contactar
         </a>

@@ -44,7 +44,7 @@ function formatDate(d: Date) {
       </div>
 
       <!-- Título -->
-      <h1 class="hero-enter text-3xl font-bold leading-[1.15] tracking-tight text-gray-900 sm:text-4xl lg:text-[2.75rem]" style="animation-delay: 80ms">
+      <h1 class="hero-enter headline text-3xl leading-[1.15] text-gray-900 sm:text-4xl lg:text-[2.75rem]" style="animation-delay: 80ms">
         {post.data.title}
       </h1>
 
@@ -93,7 +93,7 @@ function formatDate(d: Date) {
 
       <!-- Prose — tipografía para contenido largo -->
       <div class="prose prose-gray prose-lg max-w-none
-                  prose-headings:font-bold prose-headings:tracking-tight prose-headings:text-gray-900
+                  prose-headings:font-medium prose-headings:tracking-tight prose-headings:text-gray-900
                   prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-4
                   prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3
                   prose-p:leading-relaxed prose-p:text-gray-600
@@ -108,7 +108,7 @@ function formatDate(d: Date) {
       <!-- CTA al final del post -->
       <div class="mt-16 rounded-2xl border border-gray-100 bg-gray-50 p-8 sm:p-10" data-reveal>
         <p class="mb-2 text-[10px] font-bold uppercase tracking-[0.2em] text-accent-600">¿Te ha resultado útil?</p>
-        <h2 class="text-xl font-bold tracking-tight text-gray-900 sm:text-2xl">
+        <h2 class="headline text-xl text-gray-900 sm:text-2xl">
           Visita nuestras instalaciones en Valencia centro.
         </h2>
         <p class="mt-2 text-sm leading-relaxed text-gray-500">
@@ -118,7 +118,7 @@ function formatDate(d: Date) {
         <div class="mt-6 flex flex-wrap gap-3">
           <a
             href="/contacto?motivo=visita"
-            class="inline-flex items-center rounded-xl bg-accent-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-accent-700 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:ring-offset-2"
+            class="btn-primary shadow-sm"
           >
             Solicitar visita
           </a>

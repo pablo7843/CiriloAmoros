@@ -1,0 +1,51 @@
+---
+/**
+ * Aurora decorativa — manchas de luz azul difuminadas que derivan lentas.
+ * Mismo lenguaje visual que el hero, para dar cohesión a todas las vistas.
+ * Se coloca como primer hijo de una sección `relative overflow-hidden`; el
+ * contenido debe ir con `relative z-10` para quedar por encima.
+ * No captura ratón y se congela bajo prefers-reduced-motion (regla global).
+ *
+ * tone: "light" (sobre fondos claros, sutil) | "dark" (sobre fondos oscuros).
+ */
+interface Props {
+  tone?: "light" | "dark";
+}
+const { tone = "light" } = Astro.props;
+const op = tone === "dark" ? 0.42 : 0.22;
+---
+
+<div class={`aurora-fx aurora-fx--${tone} pointer-events-none absolute inset-0 overflow-hidden`} style={`--aop: ${op}`} aria-hidden="true">
+  <span class="aurora-fx__orb aurora-fx__orb--1"></span>
+  <span class="aurora-fx__orb aurora-fx__orb--2"></span>
+</div>
+
+<style>
+  .aurora-fx__orb {
+    position: absolute;
+    border-radius: 9999px;
+    filter: blur(80px);
+    opacity: var(--aop);
+    will-change: transform;
+  }
+  .aurora-fx__orb--1 {
+    width: 34vw; height: 34vw; min-width: 260px; min-height: 260px;
+    left: -8vw; top: -12vw;
+    background: radial-gradient(circle, rgba(82, 102, 235, 0.55), transparent 70%);
+    animation: auroraFx1 19s ease-in-out infinite;
+  }
+  .aurora-fx__orb--2 {
+    width: 30vw; height: 30vw; min-width: 240px; min-height: 240px;
+    right: -8vw; bottom: -12vw;
+    background: radial-gradient(circle, rgba(120, 140, 255, 0.45), transparent 70%);
+    animation: auroraFx2 23s ease-in-out infinite;
+  }
+  @keyframes auroraFx1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50%      { transform: translate(40px, 30px) scale(1.12); }
+  }
+  @keyframes auroraFx2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50%      { transform: translate(-40px, -24px) scale(1.10); }
+  }
+</style>

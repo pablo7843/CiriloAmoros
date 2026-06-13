@@ -6,12 +6,15 @@ import { reviews } from "../data/reviews";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import BackgroundFX from "../components/BackgroundFX.astro";
+import Intro from "../components/Intro.astro";
 
 interface Props {
   title:       string;
   description?: string;
   ogImage?:    string;
   noindex?:    boolean;
+  /** Muestra la portada de entrada a pantalla completa (solo home). */
+  intro?:      boolean;
 }
 
 const {
@@ -19,6 +22,7 @@ const {
   description = site.meta.description,
   ogImage     = site.meta.ogImage,
   noindex     = false,
+  intro       = false,
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
@@ -91,7 +95,7 @@ const structuredData = {
 ---
 
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class={intro ? "intro-pending" : undefined}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -124,12 +128,15 @@ const structuredData = {
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,400&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,400&display=swap"
       rel="stylesheet"
     />
   </head>
   <body class="bg-white text-gray-900 antialiased">
+    <div id="scroll-progress" aria-hidden="true"></div>
     <BackgroundFX />
+    {intro && <Intro />}
+    {intro && <div id="intro-spacer" aria-hidden="true" style="height: 100svh"></div>}
     <Header />
     <slot />
     <Footer />
@@ -137,12 +144,122 @@ const structuredData = {
 
   <!-- Sin JS: todos los elementos visibles -->
   <noscript>
-    <style>[data-reveal] { opacity: 1 !important; transform: none !important; }</style>
+    <style>
+      [data-reveal] { opacity: 1 !important; transform: none !important; }
+      /* La portada necesita JS para deslizarse: sin JS, se oculta y se
+         muestra la web directamente. */
+      #intro, #intro-spacer { display: none !important; }
+      html.intro-pending header { transform: none !important; }
+    </style>
   </noscript>
 
   <script>
     // ── Scroll reveal ────────────────────────────────
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    // ── Portada de entrada — el "primer folio" se desliza al hacer scroll ──
+    // Scroll nativo (móvil + PC) y totalmente reversible. Al llegar al final,
+    // el header cae desde arriba (clase intro-pending en <html>).
+    const intro       = document.getElementById("intro");
+    const introSpacer = document.getElementById("intro-spacer");
+    const docEl       = document.documentElement;
+    if (intro && introSpacer) {
+      if (prefersReduced) {
+        // Sin movimiento: se aparta la portada y se muestra la web directamente.
+        intro.style.display = "none";
+        introSpacer.style.display = "none";
+        docEl.classList.remove("intro-pending");
+      } else {
+        // La portada (logo) queda FIJA detrás (-z-[1]); la web sube con el
+        // scroll nativo y la va cubriendo desde abajo. Trabajo síncrono para
+        // no depender de requestAnimationFrame (se pausa en segundo plano).
+        const apply = () => {
+          const H = introSpacer.offsetHeight || window.innerHeight;
+          const p = Math.min(Math.max(window.scrollY / H, 0), 1);
+
+          // Una vez cubierta, se oculta para que las secciones translúcidas de
+          // más abajo no la dejen entrever; al subir, reaparece.
+          intro.style.visibility = p >= 0.999 ? "hidden" : "visible";
+
+          // Al completar (web arriba del todo) baja el header; al subir, se esconde.
+          if (p >= 0.95) docEl.classList.remove("intro-pending");
+          else docEl.classList.add("intro-pending");
+        };
+        document.addEventListener("scroll", apply, { passive: true });
+        window.addEventListener("resize", apply, { passive: true });
+        apply();
+      }
+    }
+
+    // ── Motor de scroll-scrub genérico ──
+    // Pone --p (0→1) en cada [data-scrub] según la sección cruza el viewport.
+    // Las escenas (líneas que se dibujan, contadores, barras…) leen --p en CSS.
+    // Síncrono en el scroll; no depende de requestAnimationFrame.
+    if (!prefersReduced) {
+      const scrubEls = Array.from(
+        document.querySelectorAll<HTMLElement>("[data-scrub]")
+      );
+      if (scrubEls.length) {
+        const updateScrub = () => {
+          const vh = window.innerHeight;
+          for (const el of scrubEls) {
+            const r = el.getBoundingClientRect();
+            const span = parseFloat(el.dataset.scrubSpan || "0.55"); // fracción del viewport
+            const start = vh * 0.88;          // empieza al entrar (top al 88%)
+            const end   = vh * (0.88 - span); // termina al subir
+            const p = Math.min(Math.max((start - r.top) / (start - end), 0), 1);
+            el.style.setProperty("--p", p.toFixed(4));
+          }
+        };
+        document.addEventListener("scroll", updateScrub, { passive: true });
+        window.addEventListener("resize", updateScrub, { passive: true });
+        updateScrub();
+      }
+    }
+
+    // ── FAQ acordeón animado (altura + fade, grupo exclusivo) ──
+    const faqItems = Array.from(
+      document.querySelectorAll<HTMLDetailsElement>("details.faq-item")
+    );
+    const openFaq = (det: HTMLDetailsElement) => {
+      const content = det.querySelector<HTMLElement>(".faq-content");
+      det.open = true;
+      if (prefersReduced || !content) return;
+      const h = content.scrollHeight;
+      content.animate(
+        [{ height: "0px", opacity: 0 }, { height: h + "px", opacity: 1 }],
+        { duration: 320, easing: "cubic-bezier(0.22, 1, 0.36, 1)" }
+      );
+    };
+    const closeFaq = (det: HTMLDetailsElement) => {
+      const content = det.querySelector<HTMLElement>(".faq-content");
+      if (prefersReduced || !content) { det.open = false; return; }
+      const h = content.scrollHeight;
+      const anim = content.animate(
+        [{ height: h + "px", opacity: 1 }, { height: "0px", opacity: 0 }],
+        { duration: 260, easing: "cubic-bezier(0.22, 1, 0.36, 1)" }
+      );
+      anim.onfinish = () => { det.open = false; };
+    };
+    for (const det of faqItems) {
+      const summary = det.querySelector("summary");
+      summary?.addEventListener("click", (e) => {
+        e.preventDefault();
+        if (!det.open) {
+          const name = det.getAttribute("name");
+          if (name) {
+            for (const other of faqItems) {
+              if (other !== det && other.getAttribute("name") === name && other.open) {
+                closeFaq(other);
+              }
+            }
+          }
+          openFaq(det);
+        } else {
+          closeFaq(det);
+        }
+      });
+    }
 
     if (!prefersReduced) {
       document.documentElement.classList.add("js-reveal");
@@ -209,6 +326,126 @@ const structuredData = {
         { threshold: 0.4 }
       );
       statsObserver.observe(statsSection);
+    }
+
+    // ── Dinamismo (parallax, tilt, magnético, progreso) ──
+    // Todo desactivado bajo prefers-reduced-motion. Los efectos
+    // de puntero solo en ratón/trackpad (pointer: fine).
+    if (!prefersReduced) {
+      const finePointer = window.matchMedia("(pointer: fine)").matches;
+      const EASE = "transform .5s cubic-bezier(0.22, 1, 0.36, 1)";
+
+      // 1) Barra de progreso de scroll
+      const bar = document.getElementById("scroll-progress");
+      if (bar) {
+        const onScroll = () => {
+          const doc = document.documentElement;
+          const max = doc.scrollHeight - doc.clientHeight;
+          const p   = max > 0 ? doc.scrollTop / max : 0;
+          bar.style.transform = `scaleX(${p})`;
+        };
+        document.addEventListener("scroll", onScroll, { passive: true });
+        onScroll();
+      }
+
+      // 2) Parallax de imágenes al hacer scroll
+      const pImgs = Array.from(
+        document.querySelectorAll<HTMLElement>("[data-parallax-img]")
+      );
+      if (pImgs.length) {
+        let ticking = false;
+        const update = () => {
+          const vh = window.innerHeight;
+          for (const el of pImgs) {
+            const host = el.parentElement;
+            if (!host) continue;
+            const r    = host.getBoundingClientRect();
+            const prog = (r.top + r.height / 2 - vh / 2) / vh; // -1..1 aprox
+            el.style.transform = `translate3d(0, ${(prog * 26).toFixed(1)}px, 0) scale(1.14)`;
+          }
+          ticking = false;
+        };
+        document.addEventListener(
+          "scroll",
+          () => {
+            if (!ticking) {
+              requestAnimationFrame(update);
+              ticking = true;
+            }
+          },
+          { passive: true }
+        );
+        window.addEventListener("resize", update, { passive: true });
+        update();
+      }
+
+      if (finePointer) {
+        // 3) Parallax de ratón en el hero (capas con data-depth)
+        const hero = document.querySelector<HTMLElement>("[data-hero]");
+        if (hero) {
+          const layers = Array.from(
+            hero.querySelectorAll<HTMLElement>("[data-depth]")
+          );
+          hero.addEventListener("pointermove", (e) => {
+            const r = hero.getBoundingClientRect();
+            const x = (e.clientX - r.left) / r.width - 0.5;
+            const y = (e.clientY - r.top) / r.height - 0.5;
+            for (const l of layers) {
+              const d     = parseFloat(l.dataset.depth ?? "0");
+              // Las imágenes a sangre llevan un leve zoom para que el
+              // desplazamiento no descubra los bordes.
+              const scale = l.tagName === "IMG" ? " scale(1.1)" : "";
+              l.style.transition = "none";
+              l.style.transform  =
+                `translate3d(${(-x * d).toFixed(1)}px, ${(-y * d).toFixed(1)}px, 0)${scale}`;
+            }
+          });
+          hero.addEventListener("pointerleave", () => {
+            for (const l of layers) {
+              l.style.transition = EASE;
+              l.style.transform  = "";
+            }
+          });
+        }
+
+        // 4) Tilt 3D en tarjetas (data-tilt)
+        const tilts = Array.from(
+          document.querySelectorAll<HTMLElement>("[data-tilt]")
+        );
+        for (const card of tilts) {
+          const MAX = 6; // grados
+          card.addEventListener("pointermove", (e) => {
+            const r  = card.getBoundingClientRect();
+            const px = (e.clientX - r.left) / r.width - 0.5;
+            const py = (e.clientY - r.top) / r.height - 0.5;
+            card.style.transition = "none";
+            card.style.transform  =
+              `perspective(900px) rotateY(${(px * MAX).toFixed(2)}deg) rotateX(${(-py * MAX).toFixed(2)}deg)`;
+          });
+          card.addEventListener("pointerleave", () => {
+            card.style.transition = EASE;
+            card.style.transform  = "";
+          });
+        }
+
+        // 5) Botones magnéticos — todas las CTA primarias
+        const magnets = Array.from(
+          document.querySelectorAll<HTMLElement>(".btn-primary")
+        );
+        for (const btn of magnets) {
+          btn.addEventListener("pointermove", (e) => {
+            const r = btn.getBoundingClientRect();
+            const x = e.clientX - r.left - r.width / 2;
+            const y = e.clientY - r.top - r.height / 2;
+            btn.style.transition = "none";
+            btn.style.transform  = `translate(${(x * 0.25).toFixed(1)}px, ${(y * 0.4).toFixed(1)}px)`;
+          });
+          btn.addEventListener("pointerleave", () => {
+            btn.style.transition = EASE;
+            btn.style.transform  = "";
+          });
+        }
+      }
     }
   </script>
 </html>

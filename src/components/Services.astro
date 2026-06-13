@@ -9,20 +9,21 @@ const icons = {
 };
 ---
 
-<section aria-labelledby="servicios-titulo" class="bg-white py-20 sm:py-28">
+<section aria-labelledby="servicios-titulo" class="bg-white py-24 sm:py-32">
   <div class="mx-auto max-w-7xl px-6">
 
     <!-- Cabecera de sección -->
-    <div class="mx-auto max-w-2xl text-center" data-reveal>
+    <div class="svc-head mx-auto max-w-2xl text-center" data-reveal data-scrub data-scrub-span="0.45">
       <p class="mb-3 text-sm font-semibold uppercase tracking-widest text-accent-600">
         Nuestros servicios
       </p>
       <h2
         id="servicios-titulo"
-        class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl"
+        class="headline text-3xl text-gray-900 sm:text-4xl lg:text-5xl"
       >
         Todo lo que necesita para trabajar desde Valencia centro
       </h2>
+      <span class="svc-underline mx-auto mt-6 block h-0.5 w-24 origin-center rounded-full bg-gradient-to-r from-transparent via-accent-500 to-transparent" aria-hidden="true"></span>
       <p class="mt-4 text-base leading-relaxed text-gray-500 sm:text-lg">
         Elige el formato que mejor se adapta a ti. Sin permanencia larga,
         sin costes ocultos, sin inversión inicial.
@@ -32,7 +33,7 @@ const icons = {
     <!-- Tarjetas de servicios -->
     <div class="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
       {services.map((service, i) => (
-        <article data-reveal style={`transition-delay: ${i * 100}ms`}
+        <article data-reveal data-tilt style={`transition-delay: ${i * 100}ms`}
           class={[
             "group relative flex flex-col overflow-hidden rounded-2xl border transition-shadow",
             "hover:shadow-lg",
@@ -61,7 +62,7 @@ const icons = {
             </div>
 
             <!-- Nombre + precio -->
-            <h3 class="text-lg font-semibold text-gray-900">{service.name}</h3>
+            <h3 class="text-lg font-medium text-gray-900">{service.name}</h3>
             <p class="mt-1 text-sm text-gray-500">{service.headline}</p>
 
             <div class="mt-4 flex items-baseline gap-1">
@@ -101,7 +102,7 @@ const icons = {
             <a
               href={service.cta.href}
               class={[
-                "flex w-full items-center justify-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold transition-colors",
+                "flex w-full items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-medium transition-colors",
                 "focus:outline-none focus:ring-2 focus:ring-offset-2",
                 i === 1
                   ? "bg-accent-600 text-white hover:bg-accent-700 focus:ring-accent-500"
@@ -131,3 +132,11 @@ const icons = {
 
   </div>
 </section>
+
+<style>
+  .svc-head { --p: 1; }
+  .svc-underline {
+    transform: scaleX(var(--p));
+    will-change: transform;
+  }
+</style>

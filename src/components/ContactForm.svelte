@@ -94,7 +94,7 @@
           aria-describedby={fieldErrors.nombre ? "nombre-err" : undefined}
           aria-invalid={!!fieldErrors.nombre || undefined}
           placeholder="Su nombre"
-          class="block w-full rounded-xl border border-gray-300 px-4 py-3 text-gray-900 placeholder-gray-400 transition
+          class="block w-full rounded-full border border-gray-300 px-4 py-3 text-gray-900 placeholder-gray-400 transition
                  focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20 focus:outline-none
                  aria-invalid:border-red-400 aria-invalid:ring-red-400/20"
         />
@@ -113,7 +113,7 @@
           bind:value={empresa}
           autocomplete="organization"
           placeholder="Nombre de su empresa"
-          class="block w-full rounded-xl border border-gray-300 px-4 py-3 text-gray-900 placeholder-gray-400 transition
+          class="block w-full rounded-full border border-gray-300 px-4 py-3 text-gray-900 placeholder-gray-400 transition
                  focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20 focus:outline-none"
         />
       </div>
@@ -134,7 +134,7 @@
           aria-describedby={fieldErrors.email ? "email-err" : undefined}
           aria-invalid={!!fieldErrors.email || undefined}
           placeholder="correo@ejemplo.com"
-          class="block w-full rounded-xl border border-gray-300 px-4 py-3 text-gray-900 placeholder-gray-400 transition
+          class="block w-full rounded-full border border-gray-300 px-4 py-3 text-gray-900 placeholder-gray-400 transition
                  focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20 focus:outline-none
                  aria-invalid:border-red-400 aria-invalid:ring-red-400/20"
         />
@@ -153,7 +153,7 @@
           bind:value={telefono}
           autocomplete="tel"
           placeholder="600 000 000"
-          class="block w-full rounded-xl border border-gray-300 px-4 py-3 text-gray-900 placeholder-gray-400 transition
+          class="block w-full rounded-full border border-gray-300 px-4 py-3 text-gray-900 placeholder-gray-400 transition
                  focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20 focus:outline-none"
         />
       </div>
@@ -164,16 +164,27 @@
       <label for="servicio" class="block text-sm font-medium text-gray-700 mb-1.5">
         Servicio de interés
       </label>
-      <select
-        id="servicio"
-        bind:value={servicio}
-        class="block w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-gray-900 transition
-               focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20 focus:outline-none"
-      >
-        {#each SERVICIOS as s}
-          <option value={s.value}>{s.label}</option>
-        {/each}
-      </select>
+      <div class="relative">
+        <select
+          id="servicio"
+          bind:value={servicio}
+          class="block w-full cursor-pointer appearance-none rounded-full border border-gray-300 bg-white px-5 py-3 pr-12 text-gray-900 transition
+                 hover:border-gray-400
+                 focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20 focus:outline-none"
+        >
+          {#each SERVICIOS as s}
+            <option value={s.value}>{s.label}</option>
+          {/each}
+        </select>
+        <!-- Flecha personalizada -->
+        <svg
+          class="pointer-events-none absolute right-5 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400 transition-colors"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"
+          aria-hidden="true"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+        </svg>
+      </div>
     </div>
 
     <!-- Mensaje -->
@@ -189,7 +200,7 @@
         aria-describedby={fieldErrors.mensaje ? "mensaje-err" : undefined}
         aria-invalid={!!fieldErrors.mensaje || undefined}
         placeholder="Cuéntenos qué necesita…"
-        class="block w-full resize-none rounded-xl border border-gray-300 px-4 py-3 text-gray-900 placeholder-gray-400 transition
+        class="block w-full resize-none rounded-3xl border border-gray-300 px-5 py-4 text-gray-900 placeholder-gray-400 transition
                focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20 focus:outline-none
                aria-invalid:border-red-400 aria-invalid:ring-red-400/20"
       ></textarea>
@@ -211,8 +222,8 @@
         type="submit"
         disabled={!canSubmit}
         aria-busy={status === "sending"}
-        class="inline-flex items-center justify-center gap-2 rounded-xl bg-accent-600 px-8 py-3.5
-               text-sm font-semibold text-white transition-colors
+        class="inline-flex items-center justify-center gap-2 rounded-full bg-accent-600 px-8 py-3.5
+               text-sm font-medium text-white transition-colors
                hover:bg-accent-700 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:ring-offset-2
                disabled:cursor-not-allowed disabled:opacity-50"
       >
