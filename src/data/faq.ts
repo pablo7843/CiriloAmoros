@@ -68,7 +68,7 @@ export const faq: FaqItem[] = [
   {
     question: "¿Puedo visitar las instalaciones antes de contratar?",
     answer:
-      "Por supuesto. Contáctenos para concertar una visita sin compromiso en el horario que le convenga.",
+      "Por supuesto. Contáctanos para concertar una visita sin compromiso en el horario que te convenga.",
     category: "general",
   },
 ];

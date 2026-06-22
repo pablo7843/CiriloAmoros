@@ -192,6 +192,15 @@ html.intro-pending #scroll-progress {
 [data-parallax-img] {
   will-change: transform;
 }
+
+/* GSAP SplitText — oculta los titulares hasta que GSAP los prepara (sin
+   parpadeo). Si no hay JS o se reduce el movimiento, se ven con normalidad. */
+html.gsap-split [data-split] {
+  visibility: hidden;
+}
+.split-line {
+  will-change: transform;
+}
 [data-tilt] {
   transform-style: preserve-3d;
 }

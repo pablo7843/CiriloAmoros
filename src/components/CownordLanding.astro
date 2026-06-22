@@ -1,0 +1,224 @@
+---
+import { cownord } from "../data/cownord";
+import type { CownordCenter } from "../data/cownord";
+import Aurora from "./Aurora.astro";
+import Stars from "./Stars.astro";
+
+interface Props { center: CownordCenter }
+const { center } = Astro.props;
+
+const isPending = (v: string | number | null | undefined) =>
+  v == null || (typeof v === "string" && v.startsWith("[PENDIENTE"));
+
+const hasEmbed = !isPending(center.address.mapsEmbedSrc);
+const addrLine = [center.address.street, center.address.city].filter(Boolean).join(", ");
+
+// FAQ genérica (hechos reales conocidos de Cownord)
+const faqs = [
+  { q: "¿Tengo acceso fuera del horario de oficina?", a: "Sí. El acceso es 24/7 los 365 días mediante la app móvil." },
+  { q: "¿Hay permanencia?", a: "Los puestos flexibles se reservan por horas o por días, sin permanencia. Para puestos fijos y despachos, consúltanos las condiciones." },
+  { q: "¿Puedo visitar el espacio antes de contratar?", a: "Por supuesto. Escríbenos o llámanos y concertamos una visita sin compromiso." },
+];
+---
+
+<!-- ── Hero ── -->
+<section class="relative overflow-hidden bg-gradient-to-b from-slate-50 via-white to-accent-50 py-20 sm:py-28">
+  <Aurora tone="light" />
+  <div class="relative z-10 mx-auto max-w-3xl px-6 text-center" data-reveal>
+    <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-accent-200 bg-accent-50 px-3.5 py-1.5 text-xs font-medium text-accent-700">
+      Cownord · {center.kind} en {center.city}
+    </div>
+    <h1 class="headline text-[2.5rem] leading-[1.1] text-gray-900 sm:text-5xl lg:text-[3.5rem]">
+      {center.headline}
+    </h1>
+    <p class="mx-auto mt-5 max-w-xl text-base leading-relaxed text-gray-500 sm:text-lg">
+      {center.intro}
+    </p>
+    <div class="mt-8 flex flex-wrap justify-center gap-3">
+      <a href="#contacto" class="btn-primary shadow-sm">Reservar visita</a>
+      <a href={center.contact.phoneHref} class="btn-secondary shadow-sm">{center.contact.phone}</a>
+    </div>
+    {center.access24h && (
+      <p class="mt-8 inline-flex items-center gap-2 text-sm font-medium text-gray-600">
+        <span class="h-1.5 w-1.5 rounded-full bg-accent-500"></span>
+        Acceso 24/7 los 365 días
+      </p>
+    )}
+  </div>
+</section>
+
+<!-- ── Servicios ── -->
+<section class="bg-white py-24 sm:py-32">
+  <div class="mx-auto max-w-7xl px-6">
+    <div class="mx-auto mb-14 max-w-2xl text-center" data-reveal>
+      <p class="mb-3 text-sm font-semibold uppercase tracking-widest text-accent-600">Servicios</p>
+      <h2 class="headline text-3xl text-gray-900 sm:text-4xl">Espacios que se adaptan a ti</h2>
+    </div>
+    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {center.services.map((s, i) => (
+        <article data-reveal data-tilt style={`transition-delay: ${i * 100}ms`}
+          class="flex flex-col rounded-2xl border border-gray-200 bg-white p-7 transition-shadow hover:shadow-lg">
+          <h3 class="text-lg font-medium text-gray-900">{s.name}</h3>
+          <p class="mt-2 flex-1 text-sm leading-relaxed text-gray-500">{s.desc}</p>
+          <p class="mt-4 text-sm">
+            {isPending(s.priceFrom)
+              ? <span class="italic text-gray-400">Precio: a confirmar</span>
+              : <><span class="text-2xl font-light tracking-[0.01em] text-gray-900">{s.priceFrom}</span></>}
+          </p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- ── Qué incluye ── -->
+<section class="bg-gray-50 py-24 sm:py-32">
+  <div class="mx-auto max-w-7xl px-6">
+    <div class="mb-12 max-w-xl" data-reveal>
+      <p class="mb-3 text-[10px] font-bold uppercase tracking-[0.2em] text-accent-600">Todo incluido</p>
+      <h2 class="headline text-3xl text-gray-900 sm:text-4xl">Listo para trabajar desde el primer día.</h2>
+    </div>
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {center.features.map((f, i) => (
+        <div class="flex items-start gap-3 rounded-xl bg-white p-5 shadow-sm ring-1 ring-gray-100" data-reveal style={`transition-delay: ${i * 60}ms`}>
+          <svg class="mt-0.5 h-5 w-5 shrink-0 text-accent-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
+          </svg>
+          <span class="text-sm font-medium text-gray-800">{f}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- ── Ubicación ── -->
+<section class="bg-white py-24 sm:py-32">
+  <div class="mx-auto max-w-7xl px-6">
+    <div class="mb-14" data-reveal>
+      <p class="mb-3 text-[10px] font-bold uppercase tracking-[0.2em] text-accent-600">Ubicación</p>
+      <h2 class="headline text-4xl leading-[1.08] text-gray-900 sm:text-5xl">En {center.city}.</h2>
+    </div>
+    <div class="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_360px]" data-reveal>
+      <div class="relative overflow-hidden rounded-2xl bg-gray-200 aspect-[4/3] lg:aspect-auto lg:min-h-[420px]">
+        {hasEmbed && (
+          <iframe src={center.address.mapsEmbedSrc} width="100%" height="100%" class="absolute inset-0 border-0"
+            loading="lazy" referrerpolicy="no-referrer-when-downgrade" title={`Ubicación de ${center.name}`} />
+        )}
+        <div class="absolute inset-x-0 bottom-0 flex items-center justify-between gap-4 bg-white/95 px-5 py-4 backdrop-blur-sm">
+          <div class="min-w-0">
+            <p class="truncate text-sm font-semibold text-gray-900">{center.address.street}</p>
+            <p class="text-xs text-gray-500">
+              {isPending(center.address.postalCode) ? "" : center.address.postalCode + " "}{center.address.city}
+            </p>
+          </div>
+          <a href={center.address.mapsUrl} target="_blank" rel="noopener noreferrer"
+            class="shrink-0 text-xs font-semibold text-accent-600 transition-colors hover:text-accent-700">Ver mapa →</a>
+        </div>
+      </div>
+      <div class="flex flex-col gap-6">
+        <div>
+          <p class="mb-2 text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400">Dirección</p>
+          <p class="text-sm text-gray-700">{addrLine}</p>
+        </div>
+        <div>
+          <p class="mb-2 text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400">Horario</p>
+          <p class="text-sm text-gray-700">{center.schedule}</p>
+        </div>
+        <div>
+          <p class="mb-2 text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400">Teléfono</p>
+          <a href={center.contact.phoneHref} class="text-sm font-medium text-gray-900 hover:text-accent-600">{center.contact.phone}</a>
+          {center.contact.phone2 && (
+            <a href={center.contact.phone2Href} class="ml-2 text-sm text-gray-500 hover:text-accent-600">· {center.contact.phone2}</a>
+          )}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Reseñas ── -->
+<section class="bg-gray-50 py-24 sm:py-32">
+  <div class="mx-auto max-w-7xl px-6">
+    <div class="mb-12 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between" data-reveal>
+      <h2 class="headline text-4xl leading-[1.08] text-gray-900 sm:text-5xl">Opiniones reales.</h2>
+      {!isPending(center.rating) && (
+        <span class="inline-flex items-center gap-2 rounded-2xl border border-gray-200 bg-white px-5 py-3 text-sm font-semibold text-gray-900">
+          <Stars rating={center.rating ?? 5} class="h-4 w-4" /> {center.rating}
+        </span>
+      )}
+    </div>
+    {center.reviews.length > 0 ? (
+      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {center.reviews.map((r) => (
+          <article data-tilt class="rounded-2xl bg-white p-7 shadow-sm ring-1 ring-gray-200/60">
+            <Stars rating={r.rating} class="h-4 w-4" />
+            <p class="mt-4 text-[15px] leading-relaxed text-gray-700">"{r.text}"</p>
+            <p class="mt-5 text-sm font-semibold text-gray-900">{r.author}</p>
+          </article>
+        ))}
+      </div>
+    ) : (
+      <div class="rounded-2xl border border-dashed border-gray-300 bg-white px-8 py-12 text-center" data-reveal>
+        <p class="text-sm font-medium text-gray-500">
+          [PENDIENTE: pegar 4–6 reseñas reales de Google de la sede de {center.city} + nota media]
+        </p>
+        <p class="mt-2 text-xs text-gray-400">Regla del proyecto: solo reseñas reales verificadas.</p>
+      </div>
+    )}
+  </div>
+</section>
+
+<!-- ── FAQ ── -->
+<section class="bg-white py-24 sm:py-32">
+  <div class="mx-auto max-w-4xl px-6">
+    <div class="mb-14" data-reveal>
+      <h2 class="headline text-4xl leading-[1.08] text-gray-900 sm:text-5xl">Preguntas frecuentes.</h2>
+    </div>
+    <dl class="divide-y divide-gray-200" data-reveal>
+      {faqs.map((item) => (
+        <div>
+          <details class="group py-6">
+            <summary class="flex cursor-pointer list-none items-start justify-between gap-6 text-base font-medium text-gray-900">
+              <span>{item.q}</span>
+              <svg class="mt-0.5 h-5 w-5 shrink-0 text-gray-400 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/>
+              </svg>
+            </summary>
+            <p class="mt-4 pr-10 text-[15px] leading-relaxed text-gray-500">{item.a}</p>
+          </details>
+        </div>
+      ))}
+    </dl>
+  </div>
+</section>
+
+<!-- ── CTA + cross-link a Cirilo ── -->
+<section id="contacto" class="scroll-mt-20 overflow-hidden bg-white">
+  <div class="relative overflow-hidden bg-gray-950 py-24 sm:py-32">
+    <Aurora tone="dark" />
+    <div class="relative z-10 mx-auto max-w-7xl px-6">
+      <div class="grid grid-cols-1 gap-14 lg:grid-cols-2 lg:items-center" data-reveal>
+        <div>
+          <h2 class="headline text-4xl leading-[1.06] text-white sm:text-5xl">Ven a conocer<br />Cownord {center.city}.</h2>
+          <p class="mt-6 max-w-md text-[15px] leading-relaxed text-gray-400">
+            Te enseñamos el espacio sin compromiso y te explicamos las modalidades. Acceso 24/7.
+          </p>
+        </div>
+        <div class="rounded-2xl border border-gray-800 bg-gray-900 p-8 sm:p-10">
+          <p class="mb-2 text-[10px] font-bold uppercase tracking-[0.2em] text-gray-500">Llámanos</p>
+          <a href={center.contact.phoneHref} class="block text-3xl font-light tracking-[0.01em] text-white transition-colors hover:text-accent-400">
+            {center.contact.phone}
+          </a>
+          <a href={center.contact.emailHref} class="mt-6 flex w-full items-center justify-center rounded-full bg-accent-600 px-6 py-4 text-sm font-medium text-white transition-colors hover:bg-accent-700">
+            Escríbenos a {center.contact.email}
+          </a>
+          <!-- Cross-link a la otra marca del grupo -->
+          <a href={cownord.cirilo.url} class="mt-4 flex items-center justify-between gap-3 rounded-full border border-gray-700 px-5 py-3 text-sm text-gray-300 transition-colors hover:border-gray-500 hover:text-white">
+            <span>{cownord.cirilo.pitch}</span>
+            <span class="shrink-0 font-medium">Cirilo Amorós ↗</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

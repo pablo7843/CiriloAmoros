@@ -1,0 +1,169 @@
+---
+import "../styles/global.css";
+import { cownord } from "../data/cownord";
+import type { CownordCenter } from "../data/cownord";
+import BackgroundFX from "../components/BackgroundFX.astro";
+
+interface Props {
+  title:        string;
+  description?: string;
+  center?:      CownordCenter;   // si se pasa, genera schema LocalBusiness de la sede
+  noindex?:     boolean;
+}
+
+const { title, description = cownord.claim, center, noindex = false } = Astro.props;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+
+// [PENDIENTE: identidad Cownord] — sin logo/colores oficiales todavía.
+const nav = [
+  { label: "Museros",      href: "/cownord/museros" },
+  { label: "Massamagrell", href: "/cownord/massamagrell" },
+];
+
+const isPlaceholder = (v: string | number | null | undefined) =>
+  typeof v === "string" && v.startsWith("[PENDIENTE");
+
+const structuredData = center && {
+  "@context": "https://schema.org",
+  "@type": "CoworkingSpace",
+  "name":      center.name,
+  "url":       canonicalURL.href,
+  "telephone": center.contact.phone,
+  "email":     center.contact.email,
+  "address": {
+    "@type":           "PostalAddress",
+    "streetAddress":   center.address.street,
+    "addressLocality": center.address.city,
+    ...(isPlaceholder(center.address.postalCode) ? {} : { "postalCode": center.address.postalCode }),
+    "addressRegion":   center.address.region,
+    "addressCountry":  center.address.country,
+  },
+  "openingHours": "Mo-Su 00:00-24:00",
+  "brand": { "@type": "Brand", "name": cownord.brand },
+  "parentOrganization": { "@type": "Organization", "name": "Think Big Advisory S.L." },
+};
+---
+
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={canonicalURL} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+
+    <meta property="og:title"       content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type"        content="website" />
+    <meta property="og:url"         content={canonicalURL} />
+    <meta property="og:site_name"   content={cownord.brand} />
+
+    {structuredData && (
+      <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+    )}
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,400&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body class="bg-white text-gray-900 antialiased">
+    <BackgroundFX />
+
+    <!-- Cabecera Cownord -->
+    <header class="fixed inset-x-0 top-0 z-50 border-b border-gray-200/80 bg-white/95 backdrop-blur-md">
+      <div class="mx-auto flex h-16 max-w-7xl items-center justify-between gap-6 px-6">
+        <a href="/cownord/museros" class="shrink-0 leading-tight" aria-label="Cownord — inicio">
+          <span class="block text-lg font-semibold tracking-tight text-gray-900">Cownord</span>
+          <span class="block text-[11px] text-gray-400">Coworking · {cownord.tagline}</span>
+        </a>
+
+        <nav class="hidden items-center gap-1 lg:flex" aria-label="Sedes Cownord">
+          {nav.map((l) => (
+            <a href={l.href} class="rounded-full px-3.5 py-2 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-50 hover:text-gray-900">
+              {l.label}
+            </a>
+          ))}
+        </nav>
+
+        <div class="flex shrink-0 items-center gap-2">
+          <a href="/" class="hidden rounded-full px-3.5 py-2 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-50 hover:text-gray-900 md:inline-flex">
+            Despachos en Valencia ↗
+          </a>
+          <a href="#contacto" class="inline-flex items-center rounded-full bg-accent-600 px-5 py-2 text-sm font-medium text-white transition-colors hover:bg-accent-700">
+            Contactar
+          </a>
+        </div>
+      </div>
+    </header>
+    <div class="h-16" aria-hidden="true"></div>
+
+    <slot />
+
+    <!-- Pie Cownord -->
+    <footer class="bg-gray-950 text-gray-400">
+      <div class="mx-auto grid max-w-7xl grid-cols-2 gap-10 px-6 py-14 md:grid-cols-4">
+        <div class="col-span-2 md:col-span-1">
+          <span class="block text-sm font-semibold text-white">Cownord</span>
+          <span class="block text-xs text-gray-500">{cownord.tagline}</span>
+          <a href={cownord.contact.emailHref} class="mt-4 block text-sm transition-colors hover:text-gray-200">
+            {cownord.contact.email}
+          </a>
+        </div>
+        <div>
+          <h3 class="mb-4 text-[11px] font-semibold uppercase tracking-wider text-gray-300">Sedes</h3>
+          <ul class="space-y-2.5">
+            {nav.map((l) => (
+              <li><a href={l.href} class="text-sm transition-colors hover:text-gray-200">{l.label}</a></li>
+            ))}
+          </ul>
+        </div>
+        <div>
+          <h3 class="mb-4 text-[11px] font-semibold uppercase tracking-wider text-gray-300">Grupo</h3>
+          <ul class="space-y-2.5">
+            <li><a href="/" class="text-sm transition-colors hover:text-gray-200">Cirilo Amorós · Despachos Valencia</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="mb-4 text-[11px] font-semibold uppercase tracking-wider text-gray-300">Legal</h3>
+          <ul class="space-y-2.5 text-sm">
+            <li><a href="/aviso-legal" class="transition-colors hover:text-gray-200">Aviso legal</a></li>
+            <li><a href="/privacidad" class="transition-colors hover:text-gray-200">Privacidad</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-gray-800">
+        <p class="mx-auto max-w-7xl px-6 py-5 text-xs text-gray-600">
+          © {new Date().getFullYear()} Cownord · Think Big Advisory S.L.
+        </p>
+      </div>
+    </footer>
+  </body>
+
+  <noscript>
+    <style>[data-reveal] { opacity: 1 !important; transform: none !important; }</style>
+  </noscript>
+
+  <script>
+    // Scroll reveal (mismo patrón que el sitio Cirilo)
+    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!prefersReduced) {
+      document.documentElement.classList.add("js-reveal");
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) { e.target.classList.add("revealed"); obs.unobserve(e.target); }
+        });
+      }, { threshold: 0.1, rootMargin: "0px 0px -48px 0px" });
+      document.querySelectorAll("[data-reveal]").forEach((el) => obs.observe(el));
+    } else {
+      document.querySelectorAll("[data-reveal]").forEach((el) => el.classList.add("revealed"));
+    }
+  </script>
+</html>

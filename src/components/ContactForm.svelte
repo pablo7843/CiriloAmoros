@@ -55,7 +55,7 @@
         status = "error";
       }
     } catch {
-      errorMsg = "Error de conexión. Compruebe su conexión a internet e inténtelo de nuevo.";
+      errorMsg = "Error de conexión. Comprueba tu conexión a internet e inténtalo de nuevo.";
       status = "error";
     }
   }
@@ -73,7 +73,7 @@
     </svg>
     <h2 class="text-xl font-semibold text-green-800 mb-2">Mensaje enviado correctamente</h2>
     <p class="text-green-700">
-      Gracias por su interés. Le responderemos en menos de 24 horas hábiles.
+      Gracias por tu interés. Te responderemos en menos de 24 horas hábiles.
     </p>
   </div>
 {:else}
@@ -93,7 +93,7 @@
           required
           aria-describedby={fieldErrors.nombre ? "nombre-err" : undefined}
           aria-invalid={!!fieldErrors.nombre || undefined}
-          placeholder="Su nombre"
+          placeholder="Tu nombre"
           class="block w-full rounded-full border border-gray-300 px-4 py-3 text-gray-900 placeholder-gray-400 transition
                  focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20 focus:outline-none
                  aria-invalid:border-red-400 aria-invalid:ring-red-400/20"
@@ -112,7 +112,7 @@
           type="text"
           bind:value={empresa}
           autocomplete="organization"
-          placeholder="Nombre de su empresa"
+          placeholder="Nombre de tu empresa"
           class="block w-full rounded-full border border-gray-300 px-4 py-3 text-gray-900 placeholder-gray-400 transition
                  focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20 focus:outline-none"
         />
@@ -199,7 +199,7 @@
         required
         aria-describedby={fieldErrors.mensaje ? "mensaje-err" : undefined}
         aria-invalid={!!fieldErrors.mensaje || undefined}
-        placeholder="Cuéntenos qué necesita…"
+        placeholder="Cuéntanos qué necesitas…"
         class="block w-full resize-none rounded-3xl border border-gray-300 px-5 py-4 text-gray-900 placeholder-gray-400 transition
                focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20 focus:outline-none
                aria-invalid:border-red-400 aria-invalid:ring-red-400/20"

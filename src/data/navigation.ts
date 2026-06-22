@@ -9,6 +9,7 @@ export const mainNav: NavLink[] = [
   { label: "Salas",            href: "/salas" },
   { label: "Oficina virtual",  href: "/oficina-virtual" },
   { label: "Tarifas",          href: "/tarifas" },
+  { label: "Reseñas",          href: "/#resenas" },
   { label: "Blog",             href: "/blog" },
   { label: "Contacto",         href: "/contacto", highlight: true },
 ];

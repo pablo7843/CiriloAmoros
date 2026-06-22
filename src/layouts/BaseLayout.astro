@@ -7,6 +7,7 @@ import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import BackgroundFX from "../components/BackgroundFX.astro";
 import Intro from "../components/Intro.astro";
+import ChatWidget from "../components/ChatWidget.svelte";
 
 interface Props {
   title:       string;
@@ -140,6 +141,7 @@ const structuredData = {
     <Header />
     <slot />
     <Footer />
+    <ChatWidget client:idle />
   </body>
 
   <!-- Sin JS: todos los elementos visibles -->
@@ -445,6 +447,54 @@ const structuredData = {
             btn.style.transform  = "";
           });
         }
+      }
+    }
+  </script>
+
+  <!-- GSAP — revelado de titulares línea a línea (SplitText + ScrollTrigger) -->
+  <script>
+    import { gsap } from "gsap";
+    import { ScrollTrigger } from "gsap/ScrollTrigger";
+    import { SplitText } from "gsap/SplitText";
+
+    const reducedGsap = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const splitTargets = document.querySelectorAll<HTMLElement>("[data-split]");
+
+    if (!reducedGsap && splitTargets.length) {
+      gsap.registerPlugin(ScrollTrigger, SplitText);
+      // Oculta los titulares hasta que GSAP los prepara (evita parpadeo).
+      document.documentElement.classList.add("gsap-split");
+
+      const run = () => {
+        try {
+          splitTargets.forEach((el) => {
+            const split = new SplitText(el, {
+              type: "lines",
+              mask: "lines",
+              linesClass: "split-line",
+            });
+            gsap.set(el, { autoAlpha: 1 });
+            gsap.from(split.lines, {
+              yPercent: 115,
+              opacity: 0,
+              duration: 0.9,
+              ease: "power3.out",
+              stagger: 0.12,
+              scrollTrigger: { trigger: el, start: "top 85%", once: true },
+            });
+          });
+          ScrollTrigger.refresh();
+        } catch (e) {
+          // Si algo falla, nunca dejar los titulares ocultos.
+          document.documentElement.classList.remove("gsap-split");
+        }
+      };
+
+      // Espera a las fuentes para medir bien los saltos de línea.
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(run);
+      } else {
+        window.addEventListener("load", run);
       }
     }
   </script>
