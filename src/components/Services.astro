@@ -1,5 +1,6 @@
 ---
 import { services } from "../data/services";
+import FeatureIcon from "./FeatureIcon.astro";
 
 // Orden de visualización: Despachos privados al medio (producto destacado).
 const displayOrder = ["salas", "despachos", "oficina-virtual"];
@@ -42,11 +43,10 @@ const icons = {
       {cards.map((service, i) => (
         <article data-reveal data-tilt style={`transition-delay: ${i * 100}ms`}
           class={[
-            "group relative flex flex-col overflow-hidden rounded-2xl border transition-shadow",
-            "hover:shadow-lg",
-            // La tarjeta central (salas) con tratamiento ligeramente más visible
+            "group relative flex flex-col overflow-hidden rounded-2xl border shadow-md transition-shadow duration-300 hover:shadow-2xl",
+            // La tarjeta central (Despachos) destaca: fondo de acento, anillo y escala
             i === 1
-              ? "border-accent-200 bg-accent-50/40"
+              ? "border-accent-300 bg-accent-50 ring-1 ring-accent-200 lg:scale-[1.04]"
               : "border-gray-200 bg-white",
           ].join(" ")}
         >
@@ -88,16 +88,7 @@ const icons = {
                 .filter((f) => !f.startsWith("[PENDIENTE"))
                 .map((feature) => (
                   <li class="flex items-start gap-2.5 text-sm text-gray-600">
-                    <svg
-                      class="mt-0.5 h-4 w-4 shrink-0 text-accent-500"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      aria-hidden="true"
-                    >
-                      <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
-                    </svg>
+                    <FeatureIcon label={feature} class="mt-0.5 h-4 w-4 shrink-0 text-accent-500" />
                     {feature}
                   </li>
                 ))}

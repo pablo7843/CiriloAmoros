@@ -3,6 +3,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import Faq        from "../components/Faq.astro";
 import CtaFinal   from "../components/CtaFinal.astro";
 import Aurora     from "../components/Aurora.astro";
+import FeatureIcon from "../components/FeatureIcon.astro";
 import { services } from "../data/services";
 import { site } from "../data/site";
 
@@ -123,11 +124,9 @@ const useCases = [
 
       <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {equipment.map((item, i) => (
-          <div class="flex items-start gap-4 rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-100" data-reveal data-tilt style={`transition-delay: ${i * 80}ms`}>
-            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-accent-50">
-              <svg class="h-5 w-5 text-accent-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
-              </svg>
+          <div class="group flex items-start gap-4 rounded-xl bg-white p-6 shadow-md ring-1 ring-gray-100 transition-shadow duration-300 hover:shadow-xl" data-reveal data-tilt style={`transition-delay: ${i * 80}ms`}>
+            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-accent-50 text-accent-600 transition-colors group-hover:bg-accent-600 group-hover:text-white">
+              <FeatureIcon label={item.label} class="h-5 w-5" />
             </div>
             <div>
               <p class="text-sm font-semibold text-gray-900">{item.label}</p>
@@ -142,16 +141,21 @@ const useCases = [
   <!-- ── Casos de uso ── -->
   <section aria-labelledby="usecases-titulo" class="bg-white py-24 sm:py-32">
     <div class="mx-auto max-w-7xl px-6">
-      <div class="flex flex-col gap-10 lg:flex-row lg:items-center lg:gap-20" data-reveal>
-        <div class="lg:w-72 shrink-0">
+      <div class="flex flex-col gap-10 lg:flex-row lg:items-center lg:gap-20">
+        <div class="lg:w-72 shrink-0" data-reveal>
           <p class="mb-3 text-[10px] font-bold uppercase tracking-[0.2em] text-accent-600">¿Para qué?</p>
-          <h2 id="usecases-titulo" class="text-3xl headline text-gray-900 sm:text-4xl">
+          <h2 id="usecases-titulo" data-split class="text-3xl headline text-gray-900 sm:text-4xl">
             Una sala para cada necesidad.
           </h2>
         </div>
         <div class="flex flex-wrap gap-2.5">
-          {useCases.map((u) => (
-            <span class="inline-flex items-center rounded-full border border-gray-200 bg-gray-50 px-4 py-2 text-sm font-medium text-gray-700">
+          {useCases.map((u, i) => (
+            <span
+              data-reveal
+              style={`transition-delay: ${i * 45}ms`}
+              class="group inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition-all duration-200 hover:-translate-y-0.5 hover:border-accent-300 hover:bg-accent-50 hover:text-accent-700 hover:shadow-sm"
+            >
+              <span class="h-1.5 w-1.5 rounded-full bg-accent-400 transition-colors group-hover:bg-accent-600"></span>
               {u}
             </span>
           ))}

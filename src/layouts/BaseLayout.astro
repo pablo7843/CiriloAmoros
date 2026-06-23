@@ -159,6 +159,29 @@ const structuredData = {
     // ── Scroll reveal ────────────────────────────────
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+    // ── Ancla entre páginas (p. ej. /#resenas desde otra página) ──
+    // Llega a la home ARRIBA del todo y luego BAJA con animación hasta el
+    // destino (no un salto). Cancelamos el salto nativo al ancla, mostramos
+    // el inicio un instante y después hacemos scroll suave.
+    if (location.hash.length > 1) {
+      const targetId = location.hash.slice(1);
+      try { history.scrollRestoration = "manual"; } catch {}
+      window.scrollTo(0, 0);
+
+      const animateToHash = () => {
+        const el = document.getElementById(targetId);
+        if (!el) return;
+        if (prefersReduced) {
+          el.scrollIntoView({ behavior: "auto", block: "start" });
+        } else {
+          window.scrollTo(0, 0);
+          setTimeout(() => el.scrollIntoView({ behavior: "smooth", block: "start" }), 650);
+        }
+      };
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(animateToHash);
+      else window.addEventListener("load", animateToHash);
+    }
+
     // ── Portada de entrada — el "primer folio" se desliza al hacer scroll ──
     // Scroll nativo (móvil + PC) y totalmente reversible. Al llegar al final,
     // el header cae desde arriba (clase intro-pending en <html>).

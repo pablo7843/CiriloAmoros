@@ -1,0 +1,67 @@
+---
+/**
+ * Icono acorde al texto de una característica (en vez de un tic genérico).
+ * Empareja por palabras clave del label; si no encuentra, usa un check.
+ */
+interface Props {
+  label: string;
+  class?: string;
+}
+const { label, class: cls = "h-5 w-5" } = Astro.props;
+
+const norm = label
+  .toLowerCase()
+  .normalize("NFD")
+  .replace(/[̀-ͯ]/g, "");
+
+// Paths (heroicons outline-style). name → inner SVG.
+const ICONS: Record<string, string> = {
+  clock: `<path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>`,
+  wifi: `<path stroke-linecap="round" stroke-linejoin="round" d="M8.288 15.038a5.25 5.25 0 0 1 7.424 0M5.106 11.856c3.807-3.808 9.98-3.808 13.788 0M1.924 8.674c5.565-5.565 14.587-5.565 20.152 0M12.53 18.22l-.53.53-.53-.53a.75.75 0 0 1 1.06 0Z"/>`,
+  sparkles: `<path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09Z"/>`,
+  thermo: `<path stroke-linecap="round" stroke-linejoin="round" d="M15 13.5V6a3 3 0 1 0-6 0v7.5a4.5 4.5 0 1 0 6 0Z"/><path stroke-linecap="round" d="M12 9v6"/>`,
+  user: `<path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.5 20.1a7.5 7.5 0 0 1 15 0A17.9 17.9 0 0 1 12 21.75c-2.68 0-5.22-.58-7.5-1.63Z"/>`,
+  group: `<path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.1 9.1 0 0 0 3.74-.48 3 3 0 0 0-4.68-2.72m.94 3.2v.03c0 .23-.01.45-.04.67A11.94 11.94 0 0 1 12 21c-2.17 0-4.2-.58-5.96-1.58A6.06 6.06 0 0 1 6 18.72m12 0a5.97 5.97 0 0 0-.94-3.2m0 0A6 6 0 0 0 12 12.75a6 6 0 0 0-5.06 2.77m0 0a3 3 0 0 0-4.68 2.72 9 9 0 0 0 3.74.48m.94-3.2a5.97 5.97 0 0 0-.94 3.2M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z"/>`,
+  mappin: `<path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.14-7.5 11.25-7.5 11.25S4.5 17.64 4.5 10.5a7.5 7.5 0 1 1 15 0Z"/>`,
+  envelope: `<path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.24a2.25 2.25 0 0 1-1.07 1.92l-7.5 4.61a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.92V6.75"/>`,
+  key: `<path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25a3 3 0 0 1 3 3m3 0a6 6 0 0 1-7.03 5.91c-.56-.1-1.16.03-1.56.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.82c0-.6.24-1.17.66-1.59l6.5-6.5c.4-.4.53-1 .43-1.56A6 6 0 0 1 21.75 8.25Z"/>`,
+  cup: `<path stroke-linecap="round" stroke-linejoin="round" d="M4.5 7.5h12v6a4.5 4.5 0 0 1-4.5 4.5H9a4.5 4.5 0 0 1-4.5-4.5v-6Zm12 1.5h1.5a2.25 2.25 0 0 1 0 4.5h-1.5M6 4.5h.01M9 4.5h.01M12 4.5h.01"/>`,
+  presentation: `<path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 0 0 6 16.5h12a2.25 2.25 0 0 0 2.25-2.25V3M3.75 3h16.5M3.75 3H2.25m18 0h1.5M12 16.5v3.75m0 0H8.25m3.75 0h3.75M7.5 12l2.25-2.25L12 12l3-3"/>`,
+  video: `<path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5 19.5 6.75v10.5l-3.75-3.75M4.5 18.75h9a1.5 1.5 0 0 0 1.5-1.5V6.75a1.5 1.5 0 0 0-1.5-1.5h-9a1.5 1.5 0 0 0-1.5 1.5v10.5a1.5 1.5 0 0 0 1.5 1.5Z"/>`,
+  bike: `<path stroke-linecap="round" stroke-linejoin="round" d="M5.25 18a2.25 2.25 0 1 0 0-4.5 2.25 2.25 0 0 0 0 4.5Zm13.5 0a2.25 2.25 0 1 0 0-4.5 2.25 2.25 0 0 0 0 4.5ZM5.25 15.75 9 8.25h4.5l3.75 7.5M9 8.25l3 7.5M13.5 8.25h2.25"/>`,
+  home: `<path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.95-8.95c.44-.44 1.15-.44 1.6 0L21.75 12M4.5 9.75v10.13c0 .62.5 1.12 1.13 1.12H9.75V16.1c0-.62.5-1.13 1.13-1.13h2.25c.62 0 1.12.5 1.12 1.13V21h4.13c.62 0 1.12-.5 1.12-1.12V9.75"/>`,
+  doc: `<path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.63a3.38 3.38 0 0 0-3.38-3.37h-1.5a1.12 1.12 0 0 1-1.12-1.13v-1.5A3.38 3.38 0 0 0 10.12 2.25H8.25M10.5 2.25H5.63c-.62 0-1.13.5-1.13 1.13v17.25c0 .62.5 1.12 1.13 1.12h12.75c.62 0 1.12-.5 1.12-1.12V11.25a9 9 0 0 0-9-9Z"/>`,
+  check: `<path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>`,
+};
+
+const RULES: [RegExp, string][] = [
+  [/(24|acceso|llave\b)/, "clock"],
+  [/llave/, "key"],
+  [/(internet|wifi|fibra|red\b)/, "wifi"],
+  [/limpieza/, "sparkles"],
+  [/(climatiz|aire|calefac|temperat)/, "thermo"],
+  [/videoconfer/, "video"],
+  [/(proyector|pantalla|presentaci)/, "presentation"],
+  [/(sala|reunion|reuni)/, "group"],
+  [/(recep|visita|atenci|telef)/, "user"],
+  [/(direccion|postal|fiscal|domicil|comercial)/, "mappin"],
+  [/(correo|paquet|envio)/, "envelope"],
+  [/(cafe|agua|infusi|\bte\b)/, "cup"],
+  [/(bici|aparca|parking)/, "bike"],
+  [/(zona|comun|cocina|office|descanso)/, "home"],
+  [/(permanencia|contrato|plan\b)/, "doc"],
+  [/metro|transporte/, "mappin"],
+];
+
+let name = "check";
+// "llave" debe ganar a la regla de "acceso"; comprobamos llave primero
+if (/llave/.test(norm)) name = "key";
+else {
+  for (const [re, n] of RULES) {
+    if (re.test(norm)) { name = n; break; }
+  }
+}
+const inner = ICONS[name] ?? ICONS.check;
+---
+
+<svg class={cls} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true" set:html={inner} />
