@@ -1,111 +1,44 @@
 ---
-import { faq } from "../data/faq";
+/**
+ * Antes era la lista de preguntas frecuentes. Ahora las dudas se resuelven
+ * con el chatbot de IA, así que esta sección es una llamada a abrir el chat
+ * (con la mascota saludando). Se mantiene el nombre/props para no tocar las
+ * páginas que ya la usan. El conocimiento de las FAQ sigue en src/data/faq.ts
+ * porque alimenta al chatbot.
+ */
+import Robot from "./Robot.astro";
 
 interface Props {
-
   category?: string;
-  /** Máximo de preguntas a mostrar. Por defecto todas. */
   limit?: number;
 }
-
-const { category, limit } = Astro.props;
-
-const items = faq
-  .filter((f) => !category || f.category === category)
-  .filter((f) => !f.answer.startsWith("[PENDIENTE"))
-  .slice(0, limit);
-
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": items.map((item) => ({
-    "@type": "Question",
-    "name":  item.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text":  item.answer,
-    },
-  })),
-};
 ---
 
-{items.length > 0 && (
-  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
-)}
-
-<section aria-labelledby="faq-titulo" class="bg-white py-24 sm:py-32">
-  <div class="mx-auto max-w-4xl px-6">
-
-    <!-- Cabecera -->
-    <div class="mb-14" data-reveal>
-      <p class="mb-3 text-[10px] font-bold uppercase tracking-[0.2em] text-accent-600">Preguntas frecuentes</p>
-      <h2
-        id="faq-titulo"
-        data-split
-        class="headline text-4xl leading-[1.08] text-gray-900 sm:text-5xl"
-      >
-        Todo lo que<br />necesitas saber.
-      </h2>
-    </div>
-
-    {items.length > 0 ? (
-      <dl class="divide-y divide-gray-200" data-reveal style="transition-delay: 120ms">
-        {items.map((item, i) => (
-          <div>
-            <details class="faq-item group py-6" name="faq">
-              <summary
-                class="flex cursor-pointer list-none items-start justify-between gap-6 text-base font-medium text-gray-900 marker:hidden"
-                style="list-style: none;"
-              >
-                <span>{item.question}</span>
-                <!-- Chevron que rota cuando está abierto -->
-                <svg
-                  class="mt-0.5 h-5 w-5 shrink-0 text-gray-400 transition-transform duration-200 group-open:rotate-180"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.5"
-                  aria-hidden="true"
-                >
-                  <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/>
-                </svg>
-              </summary>
-              <div class="faq-content overflow-hidden">
-                <p class="pt-4 text-[15px] leading-relaxed text-gray-500 pr-10">
-                  {item.answer}
-                </p>
-              </div>
-            </details>
-          </div>
-        ))}
-      </dl>
-    ) : (
-      <p class="text-sm italic text-gray-400">
-        [PENDIENTE: completar las respuestas en <code>src/data/faq.ts</code>]
-      </p>
-    )}
-
-    <!-- Enlace a contacto si hay más preguntas -->
-    <div class="mt-12 rounded-2xl bg-gray-50 px-7 py-6 flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
-      <p class="text-sm text-gray-600">
-        ¿Tienes alguna pregunta que no está aquí?
-      </p>
-      <a
-        href="/contacto"
-        class="shrink-0 text-sm font-semibold text-accent-600 transition-colors hover:text-accent-700"
-      >
-        Escríbenos →
-      </a>
+<section aria-labelledby="ia-cta-titulo" class="bg-white py-24 sm:py-32">
+  <div class="mx-auto max-w-4xl px-6" data-reveal>
+    <div class="relative rounded-3xl bg-gradient-to-br from-accent-50 to-white px-7 py-10 ring-1 ring-accent-100 sm:px-12 sm:py-12">
+      <div class="pointer-events-none absolute -top-10 left-6 sm:left-10">
+        <Robot class="h-24 w-auto" />
+      </div>
+      <div class="pt-14 sm:pt-6">
+        <p class="mb-3 text-[10px] font-bold uppercase tracking-[0.2em] text-accent-600">
+          Asistente con IA
+        </p>
+        <h2 id="ia-cta-titulo" data-split class="headline text-3xl text-gray-900 sm:text-4xl">
+          ¿Tienes dudas? Pregúntale a nuestra IA.
+        </h2>
+        <p class="mt-3 max-w-xl text-base leading-relaxed text-gray-500">
+          Te responde al instante sobre despachos, precios, ubicación, horario o acceso 24h.
+          Y si lo prefieres, te pone en contacto con el equipo.
+        </p>
+        <button
+          type="button"
+          onclick="window.dispatchEvent(new CustomEvent('cirilo:open-chat'))"
+          class="btn-primary mt-7"
+        >
+          Abrir el chat
+        </button>
+      </div>
     </div>
   </div>
 </section>
-
-<style>
-  details > summary::-webkit-details-marker {
-    display: none;
-  }
-  details > summary::marker {
-    display: none;
-  }
-
-</style>

@@ -7,6 +7,11 @@ import TariffCalculator from "../components/TariffCalculator.svelte";
 import { services } from "../data/services";
 import { site } from "../data/site";
 
+// Tarjetas de precio: Despachos privados destacado y en el centro.
+const priceCards = ["salas", "despachos", "oficina-virtual"]
+  .map((id) => services.find((s) => s.id === id))
+  .filter(Boolean) as typeof services;
+
 const rows = [
   { label: "Precio base",             despacho: `desde ${services[0].priceFrom} €/mes`, sala: `${services[1].priceFrom} €/hora`, virtual: `desde ${services[2].priceFrom} €/mes` },
   { label: "Nota de precio",          despacho: "Sin IVA", sala: "Sin IVA", virtual: "Sin IVA" },
@@ -60,37 +65,40 @@ const rows = [
     <div class="mx-auto max-w-7xl px-6">
       <div class="grid grid-cols-1 gap-5 sm:grid-cols-3">
 
-        {services.map((s, i) => (
+        {priceCards.map((s, i) => {
+          const featured = s.id === "despachos";
+          return (
           <a
             href={s.slug}
             data-reveal
             style={`transition-delay: ${i * 100}ms`}
             class={[
               "group flex flex-col rounded-2xl p-7 transition-shadow hover:shadow-lg",
-              i === 0
-                ? "bg-gray-950 text-white"
+              featured
+                ? "bg-accent-600 text-white ring-1 ring-accent-600 lg:scale-[1.03]"
                 : "bg-white text-gray-900 ring-1 ring-gray-200",
             ].join(" ")}
           >
-            <p class={`mb-4 text-[10px] font-bold uppercase tracking-[0.2em] ${i === 0 ? "text-gray-500" : "text-accent-600"}`}>
+            <p class={`mb-4 text-[10px] font-bold uppercase tracking-[0.2em] ${featured ? "text-accent-100" : "text-accent-600"}`}>
               {s.name}
             </p>
             <div class="flex items-baseline gap-1">
               <span class="text-4xl font-bold tracking-tight">{s.priceFrom} €</span>
-              <span class={`text-sm ${i === 0 ? "text-gray-400" : "text-gray-500"}`}>/{s.priceUnit}</span>
+              <span class={`text-sm ${featured ? "text-accent-100/80" : "text-gray-500"}`}>/{s.priceUnit}</span>
             </div>
-            <p class={`mt-1 text-xs ${i === 0 ? "text-gray-500" : "text-gray-400"}`}>{s.priceNote}</p>
-            <p class={`mt-4 flex-1 text-sm leading-relaxed ${i === 0 ? "text-gray-400" : "text-gray-600"}`}>
+            <p class={`mt-1 text-xs ${featured ? "text-accent-100/80" : "text-gray-400"}`}>{s.priceNote}</p>
+            <p class={`mt-4 flex-1 text-sm leading-relaxed ${featured ? "text-white/90" : "text-gray-600"}`}>
               {s.description}
             </p>
-            <div class={`mt-6 flex items-center gap-1 text-sm font-semibold ${i === 0 ? "text-white" : "text-accent-600"} transition-gap group-hover:gap-2`}>
+            <div class={`mt-6 flex items-center gap-1 text-sm font-semibold ${featured ? "text-white" : "text-accent-600"} transition-gap group-hover:gap-2`}>
               Ver detalles
               <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" d="m9 18 6-6-6-6"/>
               </svg>
             </div>
           </a>
-        ))}
+          );
+        })}
       </div>
     </div>
   </section>
@@ -128,13 +136,13 @@ const rows = [
         <table class="min-w-full">
           <thead>
             <tr class="border-b border-gray-200">
-              <th scope="col" class="py-4 pr-4 text-left text-sm font-medium text-gray-500 w-[40%]">
+              <th scope="col" class="py-5 pl-5 pr-6 text-left text-sm font-medium text-gray-500 w-[40%]">
                 Característica
               </th>
               {services.map((s, i) => (
                 <th
                   scope="col"
-                  class={`px-4 py-4 text-center text-sm font-bold ${i === 0 ? "text-gray-900" : "text-gray-700"}`}
+                  class={`px-6 py-5 text-center text-sm font-bold ${i === 0 ? "text-gray-900" : "text-gray-700"}`}
                 >
                   {s.name}
                   <span class={`block text-xs font-normal mt-0.5 ${i === 0 ? "text-accent-600" : "text-gray-400"}`}>
@@ -147,9 +155,9 @@ const rows = [
           <tbody class="divide-y divide-gray-100">
             {rows.slice(2).map((row) => (
               <tr class="hover:bg-gray-50 transition-colors">
-                <td class="py-4 pr-4 text-sm text-gray-700">{row.label}</td>
+                <td class="py-5 pl-5 pr-6 text-sm text-gray-700">{row.label}</td>
                 {[row.despacho, row.sala, row.virtual].map((val) => (
-                  <td class="px-4 py-4 text-center text-sm">
+                  <td class="px-6 py-5 text-center text-sm">
                     {val === true ? (
                       <span class="inline-flex justify-center">
                         <svg class="h-5 w-5 text-accent-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-label="Incluido">

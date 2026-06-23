@@ -33,18 +33,19 @@
    tocar UN solo sitio (regla del proyecto).
 ───────────────────────────────────────────── */
 @layer components {
-  /* CTA principal — pill azul de acento */
+  /* CTA principal — pill azul de acento. Animación sutil: leve elevación al hover. */
   .btn-primary {
     @apply inline-flex items-center justify-center gap-2 rounded-full bg-accent-600
-           px-7 py-3.5 text-sm font-medium text-white transition-colors
-           hover:bg-accent-700 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:ring-offset-2;
+           px-7 py-3.5 text-sm font-medium text-white transition-[transform,background-color,box-shadow] duration-200
+           hover:-translate-y-0.5 hover:bg-accent-700 hover:shadow-lg hover:shadow-accent-600/25
+           focus:outline-none focus:ring-2 focus:ring-accent-500 focus:ring-offset-2;
   }
 
   /* CTA secundario — pill contorneado sobre fondo claro */
   .btn-secondary {
     @apply inline-flex items-center justify-center gap-2 rounded-full border border-gray-300
-           bg-white px-7 py-3.5 text-sm font-medium text-gray-700 transition-colors
-           hover:border-gray-400 hover:bg-gray-50
+           bg-white px-7 py-3.5 text-sm font-medium text-gray-700 transition-[transform,border-color,background-color] duration-200
+           hover:-translate-y-0.5 hover:border-gray-400 hover:bg-gray-50
            focus:outline-none focus:ring-2 focus:ring-gray-200 focus:ring-offset-2;
   }
 
@@ -200,6 +201,10 @@ html.gsap-split [data-split] {
 }
 .split-line {
   will-change: transform;
+  /* Espacio para descendentes (g, j, p, q) y signos como "¿": la máscara por
+     línea de GSAP recorta si va pegada al interlineado. El padding amplía la
+     caja de la línea (y de su máscara) para que se vean completos. */
+  padding-bottom: 0.22em;
 }
 [data-tilt] {
   transform-style: preserve-3d;

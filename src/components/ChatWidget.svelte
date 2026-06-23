@@ -12,6 +12,7 @@
   let input    = $state("");
   let sending  = $state(false);
   let messages = $state<Msg[]>([{ role: "assistant", content: GREETING }]);
+  let showNudge = $state(false);
 
   let scroller = $state<HTMLElement | null>(null);
   let inputEl  = $state<HTMLTextAreaElement | null>(null);
@@ -22,8 +23,30 @@
     if (scroller) scroller.scrollTop = scroller.scrollHeight;
   });
 
+  // Abrir el chat desde otros sitios de la página (CTA de FAQ, etc.)
+  // + bocadillo invitando a pulsar (una vez por sesión).
+  $effect(() => {
+    const onOpen = () => openChat();
+    window.addEventListener("cirilo:open-chat", onOpen);
+
+    let t: ReturnType<typeof setTimeout> | undefined;
+    if (!sessionStorage.getItem("chatNudgeSeen")) {
+      t = setTimeout(() => { if (!open) showNudge = true; }, 3500);
+    }
+    return () => {
+      window.removeEventListener("cirilo:open-chat", onOpen);
+      if (t) clearTimeout(t);
+    };
+  });
+
+  function dismissNudge() {
+    showNudge = false;
+    try { sessionStorage.setItem("chatNudgeSeen", "1"); } catch {}
+  }
+
   function openChat() {
     open = true;
+    dismissNudge();
     setTimeout(() => inputEl?.focus(), 60);
   }
   function closeChat() { open = false; }
@@ -70,18 +93,47 @@
 
 <svelte:window onkeydown={(e) => e.key === "Escape" && open && closeChat()} />
 
+<!-- Bocadillo que invita a usar el chat -->
+{#if !open && showNudge}
+  <div
+    transition:fly={{ y: 12, duration: 250 }}
+    class="fixed bottom-24 right-6 z-[71] w-56 rounded-2xl rounded-br-sm border border-gray-100 bg-white p-3.5 pr-8 shadow-xl shadow-gray-900/10"
+  >
+    <button
+      type="button"
+      onclick={dismissNudge}
+      class="absolute right-2 top-2 flex h-6 w-6 items-center justify-center rounded-full text-gray-400 transition-colors hover:bg-gray-100"
+      aria-label="Cerrar aviso"
+    >
+      <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/>
+      </svg>
+    </button>
+    <button type="button" onclick={openChat} class="block text-left">
+      <p class="text-sm font-medium text-gray-900">¿Tienes dudas? 👋</p>
+      <p class="mt-0.5 text-xs text-gray-500">Pregúntame lo que quieras, respondo al instante.</p>
+    </button>
+  </div>
+{/if}
+
 <!-- Botón flotante -->
 {#if !open}
   <button
     type="button"
     onclick={openChat}
     transition:fade={{ duration: 150 }}
-    class="fixed bottom-6 right-6 z-[70] inline-flex h-14 w-14 items-center justify-center rounded-full bg-accent-600 text-white shadow-lg shadow-accent-600/30 transition-colors hover:bg-accent-700 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:ring-offset-2"
+    class="chat-fab fixed bottom-6 right-6 z-[70] inline-flex h-14 w-14 items-center justify-center rounded-full bg-accent-600 text-white shadow-lg shadow-accent-600/30 transition-colors hover:bg-accent-700 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:ring-offset-2"
     aria-label="Abrir chat de ayuda"
   >
     <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
       <path stroke-linecap="round" stroke-linejoin="round" d="M8 10.5h8M8 14h5M21 12a8.5 8.5 0 0 1-12.4 7.56L3 21l1.5-5.1A8.5 8.5 0 1 1 21 12Z"/>
     </svg>
+    {#if showNudge}
+      <span class="absolute -right-0.5 -top-0.5 flex h-3.5 w-3.5">
+        <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent-400 opacity-75"></span>
+        <span class="relative inline-flex h-3.5 w-3.5 rounded-full bg-accent-500 ring-2 ring-white"></span>
+      </span>
+    {/if}
   </button>
 {/if}
 

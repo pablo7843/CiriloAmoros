@@ -430,23 +430,7 @@ const structuredData = {
           });
         }
 
-        // 5) Botones magnéticos — todas las CTA primarias
-        const magnets = Array.from(
-          document.querySelectorAll<HTMLElement>(".btn-primary")
-        );
-        for (const btn of magnets) {
-          btn.addEventListener("pointermove", (e) => {
-            const r = btn.getBoundingClientRect();
-            const x = e.clientX - r.left - r.width / 2;
-            const y = e.clientY - r.top - r.height / 2;
-            btn.style.transition = "none";
-            btn.style.transform  = `translate(${(x * 0.25).toFixed(1)}px, ${(y * 0.4).toFixed(1)}px)`;
-          });
-          btn.addEventListener("pointerleave", () => {
-            btn.style.transition = EASE;
-            btn.style.transform  = "";
-          });
-        }
+        // (Botones magnéticos eliminados — se deja solo el hover sutil por CSS)
       }
     }
   </script>
