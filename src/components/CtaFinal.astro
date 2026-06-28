@@ -3,6 +3,17 @@ import { site } from "../data/site";
 import Aurora from "./Aurora.astro";
 
 const hasWhatsApp = !site.contact.whatsapp.startsWith("[PENDIENTE");
+
+interface Props {
+  eyebrow?:  string;
+  headline?: string;  // admite <br>
+  image?:    string;  // foto de fondo (placeholder hasta tener las reales)
+}
+const {
+  eyebrow  = "Empieza hoy",
+  headline = "Tu despacho<br />en Valencia centro<br />te está esperando.",
+  image    = "/images/galeria-comun.webp",
+} = Astro.props;
 ---
 
 <section aria-label="Contacto — sección final" class="overflow-hidden bg-white">
@@ -13,6 +24,9 @@ const hasWhatsApp = !site.contact.whatsapp.startsWith("[PENDIENTE");
   </div>
 
   <div class="relative overflow-hidden bg-gray-950 py-24 sm:py-32">
+    <!-- Foto de fondo (placeholder) + velo para legibilidad -->
+    <img src={image} alt="" class="absolute inset-0 h-full w-full object-cover opacity-20" loading="lazy" decoding="async" onerror="this.style.display='none'" />
+    <div class="absolute inset-0 bg-gray-950/70"></div>
     <Aurora tone="dark" />
     <div class="relative z-10 mx-auto max-w-7xl px-6">
 
@@ -20,10 +34,8 @@ const hasWhatsApp = !site.contact.whatsapp.startsWith("[PENDIENTE");
 
         <!-- Columna izquierda: titular editorial -->
         <div>
-          <p class="mb-4 text-[10px] font-bold uppercase tracking-[0.2em] text-accent-400">Empieza hoy</p>
-          <h2 data-split class="headline text-4xl leading-[1.06] text-white sm:text-5xl xl:text-6xl">
-            Tu despacho<br />en Valencia centro<br />te está esperando.
-          </h2>
+          <p class="mb-4 text-[10px] font-bold uppercase tracking-[0.2em] text-accent-400">{eyebrow}</p>
+          <h2 data-split class="headline text-4xl leading-[1.06] text-white sm:text-5xl xl:text-6xl" set:html={headline} />
           <p class="mt-6 max-w-md text-[15px] leading-relaxed text-gray-400">
             Visitamos las instalaciones juntos, sin presiones. Te explicamos qué incluye cada plan
             y te reservamos el espacio que mejor encaje contigo.

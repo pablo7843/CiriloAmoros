@@ -1,0 +1,51 @@
+---
+/**
+ * Servicios e instalaciones del centro — iconos circulares (estilo tarjeta de
+ * amenities). Sección con color de acento: aporta peso visual y separa apartados.
+ * Iconos de línea propios. Reutilizable en despachos / salas / oficina virtual.
+ */
+interface Props {
+  eyebrow?: string;
+  title?:   string;
+}
+const { eyebrow = "Servicios e instalaciones", title = "Todo lo que encontrarás en el centro" } = Astro.props;
+
+// Amenities del centro (icono de línea + etiqueta).
+const items: { label: string; icon: string }[] = [
+  { label: "Internet alta velocidad", icon: `<path d="M8.3 15a5.25 5.25 0 0 1 7.4 0M5.1 11.9a9.75 9.75 0 0 1 13.8 0M1.9 8.7a14.25 14.25 0 0 1 20.2 0"/><path d="M12 18.25h.01"/>` },
+  { label: "Impresora", icon: `<path d="M6 9V4.5A1.5 1.5 0 0 1 7.5 3h9A1.5 1.5 0 0 1 18 4.5V9M6 18H4.5A1.5 1.5 0 0 1 3 16.5v-4A1.5 1.5 0 0 1 4.5 11h15a1.5 1.5 0 0 1 1.5 1.5v4A1.5 1.5 0 0 1 19.5 18H18M6 15h12v5.25a.75.75 0 0 1-.75.75H6.75A.75.75 0 0 1 6 20.25V15Z"/>` },
+  { label: "Seguridad", icon: `<path d="M12 3l7.5 3v5.25c0 4.6-3.2 7.9-7.5 9.45-4.3-1.55-7.5-4.85-7.5-9.45V6L12 3Z"/><path d="m9 12 2 2 4-4"/>` },
+  { label: "Parking bicis y patinetes", icon: `<path d="M5.25 18a2.25 2.25 0 1 0 0-4.5 2.25 2.25 0 0 0 0 4.5Zm13.5 0a2.25 2.25 0 1 0 0-4.5 2.25 2.25 0 0 0 0 4.5ZM5.25 15.75 9 8.25h4.5l3.75 7.5M9 8.25l3 7.5M13.5 8.25h2.25"/>` },
+  { label: "Limpieza", icon: `<path d="M9.8 15.9 9 18.75l-.8-2.85a4.5 4.5 0 0 0-3.1-3.09L2.25 12l2.85-.81a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.81 2.85a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.85.81a4.5 4.5 0 0 0-3.09 3.09Z"/>` },
+  { label: "Luz natural", icon: `<circle cx="12" cy="12" r="3.5"/><path d="M12 3v2m0 14v2m9-9h-2M5 12H3m14.95 6.95-1.4-1.4M6.46 6.46l-1.4-1.4m12.49 0-1.4 1.4M6.46 17.54l-1.4 1.4"/>` },
+  { label: "Terrazas", icon: `<path d="M12 3.5v1m0 0a8 8 0 0 1 8 8H4a8 8 0 0 1 8-8Zm0 8v6.5a2.25 2.25 0 0 0 4.5 0"/>` },
+  { label: "Cabinas de llamadas", icon: `<path d="M2.3 6.8c0 8.3 6.7 15 15 15h2.2a2.25 2.25 0 0 0 2.25-2.25v-1.37c0-.52-.35-.97-.85-1.1l-4.42-1.1c-.44-.11-.9.05-1.17.42l-.97 1.29c-.28.38-.77.54-1.21.38a12 12 0 0 1-7.14-7.14c-.16-.44 0-.93.38-1.21l1.29-.97c.36-.27.53-.73.42-1.17L6.96 3.1A1.13 1.13 0 0 0 5.87 2.25H4.5A2.25 2.25 0 0 0 2.25 4.5v2.3Z"/>` },
+  { label: "Fuentes de agua", icon: `<path d="M12 3.5c3 4 5.5 6.5 5.5 9.5a5.5 5.5 0 0 1-11 0c0-3 2.5-5.5 5.5-9.5Z"/>` },
+  { label: "Duchas", icon: `<path d="M4 21v-6.5a5.5 5.5 0 0 1 11 0M15 8.5V5a2 2 0 0 1 2-2h3M9 14.5v.01M12 16.5v.01M15 14.5v.01M10.5 18.5v.01M13.5 18.5v.01"/>` },
+  { label: "Agenda mensual de actividades", icon: `<path d="M6.75 3v2.25M17.25 3v2.25M3.75 8.25h16.5M4.5 6h15A1.5 1.5 0 0 1 21 7.5v12A1.5 1.5 0 0 1 19.5 21h-15A1.5 1.5 0 0 1 3 19.5v-12A1.5 1.5 0 0 1 4.5 6Z"/><path d="m8 13 2.5 2.5L16 11"/>` },
+  { label: "Cafetería y Cocina Office", icon: `<path d="M4.5 7.5h12v6a4.5 4.5 0 0 1-4.5 4.5H9a4.5 4.5 0 0 1-4.5-4.5v-6Zm12 1.5h1.5a2.25 2.25 0 0 1 0 4.5h-1.5M6 4.5h.01M9 4.5h.01M12 4.5h.01"/>` },
+  { label: "Recepción y paquetería", icon: `<path d="m3.75 7.5 8.25 4.5 8.25-4.5M3.75 7.5 12 3l8.25 4.5M3.75 7.5v9L12 21l8.25-4.5v-9M12 12v9"/>` },
+  { label: "Trasteros y taquillas", icon: `<path d="M5 3h14a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Zm7 0v18M8 7.5v1.5m8-1.5v1.5"/>` },
+];
+---
+
+<section aria-label={title} class="bg-accent-600 py-20 sm:py-28">
+  <div class="mx-auto max-w-7xl px-6">
+
+    <div class="mx-auto mb-14 max-w-2xl text-center" data-reveal>
+      <p class="mb-3 text-[10px] font-bold uppercase tracking-[0.2em] text-accent-200">{eyebrow}</p>
+      <h2 class="headline text-3xl text-white sm:text-4xl">{title}</h2>
+    </div>
+
+    <ul class="grid grid-cols-2 gap-x-4 gap-y-10 sm:grid-cols-3 lg:grid-cols-5">
+      {items.map((it, i) => (
+        <li class="flex flex-col items-center text-center" data-reveal style={`transition-delay: ${(i % 5) * 60}ms`}>
+          <span class="inline-flex h-20 w-20 items-center justify-center rounded-full bg-white text-accent-600 shadow-sm transition-transform duration-300 hover:scale-105">
+            <svg class="h-9 w-9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={it.icon} />
+          </span>
+          <span class="mt-3 max-w-[9rem] text-sm font-medium leading-snug text-white">{it.label}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>

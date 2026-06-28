@@ -2,6 +2,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Faq        from "../components/Faq.astro";
 import ShowcaseBand from "../components/ShowcaseBand.astro";
+import Amenities from "../components/Amenities.astro";
 import CtaFinal   from "../components/CtaFinal.astro";
 import Aurora     from "../components/Aurora.astro";
 import FeatureIcon from "../components/FeatureIcon.astro";
@@ -112,33 +113,6 @@ const useCases = [
     </div>
   </section>
 
-  <!-- ── Equipamiento ── -->
-  <section aria-labelledby="equipamiento-titulo" class="bg-gray-50 py-24 sm:py-32">
-    <div class="mx-auto max-w-7xl px-6">
-
-      <div class="mb-12 max-w-xl" data-reveal>
-        <p class="mb-3 text-[10px] font-bold uppercase tracking-[0.2em] text-accent-600">Lo que encontrará</p>
-        <h2 id="equipamiento-titulo" class="text-3xl headline text-gray-900 sm:text-4xl">
-          Equipada para cualquier reunión.
-        </h2>
-      </div>
-
-      <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {equipment.map((item, i) => (
-          <div class="group flex items-start gap-4 rounded-xl bg-white p-6 shadow-md ring-1 ring-gray-100 transition-shadow duration-300 hover:shadow-xl" data-reveal data-tilt style={`transition-delay: ${i * 80}ms`}>
-            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-accent-50 text-accent-600 transition-colors group-hover:bg-accent-600 group-hover:text-white">
-              <FeatureIcon label={item.label} class="h-5 w-5" />
-            </div>
-            <div>
-              <p class="text-sm font-semibold text-gray-900">{item.label}</p>
-              <p class="mt-0.5 text-xs text-gray-500">{item.desc}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
   <!-- ── Casos de uso ── -->
   <section aria-labelledby="usecases-titulo" class="bg-white py-24 sm:py-32">
     <div class="mx-auto max-w-7xl px-6">
@@ -164,6 +138,9 @@ const useCases = [
       </div>
     </div>
   </section>
+
+  <!-- ── Servicios e instalaciones ── -->
+  <Amenities eyebrow="Lo que encontrarás" title="Servicios e instalaciones del centro" />
 
   <!-- ── Precios ── -->
   <section aria-labelledby="precios-salas-titulo" class="bg-gray-50 py-24 sm:py-32">
@@ -239,6 +216,9 @@ const useCases = [
   <Faq category="salas" />
 
   <!-- ── CTA final ── -->
-  <CtaFinal />
+  <CtaFinal
+    headline="Tu sala<br />en Valencia centro<br />te está esperando."
+    image="/images/sala-reuniones.webp"
+  />
 
 </BaseLayout>

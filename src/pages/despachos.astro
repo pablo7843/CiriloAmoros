@@ -2,6 +2,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Faq        from "../components/Faq.astro";
 import ShowcaseBand from "../components/ShowcaseBand.astro";
+import Amenities from "../components/Amenities.astro";
 import CtaFinal   from "../components/CtaFinal.astro";
 import FeatureIcon from "../components/FeatureIcon.astro";
 import { services } from "../data/services";
@@ -111,34 +112,6 @@ const included = [
     </div>
   </section>
 
-  <!-- ── Qué incluye ── -->
-  <section aria-labelledby="incluye-titulo" class="bg-gray-50 py-24 sm:py-32">
-    <div class="mx-auto max-w-7xl px-6">
-
-      <div class="mb-12 max-w-xl" data-reveal>
-        <p class="mb-3 text-[10px] font-bold uppercase tracking-[0.2em] text-accent-600">Todo incluido</p>
-        <h2 id="incluye-titulo" data-split class="headline text-3xl text-gray-900 sm:text-4xl">
-          Sin sorpresas al final de mes.
-        </h2>
-        <p class="mt-3 text-base leading-relaxed text-gray-500">
-          Una cuota mensual fija que cubre todo lo que necesitas para trabajar.
-          Sin letras pequeñas, sin extras inesperados.
-        </p>
-      </div>
-
-      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {features.map((feat, i) => (
-          <div class="group flex items-start gap-3 rounded-xl bg-white p-5 shadow-md ring-1 ring-gray-100 transition-shadow duration-300 hover:shadow-xl" data-reveal data-tilt style={`transition-delay: ${i * 80}ms`}>
-            <span class="mt-0.5 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-accent-50 text-accent-600 transition-colors group-hover:bg-accent-600 group-hover:text-white">
-              <FeatureIcon label={feat} class="h-5 w-5" />
-            </span>
-            <span class="self-center text-sm font-medium text-gray-800">{feat}</span>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
   <!-- ── ¿Para quién es? ── -->
   <section aria-labelledby="perfiles-titulo" class="bg-white py-24 sm:py-32">
     <div class="mx-auto max-w-7xl px-6">
@@ -167,6 +140,9 @@ const included = [
     </div>
   </section>
 
+  <!-- ── Servicios e instalaciones ── -->
+  <Amenities eyebrow="Todo incluido" title="Todo lo que encontrarás en tu despacho" />
+
   <!-- ── FAQ ── -->
   <ShowcaseBand
     image="/images/galeria-recepcion.webp"
@@ -179,6 +155,9 @@ const included = [
   <Faq category="despachos" />
 
   <!-- ── CTA final ── -->
-  <CtaFinal />
+  <CtaFinal
+    headline="Tu despacho<br />en Valencia centro<br />te está esperando."
+    image="/images/despacho-principal.webp"
+  />
 
 </BaseLayout>
