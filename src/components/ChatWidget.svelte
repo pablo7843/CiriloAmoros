@@ -97,7 +97,7 @@
 {#if !open && showNudge}
   <div
     transition:fly={{ y: 12, duration: 250 }}
-    class="fixed bottom-24 right-6 z-[71] w-56 rounded-2xl rounded-br-sm border border-gray-100 bg-white p-3.5 pr-8 shadow-xl shadow-gray-900/10"
+    class="fab-hideable fixed bottom-40 right-6 z-[71] w-56 rounded-2xl rounded-br-sm border border-gray-100 bg-white p-3.5 pr-8 shadow-xl shadow-gray-900/10"
   >
     <button
       type="button"
@@ -122,7 +122,7 @@
     type="button"
     onclick={openChat}
     transition:fade={{ duration: 150 }}
-    class="chat-fab fixed bottom-6 right-6 z-[70] inline-flex h-14 w-14 items-center justify-center rounded-full bg-accent-600 text-white shadow-lg shadow-accent-600/30 transition-colors hover:bg-accent-700 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:ring-offset-2"
+    class="chat-fab fab-hideable fixed bottom-6 right-6 z-[70] inline-flex h-14 w-14 items-center justify-center rounded-full bg-accent-600 text-white shadow-lg shadow-accent-600/30 transition-colors hover:bg-accent-700 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:ring-offset-2"
     aria-label="Abrir chat de ayuda"
   >
     <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">

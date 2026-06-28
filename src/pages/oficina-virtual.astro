@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Faq        from "../components/Faq.astro";
+import ShowcaseBand from "../components/ShowcaseBand.astro";
 import CtaFinal   from "../components/CtaFinal.astro";
 import Aurora     from "../components/Aurora.astro";
 import FeatureIcon from "../components/FeatureIcon.astro";
@@ -40,8 +41,8 @@ const idealFor = [
 ---
 
 <BaseLayout
-  title="Oficina virtual y domiciliación empresarial en Valencia · Desde 40 €/mes"
-  description="Domicilia tu empresa en Calle Cirilo Amorós 6, Valencia. Dirección comercial y fiscal, recepción de correo y acceso a salas de reuniones. Desde 40 €/mes sin IVA."
+  title="Oficina virtual y domiciliación en Valencia"
+  description="Domicilia tu empresa en Cirilo Amorós 6, Valencia. Dirección comercial y fiscal, recepción de correo y acceso a salas. Desde 40 €/mes."
 >
 
   <!-- ── Hero ── -->
@@ -179,6 +180,14 @@ const idealFor = [
   </section>
 
   <!-- ── FAQ ── -->
+  <ShowcaseBand
+    image="/images/galeria-recepcion.webp"
+    eyebrow="Dirección de prestigio"
+    title="Tu empresa en el corazón de Valencia."
+    text="Una dirección comercial y fiscal de referencia, con recepción de correo y acceso a salas cuando lo necesites."
+    chips={["Dirección comercial y fiscal", "Gestión de correo", "Salas a precio especial"]}
+  />
+
   <Faq category="oficina-virtual" />
 
   <!-- ── CTA final ── -->

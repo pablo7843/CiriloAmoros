@@ -5,17 +5,17 @@ import Aurora from "./Aurora.astro";
 const steps = [
   {
     n:     "01",
-    title: "Contáctenos",
+    title: "Contáctanos",
     desc:  "Escríbenos, llámanos o usa el formulario. Te respondemos el mismo día laborable y resolvemos tus dudas sin ningún compromiso.",
   },
   {
     n:     "02",
-    title: "Venga a conocernos",
+    title: "Ven a conocernos",
     desc:  "Visitamos juntos los espacios disponibles. Te enseñamos las instalaciones y te explicamos en detalle todo lo que incluye cada modalidad.",
   },
   {
     n:     "03",
-    title: "Empiece a trabajar",
+    title: "Empieza a trabajar",
     desc:  "Firmamos el contrato y tienes tu despacho listo desde el primer día. Acceso 24/7, internet, recepción. Sin inversión inicial, sin sorpresas.",
   },
 ];
@@ -45,7 +45,7 @@ const steps = [
       <div class="hiw-fill absolute left-0 right-0 top-[1.9rem] hidden h-0.5 origin-left lg:block" aria-hidden="true"></div>
 
       {steps.map((step, i) => (
-        <div class="relative flex flex-col gap-6" style={`--st: ${(0.12 + i * 0.33).toFixed(2)}`}>
+        <div class="relative flex flex-col gap-6" style={`--st: ${(i * 0.33).toFixed(2)}`}>
           <!-- Círculo numerado que se enciende -->
           <div class="hiw-dot relative inline-flex h-[3.75rem] w-[3.75rem] shrink-0 items-center justify-center rounded-full border border-gray-700 bg-gray-900">
             <span class="hiw-dot-fill absolute inset-0 rounded-full bg-accent-600"></span>
@@ -102,7 +102,9 @@ const steps = [
 
   /* Círculo que se enciende al alcanzar su umbral (--st) */
   .hiw-dot {
-    --on: clamp(0, calc((var(--p) - var(--st)) * 8), 1);
+    /* Snap: el círculo se enciende del todo en cuanto la línea lo alcanza
+       (--p supera su umbral --st), no de forma gradual. */
+    --on: clamp(0, calc((var(--p) - var(--st)) * 1000), 1);
     transform: scale(calc(1 + var(--on) * 0.06));
     box-shadow: 0 0 calc(var(--on) * 22px) rgba(82, 102, 235, calc(var(--on) * 0.6));
     will-change: transform;

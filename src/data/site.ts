@@ -5,15 +5,16 @@
  */
 export const site = {
   name:      "Cirilo Amorós Centro Empresarial",
-  shortName: "Cirilo Amorós",
+  shortName: "Cirilo Amorós Centro Empresarial",
   tagline:   "Oficinas en el corazón de Valencia",
   founded:   2000,
 
   contact: {
     phone:        "96 353 39 00",
     phoneHref:    "tel:+34963533900",
-    whatsapp:     "[PENDIENTE: número WhatsApp sin espacios ni +]",
-    whatsappHref: "https://wa.me/[PENDIENTE]",
+    // [DEMO] Número ficticio para la maqueta — sustituir por el real del cliente.
+    whatsapp:     "600 000 000",
+    whatsappHref: "https://wa.me/34600000000",
     email:        "recepcion@ciriloamoros.com",
     emailHref:    "mailto:recepcion@ciriloamoros.com",
   },
@@ -57,14 +58,15 @@ export const site = {
     rating:       4.2,
     reviewCount:  34,
     mapsUrl:      "https://maps.google.com/?q=C%2F+de+Ciril+Amor%C3%B3s,+6,+L%27Eixample,+46004+Val%C3%A8ncia,+Valencia",
-    businessUrl:  "[PENDIENTE: URL del perfil de Google Business]",
+    // Listado real de Google Maps (donde están las reseñas) — sirve de perfil hasta tener la URL corta del GBP.
+    businessUrl:  "https://maps.google.com/?q=C%2F+de+Ciril+Amor%C3%B3s,+6,+L%27Eixample,+46004+Val%C3%A8ncia,+Valencia",
     mapsEmbedSrc: "https://maps.google.com/maps?q=Ciril+Amor%C3%B3s+6%2C+46004+Val%C3%A8ncia&output=embed&z=16&hl=es",
   },
 
   meta: {
-    titleSuffix: "| Cirilo Amorós · Valencia",
+    titleSuffix: "| Cirilo Amorós",
     description:
-      "Alquiler de despachos privados, salas de reuniones y domiciliación empresarial en Valencia centro. Todo incluido, sin inversión inicial. Desde 320 €/mes.",
+      "Despachos privados, salas de reuniones y domiciliación empresarial en Valencia centro. Todo incluido, sin inversión inicial. Desde 320 €/mes.",
     ogImage: "/images/og-default.jpg",
     locale:  "es_ES",
   },

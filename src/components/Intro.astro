@@ -1,126 +1,91 @@
 ---
 /**
  * Portada de entrada — "primer folio".
- * A pantalla completa, solo el logo. Se desliza hacia arriba al hacer scroll
- * (la lógica de scroll vive en BaseLayout: traslada #intro y desvanece
- * .intro-stage según el progreso). Animación 100% CSS; estática y apartada
- * bajo prefers-reduced-motion.
+ * Foto real del espacio a sangre con parallax (puntero + scroll) y el
+ * monograma dibujándose encima. La web sube y la va cubriendo al hacer scroll
+ * (lógica en BaseLayout). Estática y legible bajo prefers-reduced-motion.
+ *
+ * [PLACEHOLDER] La foto /images/intro-bg.webp es una imagen de stock provisional.
+ * Sustituir por una foto REAL del centro cuando Alba pase el reportaje.
  */
 ---
 
 <div
   id="intro"
-  class="fixed inset-0 -z-[1] overflow-hidden bg-gradient-to-br from-slate-50 via-white to-accent-50"
+  class="fixed inset-0 -z-[1] overflow-hidden bg-gray-950"
   aria-hidden="true"
 >
-  <!-- Aurora de fondo -->
-  <span class="aurora aurora--a"></span>
-  <span class="aurora aurora--b"></span>
-  <span class="aurora aurora--c"></span>
+  <!-- Capa de foto (parallax) -->
+  <img
+    id="intro-photo"
+    src="/images/intro-bg.webp"
+    alt=""
+    class="absolute inset-0 h-full w-full scale-[1.14] object-cover will-change-transform"
+    fetchpriority="high"
+    decoding="async"
+  />
 
-  <!-- Retícula con desvanecido radial -->
-  <div class="intro-grid absolute inset-0"></div>
+  <!-- Velos para legibilidad del logo blanco -->
+  <div class="intro-scrim absolute inset-0"></div>
+  <div class="intro-vignette absolute inset-0"></div>
 
-  <!-- Destello que recorre -->
-  <span class="intro-sheen"></span>
+  <!-- Partículas sutiles de luz -->
+  <span class="particle" style="left: 16%; animation-delay: 0s"></span>
+  <span class="particle" style="left: 34%; animation-delay: 3.1s"></span>
+  <span class="particle" style="left: 52%; animation-delay: 1.4s"></span>
+  <span class="particle" style="left: 70%; animation-delay: 4.2s"></span>
+  <span class="particle" style="left: 86%; animation-delay: 2.2s"></span>
 
-  <!-- Partículas -->
-  <span class="particle" style="left: 10%; animation-delay: 0s"></span>
-  <span class="particle" style="left: 21%; animation-delay: 2.6s"></span>
-  <span class="particle" style="left: 30%; animation-delay: 4.1s"></span>
-  <span class="particle" style="left: 40%; animation-delay: 1.2s"></span>
-  <span class="particle" style="left: 49%; animation-delay: 3.4s"></span>
-  <span class="particle" style="left: 58%; animation-delay: 0.7s"></span>
-  <span class="particle" style="left: 67%; animation-delay: 2.0s"></span>
-  <span class="particle" style="left: 76%; animation-delay: 4.6s"></span>
-  <span class="particle" style="left: 85%; animation-delay: 1.4s"></span>
-  <span class="particle" style="left: 93%; animation-delay: 3.0s"></span>
-
-  <!-- Logo central que se dibuja -->
-  <div class="intro-stage absolute inset-0 flex items-center justify-center">
+  <!-- Contenido central -->
+  <div class="intro-stage absolute inset-0 flex flex-col items-center justify-center px-6 text-center">
+    <!-- Logo que se dibuja -->
     <svg class="intro-logo" viewBox="0 0 52 52" fill="none">
       <path class="intro-stroke s1" d="M17 5 L5 5 L5 47 L17 47" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
       <path class="intro-stroke s2" d="M35 5 L47 5 L47 47 L35 47" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
       <line class="intro-stroke s3" x1="26" y1="10" x2="26" y2="42" stroke-width="3.5" stroke-linecap="round"/>
     </svg>
+
+    <!-- Kicker con contexto -->
+    <p class="intro-kicker">Centro Empresarial · Valencia</p>
+    <h2 class="intro-title">Tu oficina en el corazón de Valencia</h2>
+
+    <!-- Pista de scroll -->
+    <div class="intro-hint" aria-hidden="true">
+      <span class="intro-hint-text">Desliza para entrar</span>
+      <svg class="intro-hint-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="m6 9 6 6 6-6"/>
+      </svg>
+    </div>
   </div>
 </div>
 
 <style>
-  /* Aurora — manchas de luz azul derivando */
-  .aurora {
-    position: absolute;
-    border-radius: 9999px;
-    filter: blur(72px);
-    opacity: 0.40;
-    pointer-events: none;
-    will-change: transform;
+  /* Velo en degradado: oscurece arriba/abajo y un poco el centro para que
+     el logo blanco y el texto siempre tengan contraste sobre la foto. */
+  .intro-scrim {
+    background:
+      radial-gradient(120% 90% at 50% 46%, rgba(8, 12, 24, 0.30) 0%, rgba(8, 12, 24, 0.62) 100%),
+      linear-gradient(to bottom, rgba(8, 12, 24, 0.55) 0%, rgba(8, 12, 24, 0.25) 30%, rgba(8, 12, 24, 0.45) 70%, rgba(8, 12, 24, 0.80) 100%);
   }
-  .aurora--a {
-    width: 38vw; height: 38vw; min-width: 320px; min-height: 320px;
-    left: -6vw; top: -8vw;
-    background: radial-gradient(circle, rgba(82, 102, 235, 0.55), transparent 70%);
-    animation: auroraA 15s ease-in-out infinite;
-  }
-  .aurora--b {
-    width: 34vw; height: 34vw; min-width: 300px; min-height: 300px;
-    right: -5vw; bottom: -6vw;
-    background: radial-gradient(circle, rgba(120, 140, 255, 0.45), transparent 70%);
-    animation: auroraB 19s ease-in-out infinite;
-  }
-  .aurora--c {
-    width: 28vw; height: 28vw; min-width: 260px; min-height: 260px;
-    left: 40%; top: 52%;
-    background: radial-gradient(circle, rgba(60, 80, 210, 0.40), transparent 70%);
-    animation: auroraA 23s ease-in-out infinite reverse;
-  }
-  @keyframes auroraA {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    50%      { transform: translate(42px, 30px) scale(1.15); }
-  }
-  @keyframes auroraB {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    50%      { transform: translate(-48px, -22px) scale(1.10); }
-  }
-
-  /* Retícula técnica con desvanecido radial */
-  .intro-grid {
-    background-image:
-      linear-gradient(rgba(15, 23, 42, 0.045) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(15, 23, 42, 0.045) 1px, transparent 1px);
-    background-size: 48px 48px;
-    -webkit-mask-image: radial-gradient(circle at 50% 48%, #000 0, transparent 70%);
-            mask-image: radial-gradient(circle at 50% 48%, #000 0, transparent 70%);
-  }
-
-  /* Destello diagonal */
-  .intro-sheen {
-    position: absolute;
-    top: -25%;
-    width: 32%;
-    height: 150%;
-    background: linear-gradient(90deg, transparent, rgba(82, 102, 235, 0.10), transparent);
-    transform: skewX(-18deg);
-    animation: sheen 7s ease-in-out infinite;
+  /* Tinte de acento muy leve + viñeta */
+  .intro-vignette {
+    background: radial-gradient(70% 60% at 50% 48%, rgba(82, 102, 235, 0.16), transparent 70%);
+    mix-blend-mode: screen;
     pointer-events: none;
   }
-  @keyframes sheen {
-    0%        { left: -40%; }
-    55%, 100% { left: 132%; }
-  }
 
-  /* Logo que se dibuja y respira luz */
+  /* ── Logo ── */
   .intro-logo {
-    width: min(340px, 56vmin);
+    width: min(300px, 50vmin);
     height: auto;
     animation: logoGlow 4s ease-in-out infinite;
   }
   @keyframes logoGlow {
-    0%, 100% { filter: drop-shadow(0 0 16px rgba(82, 102, 235, 0.30)); }
-    50%      { filter: drop-shadow(0 0 34px rgba(82, 102, 235, 0.55)); }
+    0%, 100% { filter: drop-shadow(0 0 18px rgba(120, 140, 255, 0.45)); }
+    50%      { filter: drop-shadow(0 0 38px rgba(120, 140, 255, 0.70)); }
   }
   .intro-stroke {
-    stroke: #5266eb;
+    stroke: #ffffff;
     fill: none;
     stroke-dasharray: 84;
     stroke-dashoffset: 84;
@@ -132,28 +97,115 @@
     stroke-dashoffset: 38;
     animation-delay: 0.58s;
   }
-  @keyframes draw {
-    to { stroke-dashoffset: 0; }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+
+  /* ── Textos (reveal con máscara) ── */
+  .intro-kicker {
+    margin-top: 1.75rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: rgba(226, 232, 255, 0.85);
+    opacity: 0;
+    transform: translateY(12px);
+    animation: riseIn 0.9s cubic-bezier(0.16, 1, 0.3, 1) 1.05s forwards;
+  }
+  .intro-title {
+    margin-top: 0.6rem;
+    max-width: 22ch;
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    font-weight: 300;
+    line-height: 1.12;
+    letter-spacing: -0.01em;
+    color: #fff;
+    text-shadow: 0 2px 30px rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    transform: translateY(14px);
+    animation: riseIn 1s cubic-bezier(0.16, 1, 0.3, 1) 1.25s forwards;
+  }
+  @keyframes riseIn {
+    to { opacity: 1; transform: translateY(0); }
   }
 
-  /* Partículas ascendentes */
+  /* ── Pista de scroll ── */
+  .intro-hint {
+    position: absolute;
+    bottom: clamp(1.5rem, 5vh, 3rem);
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    color: rgba(226, 232, 255, 0.7);
+    opacity: 0;
+    animation: riseIn 1s ease 1.8s forwards;
+  }
+  .intro-hint-text {
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+  .intro-hint-arrow {
+    width: 22px;
+    height: 22px;
+    animation: bob 1.8s ease-in-out infinite;
+  }
+  @keyframes bob {
+    0%, 100% { transform: translateY(0); opacity: 0.6; }
+    50%      { transform: translateY(6px); opacity: 1; }
+  }
+
+  /* ── Partículas ── */
   .particle {
     position: absolute;
     bottom: -12px;
     width: 4px; height: 4px;
     border-radius: 9999px;
-    background: rgba(82, 102, 235, 0.80);
-    box-shadow: 0 0 8px rgba(82, 102, 235, 0.55);
+    background: rgba(190, 205, 255, 0.9);
+    box-shadow: 0 0 10px rgba(150, 170, 255, 0.7);
     opacity: 0;
-    animation: floatUp 9s linear infinite;
+    animation: floatUp 10s linear infinite;
     pointer-events: none;
   }
   @keyframes floatUp {
     0%   { transform: translateY(0) scale(1);   opacity: 0; }
-    12%  { opacity: 0.85; }
-    88%  { opacity: 0.45; }
-    100% { transform: translateY(-70vh) scale(0.5); opacity: 0; }
+    12%  { opacity: 0.8; }
+    88%  { opacity: 0.4; }
+    100% { transform: translateY(-72vh) scale(0.5); opacity: 0; }
   }
 
+  /* ── Sin movimiento: foto fija, sin parallax ni partículas, todo visible ── */
+  @media (prefers-reduced-motion: reduce) {
+    .intro-logo { animation: none; }
+    .intro-stroke { animation: none; stroke-dashoffset: 0; }
+    .intro-kicker, .intro-title, .intro-hint { animation: none; opacity: 1; transform: translateX(-50%) translateY(0); }
+    .intro-kicker, .intro-title { transform: none; }
+    .particle, .intro-hint-arrow { animation: none; }
+    .particle { display: none; }
+    #intro-photo { transform: scale(1.02); }
+  }
 </style>
 
+<script>
+  // Parallax de la portada: la foto se mueve con el puntero y, al hacer scroll,
+  // se desplaza un poco más lenta que la web que la cubre (profundidad).
+  const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const photo = document.getElementById("intro-photo") as HTMLImageElement | null;
+
+  // Solo parallax de PUNTERO (no se mueve con el scroll, queda fija detrás).
+  if (photo && !prefersReduced && window.matchMedia("(pointer: fine)").matches) {
+    let mx = 0, my = 0;
+    const apply = () => {
+      photo.style.transform =
+        `scale(1.14) translate3d(${(mx * 16).toFixed(1)}px, ${(my * 16).toFixed(1)}px, 0)`;
+    };
+    window.addEventListener("pointermove", (e) => {
+      mx = (e.clientX / window.innerWidth) - 0.5;
+      my = (e.clientY / window.innerHeight) - 0.5;
+      apply();
+    }, { passive: true });
+    apply();
+  }
+</script>

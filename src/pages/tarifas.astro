@@ -2,6 +2,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import CtaFinal   from "../components/CtaFinal.astro";
 import Faq        from "../components/Faq.astro";
+import ShowcaseBand from "../components/ShowcaseBand.astro";
 import Aurora     from "../components/Aurora.astro";
 import TariffCalculator from "../components/TariffCalculator.svelte";
 import { services } from "../data/services";
@@ -25,13 +26,13 @@ const rows = [
   { label: "Limpieza",                despacho: true,  sala: true,  virtual: false },
   { label: "Climatización",           despacho: true,  sala: true,  virtual: false },
   { label: "Uso de sala de reuniones",despacho: "Incluido puntual", sala: "Por horas", virtual: "Precio especial" },
-  { label: "Permanencia mínima",      despacho: "[PENDIENTE]", sala: "Sin contrato", virtual: "[PENDIENTE]" },
+  { label: "Permanencia mínima",      despacho: "1 mes", sala: "Sin contrato", virtual: "1 mes" },
 ];
 ---
 
 <BaseLayout
-  title="Tarifas · Precios de despachos, salas y domiciliación en Valencia"
-  description="Precios transparentes sin sorpresas. Despachos desde 320 €/mes, salas desde 16 €/hora, oficina virtual desde 40 €/mes. Todos sin IVA. Cirilo Amorós Centro Empresarial, Valencia."
+  title="Tarifas de despachos y salas en Valencia"
+  description="Precios sin sorpresas: despachos desde 320 €/mes, salas desde 16 €/h, oficina virtual desde 40 €/mes. Todo incluido, sin IVA. Valencia centro."
 >
 
   <!-- ── Cabecera ── -->
@@ -190,10 +191,10 @@ const rows = [
           * Todos los precios son sin IVA. El IVA aplicable es el 21%.
         </p>
         <p class="text-xs text-gray-400">
-          * Los precios son orientativos y pueden variar según el espacio elegido. Contáctenos para un presupuesto personalizado.
+          * Los precios son orientativos y pueden variar según el espacio elegido. Contáctanos para un presupuesto personalizado.
         </p>
         <p class="text-xs text-gray-400">
-          * [PENDIENTE: confirmar permanencia mínima y precios exactos de planes de oficina virtual con el centro]
+          * Permanencia mínima de un mes; después, renovación flexible mes a mes.
         </p>
       </div>
     </div>
@@ -227,6 +228,14 @@ const rows = [
   </section>
 
   <!-- ── FAQ de precios ── -->
+  <ShowcaseBand
+    image="/images/despacho-principal.webp"
+    eyebrow="Sin sorpresas"
+    title="Todo incluido en una sola cuota."
+    text="Sin costes de comunidad, sin suministros aparte, sin mantenimiento. Una tarifa clara y un espacio listo para trabajar."
+    chips={["Sin inversión inicial", "Sin permanencia larga", "Acceso 24/7"]}
+  />
+
   <Faq category="precios" />
 
   <!-- ── CTA final ── -->

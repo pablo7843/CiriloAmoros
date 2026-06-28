@@ -162,6 +162,16 @@ html.intro-pending header {
 html.intro-pending #scroll-progress {
   opacity: 0;
 }
+/* Botones flotantes (chat IA + WhatsApp + bocadillo): ocultos mientras se ve
+   la portada del logo; aparecen al deslizar lo suficiente para entrar en la web. */
+.fab-hideable {
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+html.intro-pending .fab-hideable {
+  opacity: 0;
+  transform: translateY(12px);
+  pointer-events: none;
+}
 
 /* Marquesina infinita — se duplica el track en el markup */
 .marquee {

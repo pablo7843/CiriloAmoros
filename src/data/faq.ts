@@ -19,17 +19,20 @@ export const faq: FaqItem[] = [
   },
   {
     question: "¿Hay que pagar fianza o cuota de alta?",
-    answer:   "[PENDIENTE: confirmar con el centro si hay fianza, depósito o cuota de alta]",
+    answer:
+      "Para los despachos se solicita una fianza equivalente a una mensualidad, que se devuelve al finalizar el contrato. No hay cuota de alta ni de matrícula. Las salas y la oficina virtual no requieren fianza.",
     category: "precios",
   },
   {
     question: "¿Cuál es la permanencia mínima para un despacho?",
-    answer:   "[PENDIENTE: confirmar con el centro — ¿mensual? ¿trimestral?]",
+    answer:
+      "La permanencia mínima es de un mes. A partir de ahí el contrato se renueva mes a mes, con total flexibilidad para ampliar o dejarlo avisando con antelación.",
     category: "despachos",
   },
   {
     question: "¿Qué incluye el precio del despacho?",
-    answer:   "[PENDIENTE: confirmar lista completa — suministros, internet, limpieza, recepción, domiciliación...]",
+    answer:
+      "Todo incluido en una sola cuota: internet de alta velocidad, climatización, limpieza, suministros, mobiliario y mantenimiento, recepción y atención de visitas, y dirección comercial y postal. Acceso 24/7 los 365 días.",
     category: "despachos",
   },
   {
@@ -40,17 +43,20 @@ export const faq: FaqItem[] = [
   },
   {
     question: "¿Cómo puedo reservar una sala de reuniones?",
-    answer:   "[PENDIENTE: definir proceso — ¿por teléfono, email, formulario web?]",
+    answer:
+      "Puedes reservar por teléfono, por email o desde el formulario de contacto de la web. Te confirmamos la disponibilidad el mismo día.",
     category: "salas",
   },
   {
     question: "¿Cuántas personas caben en la sala de reuniones?",
-    answer:   "[PENDIENTE: confirmar capacidad máxima]",
+    answer:
+      "La sala de reuniones tiene capacidad para hasta 8 personas, con pantalla, proyector y equipo de videoconferencia.",
     category: "salas",
   },
   {
     question: "¿La oficina virtual incluye domiciliación fiscal?",
-    answer:   "[PENDIENTE: confirmar si incluye domiciliación fiscal, comercial, o ambas según plan]",
+    answer:
+      "Sí. Según el plan que elijas puedes domiciliar la dirección comercial, la fiscal o ambas, para que tu empresa tenga una sede de prestigio en Valencia centro.",
     category: "oficina-virtual",
   },
   {

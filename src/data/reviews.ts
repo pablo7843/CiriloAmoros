@@ -52,5 +52,5 @@ export const reviews: Review[] = [
 export const googleSummary = {
   rating:      4.2,
   reviewCount: 34,
-  businessUrl: "[PENDIENTE: URL del perfil de Google Business]",
+  businessUrl: "https://maps.google.com/?q=C%2F+de+Ciril+Amor%C3%B3s,+6,+L%27Eixample,+46004+Val%C3%A8ncia,+Valencia",
 } as const;

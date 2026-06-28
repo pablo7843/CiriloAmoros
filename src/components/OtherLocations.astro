@@ -1,0 +1,100 @@
+---
+/**
+ * Banda "Otras sedes del grupo" — visibilidad cruzada a la marca hermana Cownord.
+ * Cirilo Amorós = despachos privados en Valencia centro.
+ * Cownord = coworking (Museros y Massamagrell, Horta Nord): SERVICIO DISTINTO.
+ * Decisión de proyecto: Cownord parkeado → enlace EXTERNO a cownord.es.
+ * Fotos de cada sede = stock provisional (sustituir por reales).
+ * Lee de src/data/cownord.ts; cambiar un dato = tocar UN solo sitio.
+ */
+import { cownord, cownordCenters } from "../data/cownord";
+import Aurora from "./Aurora.astro";
+---
+
+<section
+  aria-labelledby="otras-sedes-titulo"
+  class="relative overflow-hidden bg-gradient-to-b from-white via-gray-50 to-white py-24 sm:py-32"
+>
+  <Aurora tone="light" />
+
+  <div class="relative z-10 mx-auto max-w-7xl px-6">
+
+    <!-- Cabecera -->
+    <div class="mx-auto max-w-2xl text-center" data-reveal>
+      <p class="mb-3 text-sm font-semibold uppercase tracking-widest text-accent-600">
+        Otras sedes del grupo
+      </p>
+      <h2
+        id="otras-sedes-titulo"
+        data-split
+        class="headline text-3xl text-gray-900 sm:text-4xl"
+      >
+        Tenemos más centros en la Horta Nord de Valencia
+      </h2>
+      <p class="mt-4 text-base leading-relaxed text-gray-500 sm:text-lg">
+        En Cirilo Amorós ofrecemos despachos privados en el centro de Valencia.
+        Si lo que buscas es un espacio de coworking flexible, el grupo cuenta con
+        <strong class="font-medium text-gray-700">{cownord.brand}</strong>: dos sedes
+        en la Horta Nord con acceso 24/7.
+      </p>
+    </div>
+
+    <!-- Tarjetas por sede (con foto) -->
+    <div class="mx-auto mt-14 grid max-w-4xl grid-cols-1 gap-6 sm:grid-cols-2">
+      {cownordCenters.map((center, i) => (
+        <a
+          href={cownord.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          data-reveal
+          data-tilt
+          style={`transition-delay: ${i * 100}ms`}
+          class="group relative flex flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-shadow duration-300 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-accent-500 focus:ring-offset-2"
+        >
+          <!-- Foto de la sede -->
+          <div class="relative aspect-[16/10] overflow-hidden bg-gray-100">
+            <img
+              src={center.image}
+              alt={`Espacio de coworking ${center.name} en ${center.city}, Valencia`}
+              class="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+              loading="lazy"
+              decoding="async"
+              onerror="this.style.display='none'"
+            />
+            <span class="absolute left-3 top-3 inline-flex w-fit items-center gap-2 rounded-full border border-white/30 bg-gray-950/55 px-3 py-1 text-xs font-medium text-white backdrop-blur-sm">
+              {center.kind}
+            </span>
+          </div>
+
+          <!-- Contenido -->
+          <div class="flex flex-1 flex-col p-7">
+            <h3 class="text-xl font-medium text-gray-900">{center.city}</h3>
+            <p class="mt-2 flex-1 text-sm leading-relaxed text-gray-500">
+              {center.intro}
+            </p>
+            <span class="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-accent-600">
+              Ver {center.name}
+              <svg class="h-4 w-4 transition-transform group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+              </svg>
+            </span>
+          </div>
+        </a>
+      ))}
+    </div>
+
+    <!-- Enlace global a la web de Cownord -->
+    <p class="mt-10 text-center text-sm text-gray-500">
+      Conoce todas las modalidades en{" "}
+      <a
+        href={cownord.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="font-medium text-accent-600 underline-offset-4 hover:underline"
+      >
+        {cownord.url.replace("https://", "")} ↗
+      </a>
+    </p>
+
+  </div>
+</section>

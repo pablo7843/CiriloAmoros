@@ -32,6 +32,7 @@ export interface CownordCenter {
   city:     string;
   slug:     string;
   kind:     string;             // "Coworking" | "Despachos + Coworking"
+  image:    string;             // foto de la sede (stock provisional)
   metaTitle:       string;
   metaDescription: string;
   headline:        string;
@@ -71,6 +72,7 @@ export const cownordCenters: CownordCenter[] = [
     city: "Museros",
     slug: "/cownord/museros",
     kind: "Coworking",
+    image: "/images/cownord-museros.webp",
     metaTitle:
       "Coworking en Museros | Cownord — Espacios flexibles 24h",
     metaDescription:
@@ -122,6 +124,7 @@ export const cownordCenters: CownordCenter[] = [
     city: "Massamagrell",
     slug: "/cownord/massamagrell",
     kind: "Despachos + Coworking",
+    image: "/images/cownord-massamagrell.webp",
     metaTitle:
       "Despachos y coworking en Massamagrell | Cownord",
     metaDescription:

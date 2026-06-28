@@ -8,6 +8,7 @@ import Footer from "../components/Footer.astro";
 import BackgroundFX from "../components/BackgroundFX.astro";
 import Intro from "../components/Intro.astro";
 import ChatWidget from "../components/ChatWidget.svelte";
+import WhatsAppFab from "../components/WhatsAppFab.svelte";
 
 interface Props {
   title:       string;
@@ -27,7 +28,8 @@ const {
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-const fullTitle    = title.includes(site.shortName)
+// Evita marca duplicada: si el título ya menciona la marca, no se añade el sufijo.
+const fullTitle    = title.includes("Cirilo Amorós")
   ? title
   : `${title} ${site.meta.titleSuffix}`;
 
@@ -142,6 +144,7 @@ const structuredData = {
     <slot />
     <Footer />
     <ChatWidget client:idle />
+    <WhatsAppFab client:idle />
   </body>
 
   <!-- Sin JS: todos los elementos visibles -->

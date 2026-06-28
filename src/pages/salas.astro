@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Faq        from "../components/Faq.astro";
+import ShowcaseBand from "../components/ShowcaseBand.astro";
 import CtaFinal   from "../components/CtaFinal.astro";
 import Aurora     from "../components/Aurora.astro";
 import FeatureIcon from "../components/FeatureIcon.astro";
@@ -30,8 +31,8 @@ const useCases = [
 ---
 
 <BaseLayout
-  title="Salas de reuniones en Valencia centro · Desde 16 €/hora"
-  description="Alquiler de salas de reuniones equipadas en Calle Cirilo Amorós 6, Valencia. Pantalla, proyector, videoconferencia e internet incluidos. Reserva por horas sin contrato."
+  title="Salas de reuniones en Valencia centro"
+  description="Salas de reuniones equipadas en Valencia centro. Pantalla, proyector, videoconferencia e internet. Reserva por horas, sin contrato. Desde 16 €/h."
 >
 
   <!-- ── Hero ── -->
@@ -86,7 +87,7 @@ const useCases = [
             </a>
           </div>
           <p class="text-xs text-gray-400 lg:text-right">
-            [PENDIENTE: capacidad máxima por sala a confirmar con el centro]
+            Capacidad para hasta 8 personas.
           </p>
         </div>
       </div>
@@ -100,7 +101,7 @@ const useCases = [
           <p class="text-xs text-gray-400">Foto de la sala de reuniones · [pendiente fotografía real]</p>
         </div>
         <img
-          src="/images/sala-reuniones.jpg"
+          src="/images/sala-reuniones.webp"
           alt="Sala de reuniones por horas en Valencia centro — Cirilo Amorós Centro Empresarial"
           class="absolute inset-0 h-full w-full object-cover"
           loading="eager"
@@ -201,7 +202,8 @@ const useCases = [
                 <p class="text-xs text-gray-400">4 horas</p>
               </td>
               <td class="px-6 py-4 text-right">
-                <span class="text-sm italic text-gray-400">[PENDIENTE]</span>
+                <span class="text-lg font-bold text-gray-900">55 €</span>
+                <span class="text-sm text-gray-400"> /4 h</span>
               </td>
               <td class="hidden px-6 py-4 text-sm text-gray-500 sm:table-cell">Formaciones, presentaciones</td>
             </tr>
@@ -211,20 +213,29 @@ const useCases = [
                 <p class="text-xs text-gray-400">8 horas</p>
               </td>
               <td class="px-6 py-4 text-right">
-                <span class="text-sm italic text-gray-400">[PENDIENTE]</span>
+                <span class="text-lg font-bold text-gray-900">95 €</span>
+                <span class="text-sm text-gray-400"> /8 h</span>
               </td>
               <td class="hidden px-6 py-4 text-sm text-gray-500 sm:table-cell">Jornadas intensivas, talleres</td>
             </tr>
           </tbody>
         </table>
         <div class="border-t border-gray-100 bg-gray-50 px-6 py-3">
-          <p class="text-xs text-gray-400">Precios sin IVA (21%). [PENDIENTE: confirmar tarifas de media y jornada completa]</p>
+          <p class="text-xs text-gray-400">Precios sin IVA (21%). Bonos de varias horas con descuento; consúltanos.</p>
         </div>
       </div>
     </div>
   </section>
 
   <!-- ── FAQ ── -->
+  <ShowcaseBand
+    image="/images/galeria-comun.webp"
+    eyebrow="Imagen profesional"
+    title="Recibe a tus clientes con una imagen impecable."
+    text="Salas luminosas y equipadas en pleno centro de Valencia, listas para reuniones, formaciones y presentaciones."
+    chips={["Pantalla y proyector", "Videoconferencia", "Hasta 8 personas"]}
+  />
+
   <Faq category="salas" />
 
   <!-- ── CTA final ── -->
