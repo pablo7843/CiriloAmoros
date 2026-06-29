@@ -142,12 +142,18 @@ const particles = [
             <rect class="win" style={`--wd: ${w.d}`} x={w.x} y={w.y} width="14" height="20" rx="2" fill="#5266eb"/>
           ))}
 
-          <!-- Pancarta negra característica de Cirilo Amorós sobre la azotea -->
+          <!-- Puerta de entrada principal -->
+          <rect x="594" y="376" width="32" height="44" rx="2" fill="#c8d0e4" stroke="#8899bb" stroke-width="1"/>
+          <line x1="610" y1="376" x2="610" y2="420" stroke="#8899bb" stroke-width="0.8"/>
+          <circle cx="606" cy="398" r="1.8" fill="#8899bb"/>
+          <circle cx="614" cy="398" r="1.8" fill="#8899bb"/>
+
+          <!-- Pancarta negra encima de la puerta — símbolo del edificio real -->
           <g class="casign">
-            <rect x="545" y="44" width="130" height="32" fill="#111114"/>
+            <rect x="558" y="348" width="104" height="26" fill="#111114"/>
             <text x="610" text-anchor="middle" fill="#ffffff">
-              <tspan x="610" y="57" font-size="7.5" letter-spacing="0.4" fill="#cbd5e1">CENTRO EMPRESARIAL</tspan>
-              <tspan x="610" y="69" font-size="11" font-weight="600" letter-spacing="0.3">Cirilo Amorós</tspan>
+              <tspan x="610" y="357" font-size="6" letter-spacing="0.6" fill="#94a3b8">CENTRO EMPRESARIAL</tspan>
+              <tspan x="610" y="369" font-size="10" font-weight="600" letter-spacing="0.3">Cirilo Amorós</tspan>
             </text>
           </g>
         </g>
