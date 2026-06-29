@@ -3,6 +3,8 @@ import "../styles/global.css";
 import { cownord } from "../data/cownord";
 import type { CownordCenter } from "../data/cownord";
 import BackgroundFX from "../components/BackgroundFX.astro";
+import ChatWidget from "../components/ChatWidget.svelte";
+import WhatsAppFab from "../components/WhatsAppFab.svelte";
 
 interface Props {
   title:        string;
@@ -13,6 +15,7 @@ interface Props {
 
 const { title, description = cownord.claim, center, noindex = false } = Astro.props;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const pathname = Astro.url.pathname.replace(/\/$/, "");
 
 // [PENDIENTE: identidad Cownord] — sin logo/colores oficiales todavía.
 const nav = [
@@ -86,11 +89,18 @@ const structuredData = center && {
         </a>
 
         <nav class="hidden items-center gap-1 lg:flex" aria-label="Sedes Cownord">
-          {nav.map((l) => (
-            <a href={l.href} class="rounded-full px-3.5 py-2 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-50 hover:text-gray-900">
-              {l.label}
-            </a>
-          ))}
+          {nav.map((l) => {
+            const active = pathname === l.href;
+            return (
+              <a
+                href={l.href}
+                aria-current={active ? "page" : undefined}
+                class={`rounded-full px-3.5 py-2 text-sm font-medium transition-colors ${active ? "bg-accent-50 text-accent-700" : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"}`}
+              >
+                {l.label}
+              </a>
+            );
+          })}
         </nav>
 
         <div class="flex shrink-0 items-center gap-2">
@@ -145,6 +155,9 @@ const structuredData = center && {
         </p>
       </div>
     </footer>
+
+    <ChatWidget client:idle />
+    <WhatsAppFab client:idle />
   </body>
 
   <noscript>
@@ -164,6 +177,25 @@ const structuredData = center && {
       document.querySelectorAll("[data-reveal]").forEach((el) => obs.observe(el));
     } else {
       document.querySelectorAll("[data-reveal]").forEach((el) => el.classList.add("revealed"));
+    }
+
+    // ── Tilt 3D en tarjetas (data-tilt) — mismo efecto que en Cirilo ──
+    if (!prefersReduced && window.matchMedia("(pointer: fine)").matches) {
+      const EASE = "transform .5s cubic-bezier(0.22, 1, 0.36, 1)";
+      document.querySelectorAll<HTMLElement>("[data-tilt]").forEach((card) => {
+        const MAX = 6;
+        card.addEventListener("pointermove", (e) => {
+          const r = card.getBoundingClientRect();
+          const px = (e.clientX - r.left) / r.width - 0.5;
+          const py = (e.clientY - r.top) / r.height - 0.5;
+          card.style.transition = "none";
+          card.style.transform = `perspective(900px) rotateY(${(px * MAX).toFixed(2)}deg) rotateX(${(-py * MAX).toFixed(2)}deg)`;
+        });
+        card.addEventListener("pointerleave", () => {
+          card.style.transition = EASE;
+          card.style.transform = "";
+        });
+      });
     }
   </script>
 </html>

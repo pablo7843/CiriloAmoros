@@ -1,0 +1,25 @@
+---
+/**
+ * Landings de las sedes Cownord (Museros, Massamagrell) — marca hermana de
+ * Cirilo Amorós dentro de Think Big Advisory.
+ * Decisión de Vicente Ruiz (CEO, 22/06): son DOS marcas con landings DIFERENTES
+ * pero RELACIONADAS entre sí. Cross-link bidireccional Cirilo <-> Cownord.
+ * Datos de cada sede en src/data/cownord.ts (lo no confirmado va como [PENDIENTE]).
+ */
+import CownordLayout from "../../layouts/CownordLayout.astro";
+import CownordLanding from "../../components/CownordLanding.astro";
+import { cownordCenters } from "../../data/cownord";
+
+export function getStaticPaths() {
+  return cownordCenters.map((c) => ({
+    params: { sede: c.id },
+    props:  { center: c },
+  }));
+}
+
+const { center } = Astro.props;
+---
+
+<CownordLayout title={center.metaTitle} description={center.metaDescription} center={center}>
+  <CownordLanding center={center} />
+</CownordLayout>
